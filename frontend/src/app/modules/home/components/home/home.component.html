@@ -1,0 +1,21 @@
+<div class="container">
+    <mat-toolbar color="primary" role="heading">
+        <button mat-icon-button (click)="sidenav.toggle()" aria-label="Menu icon">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span class="toolbar-text" (click)="goToHome()">Mi Taller</span>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container">
+        <mat-sidenav class="sidenav" #sidenav mode="side" [(opened)]="opened" role="navigation">
+            <mat-nav-list>
+                <a mat-list-item routerLinkActive="active" routerLink="customers">
+                    <mat-icon class="icon-position">person</mat-icon> Customers
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content class="sidenav-content" role="region">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
