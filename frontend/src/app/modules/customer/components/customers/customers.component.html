@@ -1,13 +1,9 @@
 <h1 class="title">Customers</h1>
 
-<mat-grid-list cols="4" rowHeight="50px" *ngIf="customers.data.length === 0">
-    <mat-grid-tile class="grid-tile" [colspan]="4" [rowspan]="1">
-        <mat-grid-tile-header>
-            <mat-icon class="icon" aria-hidden="false" aria-label="Info icon">info</mat-icon> 
-            There are no customers.
-        </mat-grid-tile-header>
-    </mat-grid-tile>
-</mat-grid-list>
+<app-no-records-message *ngIf="customers.data.length === 0" 
+                        [data]="customers.data" 
+                        [entityName]="'customers'">
+</app-no-records-message>
 
 <div>
     <mat-form-field *ngIf="customers.data.length > 1">

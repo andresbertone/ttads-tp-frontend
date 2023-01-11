@@ -5,12 +5,14 @@ import { CustomerRoutingModule } from './customer-routing.module';
 import { MaterialModule } from '../../material.module';
 
 import { CustomersComponent } from './components/customers/customers.component';
+import { NoRecordsMessageComponent } from 'src/app/core/components/no-records-message/no-records-message.component';
 
 import { CustomerService } from './../../core/services/customer.service';
 
 @NgModule({
   declarations: [
-    CustomersComponent
+    CustomersComponent,
+    NoRecordsMessageComponent
   ],
   imports: [
     CommonModule,
