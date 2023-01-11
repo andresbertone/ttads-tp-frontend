@@ -6,7 +6,7 @@ import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { DialogComponent } from './core/components/dialog/dialog/dialog.component';
+import { DialogComponent } from './core/components/dialog/dialog.component';
 
 import { HttpInterceptorService } from './core/interceptors/http-interceptor.service';
 

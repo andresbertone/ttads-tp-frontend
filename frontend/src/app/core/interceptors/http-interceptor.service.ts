@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 
 import { SpinnerService } from '../services/common/spinner.service';
-import { DialogService } from './../services/common/dialog.service';
+import { DialogService } from '../services/common/dialog.service';
 
 
 @Injectable({
