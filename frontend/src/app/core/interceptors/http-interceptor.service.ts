@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
+
 import { Observable } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
+
 import { SpinnerService } from '../services/common/spinner.service';
+import { DialogService } from './../services/common/dialog.service';
 
 
 @Injectable({
@@ -10,7 +13,10 @@ import { SpinnerService } from '../services/common/spinner.service';
 })
 export class HttpInterceptorService implements HttpInterceptor {
 
-  constructor(private spinnerService: SpinnerService) { }
+  constructor(
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService
+  ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.spinnerService.showSpinner();
@@ -22,7 +28,16 @@ export class HttpInterceptorService implements HttpInterceptor {
     // FIXME: Cuando agregue el uso de header con el token, cambiar "req" por "clonedReq".
     return next.handle(req).pipe(
       finalize(() => this.spinnerService.hideSpinner()),
-      catchError(error => this.handleError(error))
+      catchError(error => {
+        this.dialogService.showError(
+          'Error',
+          'An error has occurred. Please try again.',
+          'Cancel',
+          'Accept',
+          false
+        );
+        return this.handleError(error);
+      })
     )
   };
 
