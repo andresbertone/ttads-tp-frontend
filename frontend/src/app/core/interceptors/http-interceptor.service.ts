@@ -32,8 +32,8 @@ export class HttpInterceptorService implements HttpInterceptor {
         this.dialogService.showError(
           'Error',
           'An error has occurred. Please try again.',
-          'Cancel',
-          'Accept',
+          '',
+          'Close',
           false
         );
         return this.handleError(error);
