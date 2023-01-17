@@ -23,7 +23,7 @@ export class MechanicsComponent implements OnInit {
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);
-  };
+  }
 
   constructor(private mechanicService: MechanicService) {
     this.mechanics = new MatTableDataSource();

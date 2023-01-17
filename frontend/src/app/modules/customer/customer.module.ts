@@ -3,24 +3,19 @@ import { CommonModule } from '@angular/common';
 
 import { CustomerRoutingModule } from './customer-routing.module';
 import { MaterialModule } from '../../material.module';
+import { SharedModule } from '../shared/shared.module';
 
 import { CustomersComponent } from './components/customers/customers.component';
-import { NoRecordsMessageComponent } from 'src/app/core/components/no-records-message/no-records-message.component';
-
-import { CustomerService } from './../../core/services/customer.service';
 
 @NgModule({
   declarations: [
     CustomersComponent,
-    NoRecordsMessageComponent
   ],
   imports: [
     CommonModule,
     CustomerRoutingModule,
     MaterialModule,
-  ],
-  providers: [
-    CustomerService
+    SharedModule
   ]
 })
 export class CustomerModule { }

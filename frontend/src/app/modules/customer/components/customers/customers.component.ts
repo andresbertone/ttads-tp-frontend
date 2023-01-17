@@ -24,7 +24,7 @@ export class CustomersComponent implements OnInit {
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);
-  };
+  }
 
   constructor(private customerService: CustomerService) {
     this.customers = new MatTableDataSource();
@@ -40,7 +40,7 @@ export class CustomersComponent implements OnInit {
       this.customers.data = response.records;
       this.totalCustomers = response.total;
     });
-  };
+  }
 
 
   initializePaginator(matPaginator: MatPaginator) {
@@ -49,7 +49,7 @@ export class CustomersComponent implements OnInit {
       this.paginator._intl.itemsPerPageLabel = 'Customers per page:';
       this.customers.paginator = this.paginator;
     }
-  };
+  }
 
 
   searchCustomer(event: Event) {
@@ -59,5 +59,5 @@ export class CustomersComponent implements OnInit {
     if (this.customers.paginator) {
       this.customers.paginator.firstPage();
     }
-  };
+  }
 }

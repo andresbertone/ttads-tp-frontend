@@ -20,7 +20,7 @@ export class HttpService {
     options: any = {}
   ): Observable<any> {
     return this.get(url, options);
-  };
+  }
 
 
   // ----------- Begin Backend Request -----------
@@ -35,7 +35,7 @@ export class HttpService {
           return res.data[0];
         })
       );
-  };
+  }
 
   // ----------- End Backend Request -----------
 
@@ -54,6 +54,6 @@ export class HttpService {
       };
     }
     return {};
-  };
+  }
 
 }

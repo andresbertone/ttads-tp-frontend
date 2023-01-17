@@ -39,7 +39,7 @@ export class HttpInterceptorService implements HttpInterceptor {
         return this.handleError(error);
       })
     )
-  };
+  }
 
 
   // getHeaders() {
@@ -51,7 +51,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   getClonedReq(req: HttpRequest<any>, extraArgs: any) {
     return req.clone(extraArgs);
-  };
+  }
 
   handleError(error: HttpErrorResponse) {
     const status = error.status;
@@ -69,5 +69,5 @@ export class HttpInterceptorService implements HttpInterceptor {
     const httpError = {status, errors};
 
     return Promise.reject(httpError);
-  };
+  }
 }
