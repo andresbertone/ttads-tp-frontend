@@ -16,7 +16,11 @@ const routes: Routes = [
       { 
         path: 'mechanics',
         loadChildren: () => import('../mechanic/mechanic.module').then((module) => module.MechanicModule)
-      }
+      },
+      { 
+        path: 'spareParts',
+        loadChildren: () => import('../spare-part/spare-part.module').then((module) => module.SparePartModule)
+      },
     ]
   }
 ];
