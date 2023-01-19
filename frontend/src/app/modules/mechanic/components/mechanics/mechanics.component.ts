@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { MechanicService } from './../../../../core/services/mechanic.service';
+import { MechanicService } from 'src/app/core/services/mechanic.service';
 
 import { MechanicsModel } from 'src/app/core/models/mechanic/mechanics.model';
 import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
