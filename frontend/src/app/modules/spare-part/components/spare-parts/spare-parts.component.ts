@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { SparePartService } from 'src/app/core/services/spare-part.service';
+import { SpinnerService } from 'src/app/core/services/common/spinner.service';
 
 import { SparePartsModel } from 'src/app/core/models/spare-part/spare-parts.model';
 import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model';
@@ -25,7 +26,7 @@ export class SparePartsComponent implements OnInit {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private sparePartService: SparePartService) {
+  constructor(private sparePartService: SparePartService, private spinnerService: SpinnerService) {
     this.spareParts = new MatTableDataSource();
   }
 
@@ -33,6 +34,9 @@ export class SparePartsComponent implements OnInit {
     this.loadSpareParts();
   }
 
+  isLoading() {
+    return this.spinnerService.isLoading();
+  }
 
   loadSpareParts() {
     this.sparePartService.getSpareParts().subscribe((response: SparePartsModel) => {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MechanicService } from 'src/app/core/services/mechanic.service';
+import { SpinnerService } from 'src/app/core/services/common/spinner.service';
 
 import { MechanicsModel } from 'src/app/core/models/mechanic/mechanics.model';
 import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
@@ -25,7 +26,7 @@ export class MechanicsComponent implements OnInit {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private mechanicService: MechanicService) {
+  constructor(private mechanicService: MechanicService, private spinnerService: SpinnerService) {
     this.mechanics = new MatTableDataSource();
   }
 
@@ -33,6 +34,9 @@ export class MechanicsComponent implements OnInit {
     this.loadMechanics();
   }
 
+  isLoading() {
+    return this.spinnerService.isLoading();
+  }
 
   loadMechanics() {
     this.mechanicService.getMechanics().subscribe((response: MechanicsModel) => {

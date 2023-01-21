@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { CustomerService } from 'src/app/core/services/customer.service';
+import { SpinnerService } from 'src/app/core/services/common/spinner.service';
 
 import { CustomersModel } from 'src/app/core/models/customer/customers.model';
 import { CustomerModel } from 'src/app/core/models/customer/customer.model';
@@ -26,7 +27,7 @@ export class CustomersComponent implements OnInit {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private customerService: CustomerService) {
+  constructor(private customerService: CustomerService, private spinnerService: SpinnerService) {
     this.customers = new MatTableDataSource();
   }
 
@@ -34,6 +35,9 @@ export class CustomersComponent implements OnInit {
     this.loadCustomers();
   }
 
+  isLoading() {
+    return this.spinnerService.isLoading();
+  }
 
   loadCustomers() {
     this.customerService.getCustomers().subscribe((response: CustomersModel) => {

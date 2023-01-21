@@ -1,6 +1,6 @@
 <h1 class="title">Customers</h1>
 
-<app-no-records-message *ngIf="customers.data.length === 0" 
+<app-no-records-message *ngIf="!isLoading() && customers.data.length === 0" 
                         [data]="customers.data" 
                         [entityName]="'customers'">
 </app-no-records-message>

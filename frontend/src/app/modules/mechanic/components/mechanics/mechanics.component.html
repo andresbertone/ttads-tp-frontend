@@ -1,6 +1,6 @@
 <h1 class="title">Mechanics</h1>
 
-<app-no-records-message *ngIf="mechanics.data.length === 0" 
+<app-no-records-message *ngIf="!isLoading() && mechanics.data.length === 0" 
                         [data]="mechanics.data" 
                         [entityName]="'mechanics'">
 </app-no-records-message>

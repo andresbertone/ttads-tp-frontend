@@ -13,6 +13,10 @@ export class SpinnerService {
     return this.spinner$.asObservable();
   }
 
+  isLoading() {
+    return this.countLoading > 0;
+  }
+
   showSpinner() {
     this.countLoading++;
     this.spinner$.next('start');
