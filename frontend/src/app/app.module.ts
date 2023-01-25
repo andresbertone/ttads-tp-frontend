@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { DialogComponent } from './core/components/dialog/dialog.component';
 
 import { HttpInterceptorService } from './core/interceptors/http-interceptor.service';
+
+import { GlobalErrorHandler } from './core/page-error-handler/error-handler';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,10 @@ import { HttpInterceptorService } from './core/interceptors/http-interceptor.ser
       provide: HTTP_INTERCEPTORS,
       useClass: HttpInterceptorService,
       multi: true
+    },
+    {
+      provide: ErrorHandler,
+      useClass: GlobalErrorHandler
     }
   ],
   bootstrap: [AppComponent]
