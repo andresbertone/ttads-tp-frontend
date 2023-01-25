@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { CustomersModel } from 'src/app/core/models/customer/customers.model';
 import { CustomerModel } from 'src/app/core/models/customer/customer.model';
@@ -27,7 +29,11 @@ export class CustomersComponent implements OnInit {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private customerService: CustomerService, private spinnerService: SpinnerService) {
+  constructor(
+    private customerService: CustomerService, 
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private alertService: AlertService) {
     this.customers = new MatTableDataSource();
   }
 
@@ -63,5 +69,24 @@ export class CustomersComponent implements OnInit {
     if (this.customers.paginator) {
       this.customers.paginator.firstPage();
     }
+  }
+
+  deleteCustomer(customer: CustomerModel) {
+    this.dialogService.showWarning(
+      'Delete customer',
+      `Are you sure you want to delete customer ${customer.firstName} ${customer.lastName}?`,
+      'No',
+      'Delete',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.customerService.deleteCustomer(customer.customerId).subscribe(
+          (customer: CustomerModel) => {
+            this.alertService.openSnackBar(`The customer ${customer.firstName} ${customer.lastName} was successfully deleted.`);
+            this.loadCustomers();
+          }
+        );
+      }
+    });
   }
 }

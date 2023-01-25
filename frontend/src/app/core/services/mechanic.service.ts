@@ -16,6 +16,6 @@ export class MechanicService {
   constructor(private httpService: HttpService) { }
 
   getMechanics(): Observable<MechanicsModel> {
-    return this.httpService.getAll(`${this.baseUrl}/mechanic`);
+    return this.httpService.httpGetAll(`${this.baseUrl}/mechanic`);
   }
 }

@@ -11,14 +11,14 @@
     <button *ngIf="data.showCancelButton"
             mat-raised-button
             mat-dialog-close 
-            (click)="closeDialog()">
+            (click)="closeDialog(false)">
         {{ data.cancelButtonMessage }}
     </button>
     <button color="primary" 
             mat-raised-button 
             [mat-dialog-close]="true" 
             cdkFocusInitial 
-            (click)="closeDialog()">
+            (click)="closeDialog(true)">
         {{ data.confirmButtonMessage }}
     </button>
 </mat-dialog-actions>

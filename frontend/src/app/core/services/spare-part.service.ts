@@ -16,6 +16,6 @@ export class SparePartService {
   constructor(private httpService: HttpService) { }
 
   getSpareParts(): Observable<SparePartsModel> {
-    return this.httpService.getAll(`${this.baseUrl}/sparePart`);
+    return this.httpService.httpGetAll(`${this.baseUrl}/sparePart`);
   }
 }

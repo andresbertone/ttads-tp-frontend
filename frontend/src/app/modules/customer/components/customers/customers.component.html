@@ -43,14 +43,18 @@
     
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let i = index"> 
+                <td mat-cell *matCellDef="let customer"> 
                     <button mat-icon-button color="primary" matTooltip="See customer details" aria-label="Icon button with a eye icon">
                         <mat-icon>visibility</mat-icon>
                     </button> 
                     <button mat-icon-button color="accent" matTooltip="Edit customer" aria-label="Icon button with a pencil icon">
                         <mat-icon>edit</mat-icon>
                     </button> 
-                    <button mat-icon-button color="warn" matTooltip="Delete customer" aria-label="Icon button with a delete icon">
+                    <button mat-icon-button 
+                            color="warn" 
+                            matTooltip="Delete customer"
+                            (click)="deleteCustomer(customer)" 
+                            aria-label="Icon button with a delete icon">
                         <mat-icon>delete</mat-icon>
                     </button> 
                 </td>

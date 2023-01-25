@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { DialogService } from '../../services/common/dialog.service';
 
@@ -12,11 +12,11 @@ export class DialogComponent {
 
 
   constructor(
-    private dialogService: DialogService,
+    public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
-  closeDialog() {
-    this.dialogService.closeDialog();
+  closeDialog(accept: boolean) {
+    this.dialogRef.close(accept);
   }
 }

@@ -36,7 +36,7 @@ export class DialogService {
     confirmButtonMessage: string,
     showCancelButton: boolean
   ) {
-    this.dialog.open(DialogComponent, {
+    return this.dialog.open(DialogComponent, {
       data: {
         icon: 'warning',
         title,
@@ -46,9 +46,5 @@ export class DialogService {
         showCancelButton
       }
     });
-  }
-
-  closeDialog() {
-    this.dialog.closeAll();
   }
 }

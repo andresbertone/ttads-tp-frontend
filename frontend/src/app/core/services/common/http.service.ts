@@ -15,11 +15,15 @@ export class HttpService {
   constructor( private http: HttpClient ) { }
 
 
-  getAll(
+  httpGetAll(
     url: string,
     options: any = {}
   ): Observable<any> {
     return this.get(url, options);
+  }
+
+  httpDelete(url: string): Observable<any> {
+    return this.delete(url);
   }
 
 
@@ -32,6 +36,15 @@ export class HttpService {
     return this.http.get<HttpResponseModel>(url, this.getQueryParams(options))
       .pipe(
         map((res) => {
+          return res.data[0];
+        })
+      );
+  }
+
+  delete(url: string): Observable<any> {
+    return this.http.delete<HttpResponseModel>(url)
+      .pipe(
+        map(res => {
           return res.data[0];
         })
       );
