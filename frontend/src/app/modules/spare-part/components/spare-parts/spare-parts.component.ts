@@ -79,7 +79,7 @@ export class SparePartsComponent implements OnInit {
   deleteSparePart(sparePart: SparePartModel) {
     this.dialogService.showWarning(
       'Delete spare part',
-      `Are you sure you want to delete the spare part ${sparePart.sparePartDescription}?`,
+      `Are you sure you want to delete the spare part: ${sparePart.sparePartDescription}?`,
       'No',
       'Delete',
       true
@@ -87,7 +87,7 @@ export class SparePartsComponent implements OnInit {
       if (result) {
         this.sparePartService.deleteSparePart(sparePart.sparePartId).subscribe(
           (sparePart: SparePartModel) => {
-            this.alertService.openSnackBar(`The spare part ${sparePart.sparePartDescription} was successfully deleted.`);
+            this.alertService.openSnackBar(`The spare part "${sparePart.sparePartDescription}" was successfully deleted.`);
             this.loadSpareParts();
           }
         );
