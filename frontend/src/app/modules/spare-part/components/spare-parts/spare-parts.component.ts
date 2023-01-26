@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { SparePartService } from 'src/app/core/services/spare-part.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { SparePartsModel } from 'src/app/core/models/spare-part/spare-parts.model';
 import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model';
@@ -22,11 +24,17 @@ export class SparePartsComponent implements OnInit {
   displayedColumns: string[] = ['SparePartCode', 'SparePartDescription', 'SparePartPrice', 'Stock', 'SparePartSupplier', 'Action'];
   paginator!: MatPaginator;
 
+  LOW_STOCK: number = 5;
+
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private sparePartService: SparePartService, private spinnerService: SpinnerService) {
+  constructor(
+    private sparePartService: SparePartService, 
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private alertService: AlertService) {
     this.spareParts = new MatTableDataSource();
   }
 
@@ -65,6 +73,25 @@ export class SparePartsComponent implements OnInit {
   }
 
   isLowStock(sparePartStock: number) {
-    return sparePartStock <= 5;
+    return sparePartStock <= this.LOW_STOCK;
+  }
+
+  deleteSparePart(sparePart: SparePartModel) {
+    this.dialogService.showWarning(
+      'Delete spare part',
+      `Are you sure you want to delete the spare part ${sparePart.sparePartDescription}?`,
+      'No',
+      'Delete',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.sparePartService.deleteSparePart(sparePart.sparePartId).subscribe(
+          (sparePart: SparePartModel) => {
+            this.alertService.openSnackBar(`The spare part ${sparePart.sparePartDescription} was successfully deleted.`);
+            this.loadSpareParts();
+          }
+        );
+      }
+    });
   }
 }
