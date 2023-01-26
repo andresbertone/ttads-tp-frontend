@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MechanicService } from 'src/app/core/services/mechanic.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { MechanicsModel } from 'src/app/core/models/mechanic/mechanics.model';
 import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
@@ -26,7 +28,11 @@ export class MechanicsComponent implements OnInit {
     this.initializePaginator(matPaginator);
   }
 
-  constructor(private mechanicService: MechanicService, private spinnerService: SpinnerService) {
+  constructor(
+    private mechanicService: MechanicService, 
+    private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private alertService: AlertService) {
     this.mechanics = new MatTableDataSource();
   }
 
@@ -62,5 +68,24 @@ export class MechanicsComponent implements OnInit {
     if (this.mechanics.paginator) {
       this.mechanics.paginator.firstPage();
     }
+  }
+
+  deleteMechanic(mechanic: MechanicModel) {
+    this.dialogService.showWarning(
+      'Delete mechanic',
+      `Are you sure you want to delete mechanic ${mechanic.firstName} ${mechanic.lastName}?`,
+      'No',
+      'Delete',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.mechanicService.deleteMechanic(mechanic.mechanicId).subscribe(
+          (mechanic: MechanicModel) => {
+            this.alertService.openSnackBar(`The mechanic ${mechanic.firstName} ${mechanic.lastName} was successfully deleted.`);
+            this.loadMechanics();
+          }
+        );
+      }
+    });
   }
 }
