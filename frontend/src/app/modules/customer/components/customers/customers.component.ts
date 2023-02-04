@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -33,7 +34,8 @@ export class CustomersComponent implements OnInit {
     private customerService: CustomerService, 
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private router: Router) {
     this.customers = new MatTableDataSource();
   }
 
@@ -71,10 +73,14 @@ export class CustomersComponent implements OnInit {
     }
   }
 
+  goToNewCustomer() {
+    this.router.navigateByUrl('home/customers/new-customer');
+  }
+
   deleteCustomer(customer: CustomerModel) {
     this.dialogService.showWarning(
       'Delete customer',
-      `Are you sure you want to delete customer ${customer.firstName} ${customer.lastName}?`,
+      [this.dialogService.getModalWarningMessage(customer, 'customer', 'delete')],
       'No',
       'Delete',
       true

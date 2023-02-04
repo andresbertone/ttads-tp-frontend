@@ -1,9 +1,17 @@
 <h1 class="title">Customers</h1>
 
+<div class="button-new-container" *ngIf="!isLoading()">
+    <button mat-raised-button color="primary" (click)="goToNewCustomer()">
+        <mat-icon>add</mat-icon> New customer
+    </button>
+</div>
+
+
 <app-no-records-message *ngIf="!isLoading() && customers.data.length === 0" 
                         [data]="customers.data" 
                         [entityName]="'customers'">
 </app-no-records-message>
+
 
 <div>
     <mat-form-field *ngIf="customers.data.length > 1">

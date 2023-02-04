@@ -17,7 +17,11 @@ export class CustomerService {
   constructor(private httpService: HttpService) { }
 
   getCustomers(): Observable<CustomersModel> {
-    return this.httpService.httpGetAll(`${this.baseUrl}`);
+    return this.httpService.httpGetAll(this.baseUrl);
+  }
+
+  newCustomer(customerData: any): Observable<CustomerModel> {
+    return this.httpService.httpPost(this.baseUrl, customerData);
   }
 
   deleteCustomer(customerId: number): Observable<CustomerModel> {
