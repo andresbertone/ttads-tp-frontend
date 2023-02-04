@@ -27,17 +27,8 @@ export class HttpInterceptorService implements HttpInterceptor {
 
     // FIXME: Cuando agregue el uso de header con el token, cambiar "req" por "clonedReq".
     return next.handle(req).pipe(
-      finalize(() => this.spinnerService.hideSpinner()),
-      catchError(error => {
-        this.dialogService.showError(
-          'Error',
-          'An error has occurred. Please try again.',
-          '',
-          'Close',
-          false
-        );
-        return this.handleError(error);
-      })
+      catchError(error => this.handleError(error)),
+      finalize(() => this.spinnerService.hideSpinner())
     )
   }
 
@@ -54,20 +45,51 @@ export class HttpInterceptorService implements HttpInterceptor {
   }
 
   handleError(error: HttpErrorResponse) {
-    const status = error.status;
-    let errors;
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      const errors = [{ message: error.message }];
+      const httpError = {status: error.status, errors};
+      console.error('An error occurred:', httpError);
 
-    if (error.error) {
+      this.dialogService.showError(
+        'Error',
+        ['An error has occurred. Please try again.'],
+        '',
+        'Close',
+        false
+      );
+    } else {
+      // The backend returned an unsuccessful response code.
+      console.error(`Backend returned code ${error.status}, body was: `, error.error);
+
       const { errors: backendErrors } = error.error;
-      if (backendErrors) {
-        errors = backendErrors;
-      } else if (error.message) {
-        errors = [{ message: error.message }];
-      }
+      let errorMessages = this.getFormattedErrorMessageForDialog(backendErrors);
+
+      this.dialogService.showError(
+        'Validation error',
+        errorMessages,
+        '',
+        'Ok',
+        false
+      )
     }
 
-    const httpError = {status, errors};
+    return Promise.reject('');
+  }
 
-    return Promise.reject(httpError);
+  getFormattedErrorMessageForDialog(errors: any[]) {
+    let message = '';
+    let arrayOfMessages: any[] = [];
+
+    errors.forEach(error => {
+      if (error.field) {
+        message = `${error.field}: ${error.message}`;
+      } else {
+        message = `${error.message}`;
+      }
+      arrayOfMessages.push(message);
+    });
+
+    return arrayOfMessages;
   }
 }

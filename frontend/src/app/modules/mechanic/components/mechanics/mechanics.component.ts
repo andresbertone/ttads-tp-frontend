@@ -73,7 +73,7 @@ export class MechanicsComponent implements OnInit {
   deleteMechanic(mechanic: MechanicModel) {
     this.dialogService.showWarning(
       'Delete mechanic',
-      `Are you sure you want to delete mechanic ${mechanic.firstName} ${mechanic.lastName}?`,
+      [this.dialogService.getModalWarningMessage(mechanic, 'mechanic', 'delete')],
       'No',
       'Delete',
       true
