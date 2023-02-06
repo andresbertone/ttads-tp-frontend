@@ -1,9 +1,17 @@
 <h1 class="title">Spare Parts</h1>
 
+<div class="new-button-container" *ngIf="!isLoading()">
+    <button mat-raised-button color="primary" (click)="goToNewSparePart()">
+        <mat-icon>add</mat-icon> New spare part
+    </button>
+</div>
+
+
 <app-no-records-message *ngIf="!isLoading() && spareParts.data.length === 0" 
                         [data]="spareParts.data" 
                         [entityName]="'spare parts'">
 </app-no-records-message>
+
 
 <div>
     <mat-form-field *ngIf="spareParts.data.length > 1">

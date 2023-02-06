@@ -22,10 +22,12 @@ export class FormValidationService {
       message = 'You must enter only numbers';
     } else if (form.get(field)?.hasError('email')) {
       message = 'Not a valid email';
-    } else if(form.get(field)?.hasError('minlength')) {
+    } else if (form.get(field)?.hasError('minlength')) {
       message = 'At least ' + form.get(field).errors.minlength.requiredLength + ' characters';
-    } else if(form.get(field)?.hasError('maxlength')) {
+    } else if (form.get(field)?.hasError('maxlength')) {
       message = 'Maximum ' + form.get(field).errors.maxlength.requiredLength + ' characters';
+    } else if (form.get(field)?.hasError('min')) {
+      message = 'The value must be greater than or equal to ' + form.get(field).errors.min.min;
     }
 
     return message;

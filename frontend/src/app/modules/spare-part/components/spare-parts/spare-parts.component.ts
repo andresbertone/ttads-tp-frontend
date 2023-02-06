@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { SparePartService } from 'src/app/core/services/spare-part.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -34,7 +35,8 @@ export class SparePartsComponent implements OnInit {
     private sparePartService: SparePartService, 
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private router: Router) {
     this.spareParts = new MatTableDataSource();
   }
 
@@ -74,6 +76,10 @@ export class SparePartsComponent implements OnInit {
 
   isLowStock(sparePartStock: number) {
     return sparePartStock <= this.LOW_STOCK;
+  }
+
+  goToNewSparePart() {
+    this.router.navigateByUrl('home/spare-parts/new-spare-part');
   }
 
   deleteSparePart(sparePart: SparePartModel) {

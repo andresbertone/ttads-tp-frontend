@@ -17,7 +17,11 @@ export class SparePartService {
   constructor(private httpService: HttpService) { }
 
   getSpareParts(): Observable<SparePartsModel> {
-    return this.httpService.httpGetAll(`${this.baseUrl}`);
+    return this.httpService.httpGetAll(this.baseUrl);
+  }
+
+  newSparePart(sparePartData: any): Observable<SparePartModel> {
+    return this.httpService.httpPost(this.baseUrl, sparePartData);
   }
 
   deleteSparePart(sparePartId: number): Observable<SparePartModel> {
