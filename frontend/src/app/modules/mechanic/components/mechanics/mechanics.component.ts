@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MechanicService } from 'src/app/core/services/mechanic.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -32,7 +33,8 @@ export class MechanicsComponent implements OnInit {
     private mechanicService: MechanicService, 
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
-    private alertService: AlertService) {
+    private alertService: AlertService,
+    private router: Router) {
     this.mechanics = new MatTableDataSource();
   }
 
@@ -68,6 +70,10 @@ export class MechanicsComponent implements OnInit {
     if (this.mechanics.paginator) {
       this.mechanics.paginator.firstPage();
     }
+  }
+
+  goToNewMechanic() {
+    this.router.navigateByUrl('home/mechanics/new-mechanic');
   }
 
   deleteMechanic(mechanic: MechanicModel) {

@@ -17,7 +17,11 @@ export class MechanicService {
   constructor(private httpService: HttpService) { }
 
   getMechanics(): Observable<MechanicsModel> {
-    return this.httpService.httpGetAll(`${this.baseUrl}`);
+    return this.httpService.httpGetAll(this.baseUrl);
+  }
+
+  newMechanic(mechanicData: any): Observable<MechanicModel> {
+    return this.httpService.httpPost(this.baseUrl, mechanicData);
   }
 
   deleteMechanic(mechanicId: number): Observable<MechanicModel> {
