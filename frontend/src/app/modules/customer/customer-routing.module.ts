@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'new-customer',
     component: NewCustomerComponent
+  },
+  {
+    path: 'edit-customer/:customerId',
+    component: NewCustomerComponent
   }
 ];
 

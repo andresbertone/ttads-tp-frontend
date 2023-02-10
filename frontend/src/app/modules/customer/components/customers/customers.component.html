@@ -1,7 +1,7 @@
 <h1 class="title">Customers</h1>
 
 <div class="new-button-container" *ngIf="!isLoading()">
-    <button mat-raised-button color="primary" (click)="goToNewCustomer()">
+    <button mat-raised-button color="primary" (click)="newCustomer()">
         <mat-icon>add</mat-icon> New customer
     </button>
 </div>
@@ -55,7 +55,11 @@
                     <button mat-icon-button color="primary" matTooltip="See customer details" aria-label="Icon button with a eye icon">
                         <mat-icon>visibility</mat-icon>
                     </button> 
-                    <button mat-icon-button color="accent" matTooltip="Edit customer" aria-label="Icon button with a pencil icon">
+                    <button mat-icon-button 
+                            color="accent" 
+                            matTooltip="Edit customer" 
+                            (click)="editCustomer(customer)"
+                            aria-label="Icon button with a pencil icon">
                         <mat-icon>edit</mat-icon>
                     </button> 
                     <button mat-icon-button 

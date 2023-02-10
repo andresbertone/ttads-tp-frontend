@@ -73,8 +73,12 @@ export class CustomersComponent implements OnInit {
     }
   }
 
-  goToNewCustomer() {
+  newCustomer() {
     this.router.navigateByUrl('home/customers/new-customer');
+  }
+
+  editCustomer(customer: CustomerModel) {
+    this.router.navigateByUrl(`home/customers/edit-customer/${customer.customerId}`);
   }
 
   deleteCustomer(customer: CustomerModel) {

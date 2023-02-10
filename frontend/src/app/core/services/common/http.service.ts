@@ -22,8 +22,19 @@ export class HttpService {
     return this.get(url, options);
   }
 
+  httpGet(
+    url: string,
+    options: any = {}
+  ): Observable<any> {
+    return this.get(url, options);
+  }
+
   httpPost(url: string, body: any): Observable<any> {
     return this.post(url, body);
+  }
+
+  httpPut(url: string, body: any): Observable<any> {
+    return this.put(url, body);
   }
 
   httpDelete(url: string): Observable<any> {
@@ -47,6 +58,15 @@ export class HttpService {
 
   post(url: string, body: any): Observable<any> {
     return this.http.post<HttpResponseModel>(url, body)
+      .pipe(
+        map(res => {
+          return res.data[0];
+        })
+      );
+  }
+
+  put(url: string, body: any): Observable<any> {
+    return this.http.put<HttpResponseModel>(url, body)
       .pipe(
         map(res => {
           return res.data[0];

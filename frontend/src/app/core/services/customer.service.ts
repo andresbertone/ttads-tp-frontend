@@ -20,8 +20,16 @@ export class CustomerService {
     return this.httpService.httpGetAll(this.baseUrl);
   }
 
+  getCustomerById(customerId: string): Observable<CustomerModel> {
+    return this.httpService.httpGet(`${this.baseUrl}/${customerId}`);
+  }
+
   newCustomer(customerData: any): Observable<CustomerModel> {
     return this.httpService.httpPost(this.baseUrl, customerData);
+  }
+
+  editCustomer(customerData: any, customerId: string): Observable<CustomerModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/${customerId}`, customerData);
   }
 
   deleteCustomer(customerId: number): Observable<CustomerModel> {
