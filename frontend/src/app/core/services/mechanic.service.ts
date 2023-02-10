@@ -20,8 +20,16 @@ export class MechanicService {
     return this.httpService.httpGetAll(this.baseUrl);
   }
 
+  getMechanicById(mechanicId: string): Observable<MechanicModel> {
+    return this.httpService.httpGet(`${this.baseUrl}/${mechanicId}`);
+  }
+
   newMechanic(mechanicData: any): Observable<MechanicModel> {
     return this.httpService.httpPost(this.baseUrl, mechanicData);
+  }
+
+  editMechanic(mechanicData: any, mechanicId: string): Observable<MechanicModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/${mechanicId}`, mechanicData);
   }
 
   deleteMechanic(mechanicId: number): Observable<MechanicModel> {

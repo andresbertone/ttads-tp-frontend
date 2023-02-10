@@ -72,8 +72,12 @@ export class MechanicsComponent implements OnInit {
     }
   }
 
-  goToNewMechanic() {
+  newMechanic() {
     this.router.navigateByUrl('home/mechanics/new-mechanic');
+  }
+
+  editMechanic(mechanic: MechanicModel) {
+    this.router.navigateByUrl(`home/mechanics/edit-mechanic/${mechanic.mechanicId}`);
   }
 
   deleteMechanic(mechanic: MechanicModel) {

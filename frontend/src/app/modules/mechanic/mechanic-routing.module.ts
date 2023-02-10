@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'new-mechanic',
     component: NewMechanicComponent
+  },
+  {
+    path: 'edit-mechanic/:mechanicId',
+    component: NewMechanicComponent
   }
 ];
 
