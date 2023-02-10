@@ -1,7 +1,7 @@
 <h1 class="title">Spare Parts</h1>
 
 <div class="new-button-container" *ngIf="!isLoading()">
-    <button mat-raised-button color="primary" (click)="goToNewSparePart()">
+    <button mat-raised-button color="primary" (click)="newSparePart()">
         <mat-icon>add</mat-icon> New spare part
     </button>
 </div>
@@ -64,7 +64,11 @@
                     <button mat-icon-button color="primary" matTooltip="See spare part details" aria-label="Icon button with a eye icon">
                         <mat-icon>visibility</mat-icon>
                     </button> 
-                    <button mat-icon-button color="accent" matTooltip="Edit spare part" aria-label="Icon button with a pencil icon">
+                    <button mat-icon-button 
+                            color="accent" 
+                            matTooltip="Edit spare part" 
+                            (click)="editSparePart(sparePart)"
+                            aria-label="Icon button with a pencil icon">
                         <mat-icon>edit</mat-icon>
                     </button> 
                     <button mat-icon-button 

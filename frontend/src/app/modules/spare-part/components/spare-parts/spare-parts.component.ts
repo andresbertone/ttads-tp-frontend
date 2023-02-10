@@ -78,8 +78,12 @@ export class SparePartsComponent implements OnInit {
     return sparePartStock <= this.LOW_STOCK;
   }
 
-  goToNewSparePart() {
+  newSparePart() {
     this.router.navigateByUrl('home/spare-parts/new-spare-part');
+  }
+
+  editSparePart(sparePart: SparePartModel) {
+    this.router.navigateByUrl(`home/spare-parts/edit-spare-part/${sparePart.sparePartId}`);
   }
 
   deleteSparePart(sparePart: SparePartModel) {

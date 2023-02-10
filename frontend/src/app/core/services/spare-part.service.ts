@@ -20,8 +20,16 @@ export class SparePartService {
     return this.httpService.httpGetAll(this.baseUrl);
   }
 
+  getSparePartById(sparePartId: string): Observable<SparePartModel> {
+    return this.httpService.httpGet(`${this.baseUrl}/${sparePartId}`);
+  }
+
   newSparePart(sparePartData: any): Observable<SparePartModel> {
     return this.httpService.httpPost(this.baseUrl, sparePartData);
+  }
+
+  editSparePart(sparePartData: any, sparePartId: string): Observable<SparePartModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/${sparePartId}`, sparePartData);
   }
 
   deleteSparePart(sparePartId: number): Observable<SparePartModel> {

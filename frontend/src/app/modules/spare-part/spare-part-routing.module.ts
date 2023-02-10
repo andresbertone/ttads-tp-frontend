@@ -12,6 +12,10 @@ const routes: Routes = [
   {
     path: 'new-spare-part',
     component: NewSparePartComponent
+  },
+  {
+    path: 'edit-spare-part/:sparePartId',
+    component: NewSparePartComponent
   }
 ];
 
