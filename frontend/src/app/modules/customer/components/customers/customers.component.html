@@ -8,7 +8,6 @@
 
 
 <app-no-records-message *ngIf="!isLoading() && customers.data.length === 0" 
-                        [data]="customers.data" 
                         [entityName]="'customers'">
 </app-no-records-message>
 

@@ -8,6 +8,5 @@ import { Component, Input } from '@angular/core';
 export class NoRecordsMessageComponent {
 
   @Input('entityName') entityName: string = '';
-  @Input('data') data: any[] = [];
 
 }
