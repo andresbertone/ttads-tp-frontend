@@ -81,6 +81,10 @@ export class CustomersComponent implements OnInit {
     this.router.navigateByUrl(`home/customers/edit-customer/${customer.customerId}`);
   }
 
+  seeCustomerDetail(customer: CustomerModel) {
+    this.router.navigateByUrl(`home/customers/detail/${customer.customerId}`);
+  }
+
   deleteCustomer(customer: CustomerModel) {
     this.dialogService.showWarning(
       'Delete customer',

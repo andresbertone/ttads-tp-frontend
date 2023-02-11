@@ -1,0 +1,97 @@
+<h1 class="title">Customer Detail</h1>
+
+<app-no-records-message *ngIf="!isLoading() && !customer">
+</app-no-records-message>
+
+<div class="container" *ngIf="!isLoading() && customer">
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+
+            <div class="edit-button-container">
+                <button mat-raised-button color="accent" (click)="editCustomer()">
+                    <mat-icon>edit</mat-icon> Edit Customer
+                </button>
+            </div>
+        
+            <h3 class="subtitle">Personal Information</h3>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <mat-label for="first-name">First Name:</mat-label>
+                    <p>{{ customer.firstName }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="last-name">Last Name:</mat-label>
+                    <p>{{ customer.lastName }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="dni">DNI:</mat-label>
+                    <p>{{ customer.dni }}</p>
+                </div>
+            </div>
+    
+
+            <h3 class="subtitle">Address</h3>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <mat-label for="street">Street:</mat-label>
+                    <p>{{ customer.street }}</p>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-label for="street-number">Street Number:</mat-label>
+                    <p>{{ customer.streetNumber }}</p>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-label for="floor">Floor:</mat-label>
+                    <p *ngIf="customer.floor">{{ customer.floor }}</p>
+                    <p class="no-data" *ngIf="!customer.floor">Not defined</p>
+                </div>
+                
+                <div class="col-md-3">
+                    <mat-label for="apartment">Apartment:</mat-label>
+                    <p *ngIf="customer.apartment">{{ customer.apartment }}</p>
+                    <p class="no-data" *ngIf="!customer.apartment">Not defined</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <mat-label for="city">City:</mat-label>
+                    <p>{{ customer.city }}</p>
+                </div>
+            
+                <div class="col-md-6">
+                    <mat-label for="province">Province:</mat-label>
+                    <p>{{ customer.province }}</p>
+                </div>
+            </div>
+
+
+            <h3 class="subtitle">Contact Information</h3>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <mat-label for="email">Email:</mat-label>
+                    <p>{{ customer.email }}</p>
+                </div>
+            
+                <div class="col-md-6">
+                    <mat-label for="phone-number">Phone Number:</mat-label>
+                    <p *ngIf="customer.phoneNumber">{{ customer.phoneNumber }}</p>
+                    <p class="no-data" *ngIf="!customer.phoneNumber">Not defined</p>
+                </div>
+            </div>
+    
+            <button mat-button color="primary" type="button" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                Go back
+            </button>
+
+        </div>
+    </div>
+</div>

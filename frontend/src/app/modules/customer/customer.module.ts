@@ -8,11 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CustomersComponent } from './components/customers/customers.component';
 import { NewCustomerComponent } from './components/new-customer/new-customer.component';
+import { CustomerDetailComponent } from './components/customer-detail/customer-detail.component';
 
 @NgModule({
   declarations: [
     CustomersComponent,
-    NewCustomerComponent
+    NewCustomerComponent,
+    CustomerDetailComponent
   ],
   imports: [
     CommonModule,
