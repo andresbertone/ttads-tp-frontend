@@ -80,6 +80,10 @@ export class MechanicsComponent implements OnInit {
     this.router.navigateByUrl(`home/mechanics/edit-mechanic/${mechanic.mechanicId}`);
   }
 
+  seeMechanicDetail(mechanic: MechanicModel) {
+    this.router.navigateByUrl(`home/mechanics/detail/${mechanic.mechanicId}`);
+  }
+
   deleteMechanic(mechanic: MechanicModel) {
     this.dialogService.showWarning(
       'Delete mechanic',
