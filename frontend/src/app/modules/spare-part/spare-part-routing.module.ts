@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SparePartsComponent } from './components/spare-parts/spare-parts.component';
 import { NewSparePartComponent } from './components/new-spare-part/new-spare-part.component';
+import { SparePartDetailComponent } from './components/spare-part-detail/spare-part-detail.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'edit-spare-part/:sparePartId',
     component: NewSparePartComponent
+  },
+  {
+    path: 'detail/:sparePartId',
+    component: SparePartDetailComponent
   }
 ];
 

@@ -60,7 +60,11 @@
             <ng-container matColumnDef="Action">
                 <th mat-header-cell *matHeaderCellDef></th>
                 <td mat-cell *matCellDef="let sparePart"> 
-                    <button mat-icon-button color="primary" matTooltip="See spare part details" aria-label="Icon button with a eye icon">
+                    <button mat-icon-button 
+                            color="primary" 
+                            matTooltip="See spare part detail" 
+                            (click)="seeSparePartDetail(sparePart)"
+                            aria-label="Icon button with a eye icon">
                         <mat-icon>visibility</mat-icon>
                     </button> 
                     <button mat-icon-button 

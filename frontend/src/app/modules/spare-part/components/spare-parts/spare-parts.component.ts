@@ -86,6 +86,10 @@ export class SparePartsComponent implements OnInit {
     this.router.navigateByUrl(`home/spare-parts/edit-spare-part/${sparePart.sparePartId}`);
   }
 
+  seeSparePartDetail(sparePart: SparePartModel) {
+    this.router.navigateByUrl(`home/spare-parts/detail/${sparePart.sparePartId}`);
+  }
+
   deleteSparePart(sparePart: SparePartModel) {
     this.dialogService.showWarning(
       'Delete spare part',

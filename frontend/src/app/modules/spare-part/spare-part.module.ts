@@ -8,12 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { SparePartsComponent } from './components/spare-parts/spare-parts.component';
 import { NewSparePartComponent } from './components/new-spare-part/new-spare-part.component';
+import { SparePartDetailComponent } from './components/spare-part-detail/spare-part-detail.component';
 
 
 @NgModule({
   declarations: [
     SparePartsComponent,
-    NewSparePartComponent
+    NewSparePartComponent,
+    SparePartDetailComponent
   ],
   imports: [
     CommonModule,
