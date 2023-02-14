@@ -15,7 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [],
@@ -36,7 +36,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatGridListModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatExpansionModule
   ]
 })
 export class MaterialModule { }

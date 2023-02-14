@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
 
 import { CustomerModel } from 'src/app/core/models/customer/customer.model';
+import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
 
 @Component({
   selector: 'app-customer-detail',
@@ -15,6 +17,9 @@ export class CustomerDetailComponent implements OnInit {
 
   customerId!: string;
   customer!: CustomerModel
+  vehicles!: MatTableDataSource<VehicleModel>;
+
+  displayedColumns: string[] = ['Make', 'Model', 'Year', 'LicensePlate'];
 
   constructor(
     private customerService: CustomerService,
@@ -31,9 +36,10 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   loadCustomer() {
-    this.customerService.getCustomerById(this.customerId)
+    this.customerService.getCustomerById(this.customerId, { includeVehicles: true })
       .subscribe((customer: CustomerModel) => {
         this.customer = customer;
+        this.vehicles = new MatTableDataSource(this.customer.vehicles);
       });
   }
 
@@ -47,5 +53,15 @@ export class CustomerDetailComponent implements OnInit {
 
   goBack() {
     this.router.navigateByUrl('home/customers');
+  }
+
+  getAccordionDescription() {
+    if (this.vehicles.data.length === 0) {
+      return 'There are no vehicles';
+    } else if (this.vehicles.data.length === 1) {
+      return `There is ${this.vehicles.data.length} vehicle`;
+    } else {
+      return `There are ${this.vehicles.data.length} vehicles`;
+    }
   }
 }

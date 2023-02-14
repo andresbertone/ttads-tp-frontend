@@ -88,14 +88,12 @@ export class HttpService {
   
   getQueryParams(options: any) {
     if (Object.entries(options).length > 0) {
-      const {
-        limit = 10,
-        offset = 0,
-        query = ''
-      } = options;
+      const queryParams = new URLSearchParams(options);
+      const queryParamsString = queryParams.toString();
+      
       return {
         params: new HttpParams({
-          fromString: `limit=${limit}&offset=${offset}&query=${query}`
+          fromString: queryParamsString
         })
       };
     }

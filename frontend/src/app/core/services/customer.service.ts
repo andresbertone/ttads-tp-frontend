@@ -20,8 +20,8 @@ export class CustomerService {
     return this.httpService.httpGetAll(this.baseUrl);
   }
 
-  getCustomerById(customerId: string): Observable<CustomerModel> {
-    return this.httpService.httpGet(`${this.baseUrl}/${customerId}`);
+  getCustomerById(customerId: string, options: any = {}): Observable<CustomerModel> {
+    return this.httpService.httpGet(`${this.baseUrl}/${customerId}`, options);
   }
 
   newCustomer(customerData: any): Observable<CustomerModel> {

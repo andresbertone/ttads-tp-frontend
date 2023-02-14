@@ -1,3 +1,5 @@
+import { VehicleModel } from "../vehicle/vehicle.model";
+
 export interface CustomerModel {
     customerId: number,
     dni: string,
@@ -10,5 +12,6 @@ export interface CustomerModel {
     city: string,
     province: string,
     email: string,
-    phoneNumber: string
+    phoneNumber: string,
+    vehicles?: VehicleModel[]
 }
