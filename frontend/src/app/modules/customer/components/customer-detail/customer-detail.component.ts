@@ -19,8 +19,6 @@ export class CustomerDetailComponent implements OnInit {
   customer!: CustomerModel
   vehicles!: MatTableDataSource<VehicleModel>;
 
-  displayedColumns: string[] = ['Make', 'Model', 'Year', 'LicensePlate'];
-
   constructor(
     private customerService: CustomerService,
     private spinnerService: SpinnerService,
@@ -53,15 +51,5 @@ export class CustomerDetailComponent implements OnInit {
 
   goBack() {
     this.router.navigateByUrl('home/customers');
-  }
-
-  getAccordionDescription() {
-    if (this.vehicles.data.length === 0) {
-      return 'There are no vehicles';
-    } else if (this.vehicles.data.length === 1) {
-      return `There is ${this.vehicles.data.length} vehicle`;
-    } else {
-      return `There are ${this.vehicles.data.length} vehicles`;
-    }
   }
 }
