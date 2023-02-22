@@ -100,7 +100,7 @@ export class NewVehicleComponent {
     if (!this.vehicleForm.pristine) {
       this.dialogService.showWarning(
         'Cancel operation',
-        [this.dialogService.getModalWarningMessage()],
+        [this.dialogService.getDialogWarningMessage()],
         'No',
         'Yes',
         true

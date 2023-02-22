@@ -93,7 +93,7 @@ export class SparePartsComponent implements OnInit {
   deleteSparePart(sparePart: SparePartModel) {
     this.dialogService.showWarning(
       'Delete spare part',
-      [this.dialogService.getModalWarningMessage(sparePart, 'spare part', 'delete')],
+      [this.dialogService.getDialogWarningMessage(sparePart, 'spare part', 'delete')],
       'No',
       'Delete',
       true

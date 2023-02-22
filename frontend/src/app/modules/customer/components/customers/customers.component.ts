@@ -88,7 +88,7 @@ export class CustomersComponent implements OnInit {
   deleteCustomer(customer: CustomerModel) {
     this.dialogService.showWarning(
       'Delete customer',
-      [this.dialogService.getModalWarningMessage(customer, 'customer', 'delete')],
+      [this.dialogService.getDialogWarningMessage(customer, 'customer', 'delete')],
       'No',
       'Delete',
       true

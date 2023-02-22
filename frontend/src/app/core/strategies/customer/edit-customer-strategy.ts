@@ -29,7 +29,7 @@ export class EditCustomerStrategy extends Strategy {
     getDialogRef(customerForm: FormGroup): Observable<any> {
         return this.dialogService.showWarning(
             'Edit customer',
-            [this.dialogService.getModalWarningMessage(customerForm, 'customer', 'edit')],
+            [this.dialogService.getDialogWarningMessage(customerForm, 'customer', 'edit')],
             'No',
             'Yes',
             true

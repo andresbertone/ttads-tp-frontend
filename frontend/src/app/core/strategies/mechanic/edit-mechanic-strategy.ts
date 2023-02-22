@@ -29,7 +29,7 @@ export class EditMechanicStrategy extends Strategy {
     getDialogRef(mechanicForm: FormGroup): Observable<any> {
         return this.dialogService.showWarning(
             'Edit mechanic',
-            [this.dialogService.getModalWarningMessage(mechanicForm, 'mechanic', 'edit')],
+            [this.dialogService.getDialogWarningMessage(mechanicForm, 'mechanic', 'edit')],
             'No',
             'Yes',
             true

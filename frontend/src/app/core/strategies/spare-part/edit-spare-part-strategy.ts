@@ -29,7 +29,7 @@ export class EditSparePartStrategy extends Strategy {
     getDialogRef(sparePartForm: FormGroup): Observable<any> {
         return this.dialogService.showWarning(
             'Edit spare part',
-            [this.dialogService.getModalWarningMessage(sparePartForm, 'spare part', 'edit')],
+            [this.dialogService.getDialogWarningMessage(sparePartForm, 'spare part', 'edit')],
             'No',
             'Yes',
             true

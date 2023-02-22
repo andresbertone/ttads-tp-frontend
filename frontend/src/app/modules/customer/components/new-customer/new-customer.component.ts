@@ -98,7 +98,7 @@ export class NewCustomerComponent implements OnInit {
     if (!this.customerForm.pristine) {
       this.dialogService.showWarning(
         'Cancel operation',
-        [this.dialogService.getModalWarningMessage()],
+        [this.dialogService.getDialogWarningMessage()],
         'No',
         'Yes',
         true

@@ -29,7 +29,7 @@ export class NewVehicleStrategy extends Strategy {
     getDialogRef(vehicleForm: FormGroup): Observable<any> {
         return this.dialogService.showWarning(
             'Add vehicle',
-            [this.dialogService.getModalWarningMessage(vehicleForm, 'vehicle', 'add')],
+            [this.dialogService.getDialogWarningMessage(vehicleForm, 'vehicle', 'add')],
             'No',
             'Yes',
             true

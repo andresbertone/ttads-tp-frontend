@@ -97,7 +97,7 @@ export class NewMechanicComponent implements OnInit {
     if (!this.mechanicForm.pristine) {
       this.dialogService.showWarning(
         'Cancel operation',
-        [this.dialogService.getModalWarningMessage()],
+        [this.dialogService.getDialogWarningMessage()],
         'No',
         'Yes',
         true
