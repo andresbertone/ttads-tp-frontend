@@ -1,0 +1,54 @@
+<h1 class="title">Vehicle Detail</h1>
+
+<app-no-records-message *ngIf="!isLoading() && !vehicle">
+</app-no-records-message>
+
+<div class="container" *ngIf="!isLoading() && vehicle">
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+
+            <div class="row mb-3">
+                <div class="edit-button-container">
+                    <button mat-raised-button color="accent" (click)="editVehicle()">
+                        <mat-icon>edit</mat-icon> Edit Vehicle
+                    </button>
+                </div>
+            </div>
+        
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <mat-label for="make">Make:</mat-label>
+                    <p>{{ vehicle.make }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="model">Model:</mat-label>
+                    <p>{{ vehicle.model }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="year">Year:</mat-label>
+                    <p>{{ vehicle.year }}</p>
+                </div>
+            </div>
+    
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <mat-label for="licensePlate">License Plate:</mat-label>
+                    <p>{{ vehicle.licensePlate }}</p>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-label for="currentKilometers">Current Kilometers:</mat-label>
+                    <p>{{ vehicle.currentNumberOfKilometers }}</p>
+                </div>
+            </div>
+    
+            <button mat-button color="primary" type="button" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                Go back
+            </button>
+
+        </div>
+    </div>
+</div>

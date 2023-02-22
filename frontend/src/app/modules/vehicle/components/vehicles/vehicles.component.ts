@@ -34,6 +34,10 @@ export class VehiclesComponent {
     this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/edit-vehicle/${vehicle.vehicleId}`);
   }
 
+  seeVehicleDetail(vehicle: VehicleModel) {
+    this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/detail/${vehicle.vehicleId}`);
+  }
+
   deleteVehicle(vehicle: VehicleModel) {
     this.deleteVehicleEvent.emit(vehicle);
   }
