@@ -10,6 +10,7 @@ import { AlertService } from 'src/app/core/services/common/alert.service';
 import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
 import { Strategy } from 'src/app/core/strategies/strategy';
 import { NewVehicleStrategy } from 'src/app/core/strategies/vehicle/new-vehicle-strategy';
+import { EditVehicleStrategy } from 'src/app/core/strategies/vehicle/edit-vehicle-strategy';
 import { CustomValidations } from 'src/app/core/custom-validations/custom-validations';
 
 @Component({
@@ -19,6 +20,7 @@ import { CustomValidations } from 'src/app/core/custom-validations/custom-valida
 })
 export class NewVehicleComponent {
 
+  customerId! : string;
   vehicleId! : string;
   vehicleStrategy! : Strategy;
 
@@ -45,30 +47,28 @@ export class NewVehicleComponent {
 
   ngOnInit(): void {
     this.vehicleId = this.activatedRoute.snapshot.paramMap.get('vehicleId') as string;
+    this.customerId = this.activatedRoute.snapshot.paramMap.get('customerId') as string;
 
     if (this.vehicleId) {
-      // TODO: Para cuando haga la edición
-      // this.vehicleStrategy = new EditVehicleStrategy(this.vehicleService, this.dialogService, this.alertService);
-      // this.getVehicle();
+      this.vehicleStrategy = new EditVehicleStrategy(this.vehicleService, this.dialogService, this.alertService, this.customerId);
+      this.getVehicle();
     } else {
-      this.vehicleStrategy = new NewVehicleStrategy(this.vehicleService, this.dialogService, this.alertService);
+      this.vehicleStrategy = new NewVehicleStrategy(this.vehicleService, this.dialogService, this.alertService, this.customerId);
     }
   }
 
-  // TODO: Para cuando haga la edición
-  // getVehicle() {
-  //   this.vehicleService.getVehicleById(this.vehicleId).subscribe(
-  //     (vehicle: VehicleModel) => {
-  //       this.vehicleForm.patchValue(vehicle);
-  //       this.vehicleForm.get('vehicleCode')?.disable();
-  //     }
-  //   );
-  // }
+  getVehicle() {
+    this.vehicleService.getVehicleById(this.vehicleId).subscribe(
+      (vehicle: VehicleModel) => {
+        this.vehicleForm.patchValue(vehicle);
+        this.vehicleForm.get('licensePlate')?.disable();
+      }
+    );
+  }
 
   onSubmit() {
-    const customerId = this.activatedRoute.snapshot.paramMap.get('customerId') as string
     this.vehicleForm.patchValue({
-      customerId: customerId
+      customerId: this.customerId
     });
 
     if (!this.vehicleForm.valid) return;
@@ -78,7 +78,7 @@ export class NewVehicleComponent {
     dialogRef$.subscribe((result) => {
       if (!result) return; 
 
-      this.vehicleForm.get('vehicleCode')?.enable();
+      this.vehicleForm.get('licensePlate')?.enable();
 
       this.vehicleStrategy.sendRequest(this.vehicleForm.value, this.vehicleId)
         .subscribe({
@@ -87,10 +87,9 @@ export class NewVehicleComponent {
             this.router.navigate([this.vehicleStrategy.route]);
           },
           error: () => {
-            // TODO: Para cuando haga la edición
-            // if (this.isEditing()) {
-            //   this.vehicleForm.get('vehicleCode')?.disable();
-            // }
+            if (this.isEditing()) {
+              this.vehicleForm.get('licensePlate')?.disable();
+            }
           }
         });
     });
@@ -114,10 +113,9 @@ export class NewVehicleComponent {
     }
   }
 
-  // TODO: Para cuando haga la edición
-  // isEditing() {
-  //   return this.vehicleStrategy instanceof EditVehicleStrategy;
-  // }
+  isEditing() {
+    return this.vehicleStrategy instanceof EditVehicleStrategy;
+  }
 
   isFieldValid(field: string) {
     return this.formValidationService.isFieldValid(this.vehicleForm, field);

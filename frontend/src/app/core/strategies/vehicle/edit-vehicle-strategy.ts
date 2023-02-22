@@ -9,7 +9,7 @@ import { AlertService } from "../../services/common/alert.service";
 
 import { VehicleModel } from "../../models/vehicle/vehicle.model";
 
-export class NewVehicleStrategy extends Strategy {
+export class EditVehicleStrategy extends Strategy {
 
     constructor(
         private vehicleService: VehicleService,
@@ -19,18 +19,18 @@ export class NewVehicleStrategy extends Strategy {
     ) {
         super();
 
-        this.title = 'New Vehicle';
+        this.title = 'Edit Vehicle';
         this.route = `home/customers/detail/${this.customerId}`;
     }
 
-    sendRequest(vehicleForm: FormGroup): Observable<any> {
-        return this.vehicleService.newVehicle(vehicleForm);
+    sendRequest(vehicleForm: FormGroup, vehicleId: string): Observable<any> {
+        return this.vehicleService.editVehicle(vehicleForm, vehicleId);
     }
 
     getDialogRef(vehicleForm: FormGroup): Observable<any> {
         return this.dialogService.showWarning(
-            'Add vehicle',
-            [this.dialogService.getDialogWarningMessage(vehicleForm, 'vehicle', 'add')],
+            'Edit vehicle',
+            [this.dialogService.getDialogWarningMessage(vehicleForm, 'vehicle', 'edit')],
             'No',
             'Yes',
             true
@@ -38,6 +38,6 @@ export class NewVehicleStrategy extends Strategy {
     }
 
     showSnackBarMessage(vehicle: VehicleModel): void {
-        this.alertService.openSnackBar(`The vehicle ${vehicle.make} ${vehicle.model} was successfully added.`);
+        this.alertService.openSnackBar(`The vehicle ${vehicle.make} ${vehicle.model} was successfully edited.`);
     }
 }

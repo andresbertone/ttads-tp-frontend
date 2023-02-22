@@ -30,6 +30,10 @@ export class VehiclesComponent {
     this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/new-vehicle`);
   }
 
+  editVehicle(vehicle: VehicleModel) {
+    this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/edit-vehicle/${vehicle.vehicleId}`);
+  }
+
   deleteVehicle(vehicle: VehicleModel) {
     this.deleteVehicleEvent.emit(vehicle);
   }

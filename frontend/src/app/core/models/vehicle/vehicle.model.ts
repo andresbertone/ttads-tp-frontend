@@ -3,7 +3,7 @@ export interface VehicleModel {
     licensePlate: string,
     make: string,
     model: string,
-    year: number,
+    year: string,
     currentNumberOfKilometers: string,
-    customerId: number
+    customerId: string
 }
