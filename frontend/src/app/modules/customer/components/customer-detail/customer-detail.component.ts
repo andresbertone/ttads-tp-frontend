@@ -4,6 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { VehicleService } from 'src/app/core/services/vehicle.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { CustomerModel } from 'src/app/core/models/customer/customer.model';
 import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
@@ -23,7 +26,10 @@ export class CustomerDetailComponent implements OnInit {
     private customerService: CustomerService,
     private spinnerService: SpinnerService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private vehicleService: VehicleService,
+    private dialogService: DialogService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +53,25 @@ export class CustomerDetailComponent implements OnInit {
 
   editCustomer() {
     this.router.navigateByUrl(`home/customers/edit-customer/${this.customerId}`);
+  }
+
+  deleteVehicle(vehicle: VehicleModel) {
+    this.dialogService.showWarning(
+      'Delete vehicle',
+      [this.dialogService.getDialogWarningMessage(vehicle, 'vehicle', 'delete')],
+      'No',
+      'Delete',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.vehicleService.deleteVehicle(vehicle.vehicleId).subscribe(
+          (vehicle: VehicleModel) => {
+            this.alertService.openSnackBar(`The vehicle ${vehicle.make} ${vehicle.model} was successfully deleted.`);
+            this.loadCustomer();
+          }
+        );
+      }
+    });
   }
 
   goBack() {

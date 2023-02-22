@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
 export class VehiclesComponent {
 
   @Input('vehicles') vehicles!: MatTableDataSource<VehicleModel>;
+  @Output() deleteVehicleEvent = new EventEmitter<VehicleModel>(); 
 
   displayedColumns: string[] = ['Make', 'Model', 'Year', 'LicensePlate', 'Action'];
 
@@ -27,6 +28,10 @@ export class VehiclesComponent {
 
   newVehicle() {
     this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/new-vehicle`);
+  }
+
+  deleteVehicle(vehicle: VehicleModel) {
+    this.deleteVehicleEvent.emit(vehicle);
   }
 
   getAccordionDescription() {

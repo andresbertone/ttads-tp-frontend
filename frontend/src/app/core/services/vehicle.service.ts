@@ -18,4 +18,8 @@ export class VehicleService {
   newVehicle(vehicleData: any): Observable<VehicleModel> {
     return this.httpService.httpPost(this.baseUrl, vehicleData);
   }
+
+  deleteVehicle(vehicleId: number): Observable<VehicleModel> {
+    return this.httpService.httpDelete(`${this.baseUrl}/${vehicleId}`);
+  }
 }
