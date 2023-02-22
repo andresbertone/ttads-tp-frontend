@@ -1,0 +1,65 @@
+<h1 class="title">{{ vehicleStrategy.title }}</h1>
+
+<div class="container">
+    <div class="row justify-content-md-center mt-5">
+        <div class="col-md-9">
+
+            <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+
+                <div class="row mb-3">               
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="make">Make</mat-label>
+                            <input id="make" type="text" formControlName="make" matInput autocomplete="off">
+                            <mat-error *ngIf="!isFieldValid('make')">{{ getFieldErrorMessage('make') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="model">Model</mat-label>
+                            <input id="model" type="text" formControlName="model" matInput autocomplete="off">
+                            <mat-error *ngIf="!isFieldValid('model')">{{ getFieldErrorMessage('model') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <mat-form-field hintLabel="Min. 1990 - Max. 2023" appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="year">Year</mat-label>
+                            <input class="number-input" id="year" type="number" formControlName="year" matInput autocomplete="off" maxlength="4">
+                            <mat-error *ngIf="!isFieldValid('year')">{{ getFieldErrorMessage('year') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="licensePlate">License Plate</mat-label>
+                            <input id="licensePlate" type="text" formControlName="licensePlate" matInput autocomplete="off" placeholder="Ex. ABC123 or AB123CD">
+                            <mat-error *ngIf="!isFieldValid('licensePlate')">{{ getFieldErrorMessage('licensePlate') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="currentKilometers">Current Kilometers</mat-label>
+                            <input class="number-input" id="currentKilometers" type="number" formControlName="currentNumberOfKilometers" matInput autocomplete="off">
+                            <mat-error *ngIf="!isFieldValid('currentNumberOfKilometers')">{{ getFieldErrorMessage('currentNumberOfKilometers') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+        
+                <div class="custom-buttons-container">
+                    <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                    <button mat-raised-button color="primary">
+                        <mat-icon>save</mat-icon>
+                        Save
+                    </button>
+                </div>
+            
+            </form>
+
+        </div>
+    </div>
+</div>

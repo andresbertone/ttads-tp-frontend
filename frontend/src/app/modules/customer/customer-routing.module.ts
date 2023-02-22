@@ -22,6 +22,10 @@ const routes: Routes = [
   {
     path: 'detail/:customerId',
     component: CustomerDetailComponent
+  },
+  {
+    path: ':customerId/vehicle',
+    loadChildren: () => import('../vehicle/vehicle.module').then((module) => module.VehicleModule)
   }
 ];
 

@@ -19,7 +19,7 @@ export class FormValidationService {
     if (form.get(field)?.hasError('required')) {
       message = 'You must enter a value';
     } else if (form.get(field)?.hasError('pattern')) {
-      message = 'You must enter only numbers';
+      message = 'Not a valid format';
     } else if (form.get(field)?.hasError('email')) {
       message = 'Not a valid email';
     } else if (form.get(field)?.hasError('minlength')) {
@@ -28,6 +28,10 @@ export class FormValidationService {
       message = 'Maximum ' + form.get(field).errors.maxlength.requiredLength + ' characters';
     } else if (form.get(field)?.hasError('min')) {
       message = 'The value must be greater than or equal to ' + form.get(field).errors.min.min;
+    } else if (form.get(field)?.hasError('max')) {
+      message = 'The value must be less than or equal to ' + form.get(field).errors.max.max;
+    } else if (form.get(field)?.hasError('isNumber')) {
+      message = 'You must enter only numbers';
     }
 
     return message;

@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
 
@@ -14,6 +15,19 @@ export class VehiclesComponent {
 
   displayedColumns: string[] = ['Make', 'Model', 'Year', 'LicensePlate', 'Action'];
 
+  customerId: string;
+
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) { 
+    this.customerId = this.activatedRoute.snapshot.paramMap.get('customerId') as string;
+  }
+
+
+  newVehicle() {
+    this.router.navigateByUrl(`home/customers/${this.customerId}/vehicle/new-vehicle`);
+  }
 
   getAccordionDescription() {
     if (this.vehicles.data.length === 0) {

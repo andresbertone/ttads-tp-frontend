@@ -1,0 +1,27 @@
+.title {
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.custom-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.mat-mdc-button-base {
+    margin: 8px 0px 20px 8px;
+    font-size: 20px;
+    height: 50px;
+}
+
+input.number-input::-webkit-outer-spin-button,
+input.number-input::-webkit-inner-spin-button {
+  display: none;
+}

@@ -10,16 +10,20 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
+  // TODO: Cambiar a getDialogWarningMessage
   getModalWarningMessage(model: any = {}, entityName: string = '', action: string = 'cancel') {
     if (action === 'cancel') {
       return `Are you sure you want to cancel the operation?`
     }
 
-    if (entityName === 'spare part') {
-      return `Are you sure you want to ${action} the ${entityName}: ${model.sparePartDescription}?`
+    switch (entityName) {
+      case 'spare part':
+        return `Are you sure you want to ${action} the ${entityName}: ${model.sparePartDescription}?`;
+      case 'vehicle':
+        return `Are you sure you want to ${action} ${entityName} ${model.make} ${model.model}?`;
+      default:
+        return `Are you sure you want to ${action} ${entityName} ${model.firstName} ${model.lastName}?`;
     }
-    
-    return `Are you sure you want to ${action} ${entityName} ${model.firstName} ${model.lastName}?`
   }
 
   showError(
