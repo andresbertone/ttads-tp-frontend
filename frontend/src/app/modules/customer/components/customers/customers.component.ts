@@ -21,7 +21,6 @@ import { MatPaginator } from '@angular/material/paginator';
 export class CustomersComponent implements OnInit {
 
   customers!: MatTableDataSource<CustomerModel>;
-  totalCustomers: number = 0;
 
   displayedColumns: string[] = ['Dni', 'FirstName', 'LastName', 'Email', 'PhoneNumber', 'Action'];
   paginator!: MatPaginator;
@@ -35,7 +34,8 @@ export class CustomersComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private alertService: AlertService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.customers = new MatTableDataSource();
   }
 
@@ -50,7 +50,6 @@ export class CustomersComponent implements OnInit {
   loadCustomers() {
     this.customerService.getCustomers().subscribe((response: CustomersModel) => {
       this.customers.data = response.records;
-      this.totalCustomers = response.total;
     });
   }
 

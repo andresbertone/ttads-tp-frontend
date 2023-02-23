@@ -1,9 +1,12 @@
 <h1 class="title">Customers</h1>
 
-<div class="new-button-container" *ngIf="!isLoading()">
-    <button mat-raised-button color="primary" (click)="newCustomer()">
-        <mat-icon>add</mat-icon> New customer
-    </button>
+
+<div class="d-flex justify-content-end mb-3" *ngIf="!isLoading()">
+    <div>
+        <button mat-raised-button color="primary" (click)="newCustomer()">
+            <mat-icon>add</mat-icon> New customer
+        </button>
+    </div>
 </div>
 
 

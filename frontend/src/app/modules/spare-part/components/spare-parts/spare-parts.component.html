@@ -1,9 +1,11 @@
 <h1 class="title">Spare Parts</h1>
 
-<div class="new-button-container" *ngIf="!isLoading()">
-    <button mat-raised-button color="primary" (click)="newSparePart()">
-        <mat-icon>add</mat-icon> New spare part
-    </button>
+<div class="d-flex justify-content-end mb-3" *ngIf="!isLoading()">
+    <div>
+        <button mat-raised-button color="primary" (click)="newSparePart()">
+            <mat-icon>add</mat-icon> New spare part
+        </button>
+    </div>
 </div>
 
 

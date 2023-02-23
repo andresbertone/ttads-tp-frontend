@@ -20,7 +20,6 @@ import { MatPaginator } from '@angular/material/paginator';
 export class MechanicsComponent implements OnInit {
 
   mechanics!: MatTableDataSource<MechanicModel>;
-  totalMechanics: number = 0;
 
   displayedColumns: string[] = ['RegistrationNumber', 'FirstName', 'LastName', 'Email', 'PhoneNumber', 'Action'];
   paginator!: MatPaginator;
@@ -34,7 +33,8 @@ export class MechanicsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private alertService: AlertService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.mechanics = new MatTableDataSource();
   }
 
@@ -49,7 +49,6 @@ export class MechanicsComponent implements OnInit {
   loadMechanics() {
     this.mechanicService.getMechanics().subscribe((response: MechanicsModel) => {
       this.mechanics.data = response.records;
-      this.totalMechanics = response.total;
     });
   }
 

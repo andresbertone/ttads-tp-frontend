@@ -20,7 +20,6 @@ import { MatPaginator } from '@angular/material/paginator';
 export class SparePartsComponent implements OnInit {
 
   spareParts!: MatTableDataSource<SparePartModel>;
-  totalSpareParts: number = 0;
 
   displayedColumns: string[] = ['SparePartCode', 'SparePartDescription', 'SparePartPrice', 'Stock', 'SparePartSupplier', 'Action'];
   paginator!: MatPaginator;
@@ -36,7 +35,8 @@ export class SparePartsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private dialogService: DialogService,
     private alertService: AlertService,
-    private router: Router) {
+    private router: Router
+  ) {
     this.spareParts = new MatTableDataSource();
   }
 
@@ -51,7 +51,6 @@ export class SparePartsComponent implements OnInit {
   loadSpareParts() {
     this.sparePartService.getSpareParts().subscribe((response: SparePartsModel) => {
       this.spareParts.data = response.records;
-      this.totalSpareParts = response.total;
     });
   }
 
