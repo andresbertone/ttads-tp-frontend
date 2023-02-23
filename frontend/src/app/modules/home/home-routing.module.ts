@@ -18,6 +18,10 @@ const routes: Routes = [
         loadChildren: () => import('../mechanic/mechanic.module').then((module) => module.MechanicModule)
       },
       { 
+        path: 'shifts',
+        loadChildren: () => import('../shift/shift.module').then((module) => module.ShiftModule)
+      },
+      { 
         path: 'spare-parts',
         loadChildren: () => import('../spare-part/spare-part.module').then((module) => module.SparePartModule)
       },
