@@ -1,5 +1,4 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 
 import { ShiftService } from 'src/app/core/services/shift.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -9,7 +8,6 @@ import { ShiftsModel } from 'src/app/core/models/shift/shifts.model';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-shifts',
@@ -19,9 +17,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 export class ShiftsComponent implements OnInit {
 
   shifts: MatTableDataSource<ShiftModel>;
-
-  defaultDate: FormControl = new FormControl(new Date());  
-  defaultDateString: string;
+  showFilters: boolean = false;
 
   displayedColumns: string[] = ['ShiftDate', 'Status', 'Customer', 'Action'];
   paginator!: MatPaginator;
@@ -35,27 +31,54 @@ export class ShiftsComponent implements OnInit {
     private spinnerService: SpinnerService
   ) {
     this.shifts = new MatTableDataSource();
-    this.defaultDateString = this.getFormattedDate(this.defaultDate.value);
   }
-
+  
   ngOnInit(): void {
     this.loadShifts();
   }
 
   loadShifts() {
-    this.shiftService.getShiftsByDate().subscribe((response: ShiftsModel) => {
+    const defaultDateString = this.getFormattedDate(new Date());
+    this.shiftService.searchShifts({ date: defaultDateString }).subscribe((response: ShiftsModel) => {
       this.shifts.data = response.records;
-    });
+    })
   }
 
-  searchShiftsByDate(event: MatDatepickerInputEvent<Date>) {
-    if (!this.defaultDate.value) {
-      this.defaultDate.setValue(new Date());
+  searchShifts(eventParams: any) {
+    const {date, customer} = eventParams;
+    const dateString = this.getFormattedDate(date);
+
+    this.shiftService.searchShifts({ date: dateString, customer }).subscribe(
+      (response: ShiftsModel) => {
+        this.shifts.data = response.records;
+      }
+    )
+  }
+
+  toggleFiltersVisibility() {
+    this.showFilters = !this.showFilters;
+  }
+
+  shouldShowFilters() {
+    return this.showFilters && !this.isLoading();
+  }
+
+  showCancelButton(status: string) {
+    if (status === 'Stand by') return true;
+    return false;
+  }
+
+  getColor(status: string) {
+    switch (status) {
+      case 'Stand by':
+        return 'white'
+      case 'Entered':
+        return 'green'
+      case 'Cancelled':
+        return 'red'
+      default:
+        return 'white'
     }
-    const onlyDateString = this.getFormattedDate(event.value as Date);
-    this.shiftService.getShiftsByDate({ date: onlyDateString }).subscribe((response: ShiftsModel) => {
-      this.shifts.data = response.records;
-    });
   }
 
   initializePaginator(matPaginator: MatPaginator) {
@@ -71,9 +94,6 @@ export class ShiftsComponent implements OnInit {
   }
 
   getFormattedDate(value: Date) {
-    if (!value) {
-      return this.defaultDateString;
-    }
     const dateAndTime = value.toISOString();
     const onlyDate = dateAndTime.split('T')[0];
     return onlyDate;
