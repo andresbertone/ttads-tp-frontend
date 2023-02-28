@@ -46,7 +46,9 @@ export class ShiftsComponent implements OnInit {
 
   searchShifts(eventParams: any) {
     const {date, customer} = eventParams;
-    const dateString = this.getFormattedDate(date);
+    let dateString = '';
+    
+    if (date) dateString = this.getFormattedDate(date);
 
     this.shiftService.searchShifts({ date: dateString, customer }).subscribe(
       (response: ShiftsModel) => {

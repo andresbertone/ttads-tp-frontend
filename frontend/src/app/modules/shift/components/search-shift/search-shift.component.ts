@@ -14,8 +14,6 @@ export class SearchShiftComponent {
 
 
   searchShifts() {
-    if (!this.date) this.date = new Date();
-
     this.searchShiftsEvent.emit({ 
       date: this.date,
       customer: this.customer.trim()
