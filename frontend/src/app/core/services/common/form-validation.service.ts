@@ -32,6 +32,8 @@ export class FormValidationService {
       message = 'The value must be less than or equal to ' + form.get(field).errors.max.max;
     } else if (form.get(field)?.hasError('isNumber')) {
       message = 'You must enter only numbers';
+    } else if (form.controls[field].hasError('isDateBefore')) {
+      message = 'Date must be after today';
     }
 
     return message;

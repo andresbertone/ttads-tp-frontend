@@ -5,6 +5,7 @@ import { HttpService } from './common/http.service';
 
 import { environment } from 'src/environments/environment';
 import { ShiftsModel } from '../models/shift/shifts.model';
+import { ShiftModel } from '../models/shift/shift.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class ShiftService {
 
   searchShifts(options = {}): Observable<ShiftsModel> {
     return this.httpService.httpGetAll(`${this.baseUrl}/searchShifts`, options);
+  }
+
+  newShift(data: any): Observable<ShiftModel> {
+    return this.httpService.httpPost(this.baseUrl, data);
   }
 }

@@ -1,0 +1,59 @@
+<h1 class="title">New Shift</h1>
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+
+            <form [formGroup]="shiftForm" (ngSubmit)="onSubmit()">
+        
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="shift-date">Date</mat-label>
+                            <input id="shift-date" 
+                                   type="text" 
+                                   formControlName="shiftDate" 
+                                   matInput 
+                                   autocomplete="off"
+                                   [matDatepicker]="picker" 
+                                   placeholder="Choose a date">
+                            <mat-hint>MM/DD/YYYY</mat-hint>
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="!isFieldValid('shiftDate')">{{ getFieldErrorMessage('shiftDate') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+                
+                    <div class="col-md-6">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="customer">Customer</mat-label>
+                            <input type="text"
+                                   id="customer" 
+                                   matInput 
+                                   formControlName="customer" 
+                                   [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" 
+                                                  [displayWith]="displayFn">
+                                    <mat-option *ngFor="let customer of filteredCustomers | async" 
+                                                [value]="customer">
+                                        {{customer.firstName}} {{customer.lastName}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            <mat-error *ngIf="!isFieldValid('customer')">{{ getFieldErrorMessage('customer') }}</mat-error>
+                          </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="custom-buttons-container">
+                    <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                    <button mat-raised-button color="primary">
+                        <mat-icon>save</mat-icon>
+                        Save
+                    </button>
+                </div>
+            
+            </form>
+
+        </div>
+    </div>
+</div>

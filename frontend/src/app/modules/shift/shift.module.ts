@@ -8,11 +8,13 @@ import { SharedModule } from '../shared/shared.module';
 
 import { ShiftsComponent } from './components/shifts/shifts.component';
 import { SearchShiftComponent } from './components/search-shift/search-shift.component';
+import { NewShiftComponent } from './components/new-shift/new-shift.component';
 
 @NgModule({
   declarations: [
     ShiftsComponent,
-    SearchShiftComponent
+    SearchShiftComponent,
+    NewShiftComponent
   ],
   imports: [
     CommonModule,

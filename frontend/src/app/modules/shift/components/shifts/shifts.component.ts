@@ -1,4 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Router } from '@angular/router';
 
 import { ShiftService } from 'src/app/core/services/shift.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -28,7 +30,8 @@ export class ShiftsComponent implements OnInit {
 
   constructor(
     private shiftService: ShiftService, 
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private router: Router
   ) {
     this.shifts = new MatTableDataSource();
   }
@@ -42,6 +45,10 @@ export class ShiftsComponent implements OnInit {
     this.shiftService.searchShifts({ date: defaultDateString }).subscribe((response: ShiftsModel) => {
       this.shifts.data = response.records;
     })
+  }
+
+  newShift() {
+    this.router.navigateByUrl('home/shifts/new-shift');
   }
 
   searchShifts(eventParams: any) {
@@ -95,9 +102,7 @@ export class ShiftsComponent implements OnInit {
     return this.spinnerService.isLoading();
   }
 
-  getFormattedDate(value: Date) {
-    const dateAndTime = value.toISOString();
-    const onlyDate = dateAndTime.split('T')[0];
-    return onlyDate;
+  getFormattedDate(date: Date) {
+    return formatDate(date, 'yyyy-MM-dd', 'en-US');
   }
 }
