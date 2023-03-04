@@ -69,7 +69,7 @@ export class ShiftsComponent implements OnInit {
         this.shiftService.cancelShift(shift.shiftId).subscribe(
           (shift: ShiftModel) => {
             const shiftDate = this.getFormattedDate(shift.shiftDate);
-            this.alertService.openSnackBar(`The shift for ${shiftDate} was successfully cancelled.`);
+            this.alertService.openSnackBar(`${shift.customer.firstName} ${shift.customer.lastName}'s shift for ${shiftDate} has been successfully cancelled.`);
             this.loadShifts();
           }
         );
