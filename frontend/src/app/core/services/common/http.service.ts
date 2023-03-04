@@ -33,7 +33,7 @@ export class HttpService {
     return this.post(url, body);
   }
 
-  httpPut(url: string, body: any): Observable<any> {
+  httpPut(url: string, body: any = {}): Observable<any> {
     return this.put(url, body);
   }
 

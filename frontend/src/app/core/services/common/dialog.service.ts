@@ -11,7 +11,7 @@ export class DialogService {
   constructor(private dialog: MatDialog) { }
 
   getDialogWarningMessage(model: any = {}, entityName: string = '', action: string = 'cancel') {
-    if (action === 'cancel') {
+    if (action === 'cancel' && (!model || !entityName)) {
       return `Are you sure you want to cancel the operation?`
     }
 
@@ -20,8 +20,12 @@ export class DialogService {
         return `Are you sure you want to ${action} the ${entityName}: ${model.sparePartDescription}?`;
       case 'vehicle':
         return `Are you sure you want to ${action} ${entityName} ${model.make} ${model.model}?`;
-      case 'shift':
+      case 'shift': {
+        if (action === 'cancel') {
+          return `Are you sure you want to ${action} ${model.customer.firstName} ${model.customer.lastName}'s shift for ${model.shiftDate}?`;
+        }
         return `Are you sure you want to ${action} the ${entityName} for ${model.shiftDate}?`;
+      }
       default:
         return `Are you sure you want to ${action} ${entityName} ${model.firstName} ${model.lastName}?`;
     }

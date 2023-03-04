@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 
 import { ShiftService } from 'src/app/core/services/shift.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { ShiftModel } from 'src/app/core/models/shift/shift.model';
 import { ShiftsModel } from 'src/app/core/models/shift/shifts.model';
@@ -31,6 +33,8 @@ export class ShiftsComponent implements OnInit {
   constructor(
     private shiftService: ShiftService, 
     private spinnerService: SpinnerService,
+    private dialogService: DialogService,
+    private alertService: AlertService,
     private router: Router
   ) {
     this.shifts = new MatTableDataSource();
@@ -49,6 +53,28 @@ export class ShiftsComponent implements OnInit {
 
   newShift() {
     this.router.navigateByUrl('home/shifts/new-shift');
+  }
+
+  cancelShift(shift: ShiftModel) {
+    shift.shiftDate = this.getFormattedDate(shift.shiftDate);
+    
+    this.dialogService.showWarning(
+      'Cancel shift',
+      [this.dialogService.getDialogWarningMessage(shift, 'shift', 'cancel')],
+      'No',
+      'Confirm',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.shiftService.cancelShift(shift.shiftId).subscribe(
+          (shift: ShiftModel) => {
+            const shiftDate = this.getFormattedDate(shift.shiftDate);
+            this.alertService.openSnackBar(`The shift for ${shiftDate} was successfully cancelled.`);
+            this.loadShifts();
+          }
+        );
+      }
+    });
   }
 
   searchShifts(eventParams: any) {
@@ -106,7 +132,7 @@ export class ShiftsComponent implements OnInit {
     return this.spinnerService.isLoading();
   }
 
-  getFormattedDate(date: Date) {
-    return formatDate(date, 'yyyy-MM-dd', 'en-US');
+  getFormattedDate(date: string | Date) {
+    return formatDate(date, 'MM-dd-yyyy', 'en-US');
   }
 }

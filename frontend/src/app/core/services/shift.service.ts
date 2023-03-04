@@ -23,4 +23,8 @@ export class ShiftService {
   newShift(data: any): Observable<ShiftModel> {
     return this.httpService.httpPost(this.baseUrl, data);
   }
+
+  cancelShift(shiftId: number): Observable<ShiftModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/cancel/${shiftId}`);
+  }
 }

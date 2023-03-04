@@ -64,6 +64,7 @@
                             color="warn" 
                             matTooltip="Cancel shift"
                             *ngIf="showCancelButton(shift.status)"
+                            (click)="cancelShift(shift)"
                             aria-label="Icon button with a cancel icon">
                         <mat-icon>close</mat-icon>
                     </button> 
