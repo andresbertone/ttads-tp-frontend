@@ -21,7 +21,7 @@ export class ShiftsComponent implements OnInit {
   shifts: MatTableDataSource<ShiftModel>;
   showFilters: boolean = false;
 
-  displayedColumns: string[] = ['ShiftDate', 'Status', 'Customer', 'Action'];
+  displayedColumns: string[] = ['ShiftDate', 'Status', 'shiftCancellationDate', 'Customer', 'Action'];
   paginator!: MatPaginator;
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
@@ -88,6 +88,10 @@ export class ShiftsComponent implements OnInit {
       default:
         return 'white'
     }
+  }
+
+  showCancellationShiftDateColumn(shift: ShiftModel) {
+    return shift.status === 'Cancelled' || shift.shiftCancellationDate;
   }
 
   initializePaginator(matPaginator: MatPaginator) {
