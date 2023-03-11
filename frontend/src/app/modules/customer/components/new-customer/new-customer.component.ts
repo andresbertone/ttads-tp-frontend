@@ -11,6 +11,7 @@ import { CustomerModel } from 'src/app/core/models/customer/customer.model';
 import { Strategy } from 'src/app/core/strategies/strategy';
 import { NewCustomerStrategy } from 'src/app/core/strategies/customer/new-customer-strategy';
 import { EditCustomerStrategy } from 'src/app/core/strategies/customer/edit-customer-strategy';
+import { CustomValidations } from 'src/app/core/custom-validations/custom-validations';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class NewCustomerComponent implements OnInit {
   customerForm = this.formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    dni: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.minLength(8), Validators.maxLength(8)]],
+    dni: ['', [Validators.required, CustomValidations.isNumber, Validators.minLength(8), Validators.maxLength(8)]],
     street: ['', Validators.required],
     streetNumber: ['', Validators.required],
     floor: [''],
@@ -34,7 +35,7 @@ export class NewCustomerComponent implements OnInit {
     city: ['', Validators.required],
     province: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    phoneNumber: ['', [Validators.pattern(/^([0-9])*$/), Validators.minLength(10), Validators.maxLength(10)]]
+    phoneNumber: ['', [CustomValidations.isNumber, Validators.minLength(10), Validators.maxLength(10)]]
   });
 
 

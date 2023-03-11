@@ -20,6 +20,8 @@ export class FormValidationService {
       message = 'You must enter a value';
     } else if (form.get(field)?.hasError('pattern')) {
       message = 'Not a valid format';
+    } else if (form.get(field)?.hasError('isNumber')) {
+      message = 'You must enter only numbers';
     } else if (form.get(field)?.hasError('email')) {
       message = 'Not a valid email';
     } else if (form.get(field)?.hasError('minlength')) {
@@ -30,8 +32,6 @@ export class FormValidationService {
       message = 'The value must be greater than or equal to ' + form.get(field).errors.min.min;
     } else if (form.get(field)?.hasError('max')) {
       message = 'The value must be less than or equal to ' + form.get(field).errors.max.max;
-    } else if (form.get(field)?.hasError('isNumber')) {
-      message = 'You must enter only numbers';
     } else if (form.controls[field].hasError('isDateBefore')) {
       message = 'Date must be after today';
     }

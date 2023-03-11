@@ -11,6 +11,7 @@ import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
 import { Strategy } from 'src/app/core/strategies/strategy';
 import { NewMechanicStrategy } from 'src/app/core/strategies/mechanic/new-mechanic-strategy';
 import { EditMechanicStrategy } from 'src/app/core/strategies/mechanic/edit-mechanic-strategy';
+import { CustomValidations } from 'src/app/core/custom-validations/custom-validations';
 
 @Component({
   selector: 'app-new-mechanic',
@@ -25,7 +26,7 @@ export class NewMechanicComponent implements OnInit {
   mechanicForm = this.formBuilder.group({
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
-    registrationNumber: ['', [Validators.required, Validators.pattern(/^([0-9])*$/)]],
+    registrationNumber: ['', [Validators.required, CustomValidations.isNumber]],
     street: ['', Validators.required],
     streetNumber: ['', Validators.required],
     floor: [''],
@@ -33,7 +34,7 @@ export class NewMechanicComponent implements OnInit {
     city: ['', Validators.required],
     province: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    phoneNumber: ['', [Validators.pattern(/^([0-9])*$/), Validators.minLength(10), Validators.maxLength(10)]]
+    phoneNumber: ['', [CustomValidations.isNumber, Validators.minLength(10), Validators.maxLength(10)]]
   });
 
 

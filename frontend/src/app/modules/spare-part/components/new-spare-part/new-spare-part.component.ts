@@ -11,6 +11,7 @@ import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model'
 import { Strategy } from 'src/app/core/strategies/strategy';
 import { NewSparePartStrategy } from 'src/app/core/strategies/spare-part/new-spare-part-strategy';
 import { EditSparePartStrategy } from 'src/app/core/strategies/spare-part/edit-spare-part-strategy';
+import { CustomValidations } from 'src/app/core/custom-validations/custom-validations';
 
 @Component({
   selector: 'app-new-spare-part',
@@ -26,7 +27,7 @@ export class NewSparePartComponent implements OnInit {
     sparePartCode: ['', Validators.required],
     sparePartDescription: ['', Validators.required],
     sparePartPrice: ['', [Validators.required, Validators.pattern(/^[0-9]+([.][0-9]+)?$/), Validators.min(-1)]],
-    stock: ['', [Validators.required, Validators.pattern(/^([0-9])*$/), Validators.min(1)]],
+    stock: ['', [Validators.required, CustomValidations.isNumber, Validators.min(1)]],
     sparePartSupplier: ['', Validators.required]
   });
 
