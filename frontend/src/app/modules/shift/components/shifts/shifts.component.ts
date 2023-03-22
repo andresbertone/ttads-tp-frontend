@@ -9,6 +9,7 @@ import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { ShiftModel } from 'src/app/core/models/shift/shift.model';
 import { ShiftsModel } from 'src/app/core/models/shift/shifts.model';
+import { ShiftSettings } from 'src/app/core/utils/shiftSettings';
 
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -27,6 +28,7 @@ export class ShiftsComponent implements OnInit {
   paginator!: MatPaginator;
 
   MAX_SHIFTS_PER_DAY: number = 3;
+  shiftSettings = ShiftSettings;
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);
@@ -101,25 +103,16 @@ export class ShiftsComponent implements OnInit {
   }
 
   showCancelButton(status: string) {
-    if (status === 'Stand by') return true;
+    if (status === this.shiftSettings.STAND_BY_SHIFT) return true;
     return false;
   }
 
   getColor(status: string) {
-    switch (status) {
-      case 'Stand by':
-        return 'white'
-      case 'Entered':
-        return 'green'
-      case 'Cancelled':
-        return 'red'
-      default:
-        return 'white'
-    }
+    return this.shiftSettings.COLORS[status] || this.shiftSettings.DEFAULT_COLOR;
   }
 
   showCancellationShiftDateColumn(shift: ShiftModel) {
-    return shift.status === 'Cancelled' || shift.shiftCancellationDate;
+    return shift.status === this.shiftSettings.CANCELLED_SHIFT || shift.shiftCancellationDate;
   }
 
   initializePaginator(matPaginator: MatPaginator) {
