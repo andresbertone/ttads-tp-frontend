@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { RepairService } from 'src/app/core/services/repair.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -30,7 +31,8 @@ export class RepairsComponent implements OnInit {
 
   constructor(
     private repairService: RepairService, 
-    private spinnerService: SpinnerService
+    private spinnerService: SpinnerService,
+    private router: Router
   ) {
     this.repairs = new MatTableDataSource();
   }
@@ -73,6 +75,10 @@ export class RepairsComponent implements OnInit {
     if (this.repairs.paginator) {
       this.repairs.paginator.firstPage();
     }
+  }
+
+  seeRepairDetail(repair: RepairModel) {
+    this.router.navigateByUrl(`home/repairs/detail/${repair.repairId}`);
   }
 
   setCustomFilterPredicate() {

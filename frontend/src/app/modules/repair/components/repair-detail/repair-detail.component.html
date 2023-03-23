@@ -1,0 +1,147 @@
+<h1 class="title">Repair Detail</h1>
+
+<app-no-records-message *ngIf="!isLoading() && !repair">
+</app-no-records-message>
+
+<div class="container" *ngIf="!isLoading() && repair">
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+
+            <!-- TODO: Descomentar cuando haga el edit repair -->
+            <!-- <div class="row mb-3">
+                <div class="edit-button-container">
+                    <button mat-raised-button color="accent" (click)="editRepair()">
+                        <mat-icon>edit</mat-icon> Edit Repair
+                    </button>
+                </div>
+            </div> -->
+        
+            <div class="mb-3" *ngIf="repair.mechanic">
+                <h3 class="subtitle">Mechanic Information</h3>
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-label for="mechanic-registration-number">Registration Number:</mat-label>
+                        <p>{{ repair.mechanic.registrationNumber }}</p>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <mat-label for="mechanic-first-name">First Name:</mat-label>
+                        <p>{{ repair.mechanic.firstName }}</p>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <mat-label for="mechanic-last-name">Last Name:</mat-label>
+                        <p>{{ repair.mechanic.lastName }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3" *ngIf="repair.vehicle.customer">
+                <h3 class="subtitle">Customer Information</h3>
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <mat-label for="customer-dni">DNI:</mat-label>
+                        <p>{{ repair.vehicle.customer.dni }}</p>
+                    </div>
+    
+                    <div class="col-md-4">
+                        <mat-label for="customer-first-name">First Name:</mat-label>
+                        <p>{{ repair.vehicle.customer.firstName }}</p>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <mat-label for="customer-last-name">Last Name:</mat-label>
+                        <p>{{ repair.vehicle.customer.lastName }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="subtitle">Vehicle Information</h3>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <mat-label for="vehicle-license-plate">License Plate:</mat-label>
+                    <p>{{ repair.vehicle.licensePlate }}</p>
+                </div>
+
+                <div class="col-md-4">
+                    <mat-label for="vehicle-make">Make:</mat-label>
+                    <p>{{ repair.vehicle.make }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="vehicle-model">Model:</mat-label>
+                    <p>{{ repair.vehicle.model }}</p>
+                </div>
+            </div>
+
+            <h3 class="subtitle">Repair Information</h3>
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <mat-label for="repair-entry-date-time">Entry Date Time (MM-DD-YYYY):</mat-label>
+                    <p>{{ repair.entryDateTime | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                </div>
+            
+                <div class="col-md-3">
+                    <mat-label for="repair-start-date-time">Start Date Time:</mat-label>
+                    <p *ngIf="repair.startDateTime">{{ repair.startDateTime | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                    <p class="no-data" *ngIf="!repair.startDateTime">Not started yet</p>
+                </div>
+            
+                <div class="col-md-3">
+                    <mat-label for="repair-end-date-time">End Date Time:</mat-label>
+                    <p *ngIf="repair.endDateTime">{{ repair.endDateTime | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                    <p class="no-data" *ngIf="!repair.endDateTime">Not ended yet</p>
+                </div>
+            
+                <div class="col-md-3">
+                    <mat-label for="repair-delivery-date-time">Delivery Date Time:</mat-label>
+                    <p *ngIf="repair.deliveryDateTime">{{ repair.deliveryDateTime | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                    <p class="no-data" *ngIf="!repair.deliveryDateTime">Not delivered yet</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <mat-label for="repair-status">Status:</mat-label>
+                    <p>{{ repair.status }}</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="repair-initial-detail">Initial Detail:</mat-label>
+                    <p *ngIf="repair.initialDetail">{{ repair.initialDetail }}</p>
+                    <p class="no-data" *ngIf="!repair.initialDetail">No initial detail</p>
+                </div>
+            
+                <div class="col-md-4">
+                    <mat-label for="repair-comments">Comments:</mat-label>
+                    <p *ngIf="repair.comments">{{ repair.comments }}</p>
+                    <p class="no-data" *ngIf="!repair.comments">No comments</p>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <mat-label for="repair-final-description">Final Description:</mat-label>
+                    <p *ngIf="repair.finalDescription">{{ repair.finalDescription }}</p>
+                    <p class="no-data" *ngIf="!repair.finalDescription">No final description</p>
+                </div>
+            
+                <div class="col-md-6">
+                    <mat-label for="repair-labor-price">Labor Price:</mat-label>
+                    <p *ngIf="repair.laborPrice">{{ repair.laborPrice | currency }}</p>
+                    <p class="no-data" *ngIf="!repair.laborPrice">Not defined</p>
+                </div>
+            </div>
+    
+            <button mat-button color="primary" type="button" (click)="goBack()">
+                <mat-icon>arrow_back</mat-icon>
+                Go back
+            </button>
+
+        </div>
+    </div>
+</div>

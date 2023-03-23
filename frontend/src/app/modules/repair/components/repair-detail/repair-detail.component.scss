@@ -1,0 +1,26 @@
+.title {
+    font-weight: bold;
+    text-align: center;
+    text-decoration: underline;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.subtitle {
+    font-weight: bold;
+}
+
+.edit-button-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.no-data {
+    color: red;
+}
+
+div {
+    mat-label {
+        text-decoration: underline;
+    }
+}

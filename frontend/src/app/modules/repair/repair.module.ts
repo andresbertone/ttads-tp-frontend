@@ -6,11 +6,13 @@ import { MaterialModule } from '../../material.module';
 import { SharedModule } from '../shared/shared.module';
 
 import { RepairsComponent } from './components/repairs/repairs.component';
+import { RepairDetailComponent } from './components/repair-detail/repair-detail.component';
 
 
 @NgModule({
   declarations: [
-    RepairsComponent
+    RepairsComponent,
+    RepairDetailComponent
   ],
   imports: [
     CommonModule,

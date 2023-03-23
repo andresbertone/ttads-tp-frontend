@@ -1,3 +1,4 @@
+import { CustomerModel } from './../customer/customer.model';
 export interface VehicleModel {
     vehicleId: number,
     licensePlate: string,
@@ -5,5 +6,6 @@ export interface VehicleModel {
     model: string,
     year: string,
     currentNumberOfKilometers: string,
-    customerId: string
+    customerId: string,
+    customer?: CustomerModel
 }

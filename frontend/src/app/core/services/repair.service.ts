@@ -5,6 +5,7 @@ import { HttpService } from './common/http.service';
 
 import { environment } from 'src/environments/environment';
 import { RepairsModel } from '../models/repair/repairs.model';
+import { RepairModel } from '../models/repair/repair.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class RepairService {
 
   getRepairs(): Observable<RepairsModel> {
     return this.httpService.httpGetAll(this.baseUrl);
+  }
+
+  getRepairById(repairId: string): Observable<RepairModel> {
+    return this.httpService.httpGet(`${this.baseUrl}/${repairId}`);
   }
 }
