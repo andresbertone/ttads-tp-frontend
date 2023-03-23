@@ -37,7 +37,7 @@
     
             <ng-container matColumnDef="SparePartPrice">
                 <th mat-header-cell *matHeaderCellDef>Price</th>
-                <td mat-cell *matCellDef="let sparePart">$ {{sparePart.sparePartPrice}}</td>
+                <td mat-cell *matCellDef="let sparePart">{{sparePart.sparePartPrice | currency}}</td>
             </ng-container>
     
             <ng-container matColumnDef="Stock">
