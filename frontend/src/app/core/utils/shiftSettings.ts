@@ -9,4 +9,6 @@ export class ShiftSettings {
       'Entered': 'green',
       'Cancelled': 'red'
     }
+
+    public static MAX_SHIFTS_PER_DAY = 3;
 }

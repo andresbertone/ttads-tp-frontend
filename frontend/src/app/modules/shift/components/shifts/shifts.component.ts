@@ -27,8 +27,8 @@ export class ShiftsComponent implements OnInit {
   displayedColumns: string[] = ['ShiftDate', 'Status', 'shiftCancellationDate', 'Customer', 'Action'];
   paginator!: MatPaginator;
 
-  MAX_SHIFTS_PER_DAY: number = 3;
   shiftSettings = ShiftSettings;
+  MAX_SHIFTS_PER_DAY: number = this.shiftSettings.MAX_SHIFTS_PER_DAY;
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);
