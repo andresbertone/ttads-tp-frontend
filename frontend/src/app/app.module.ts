@@ -4,23 +4,23 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './modules/shared/shared.module';
 
 import { AppComponent } from './app.component';
-import { DialogComponent } from './core/components/dialog/dialog.component';
 
 import { HttpInterceptorService } from './core/interceptors/http-interceptor.service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    DialogComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ],
   providers: [
     {

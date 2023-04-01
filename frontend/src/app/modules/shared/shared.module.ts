@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
 
 import { NoRecordsMessageComponent } from './components/no-records-message/no-records-message.component';
+import { DialogComponent } from './components/dialog/dialog.component';
 import { RoleDirective } from './directives/role.directive';
 
 
 @NgModule({
   declarations: [
     NoRecordsMessageComponent,
+    DialogComponent,
     RoleDirective
   ],
   imports: [
@@ -17,6 +19,7 @@ import { RoleDirective } from './directives/role.directive';
   ],
   exports: [
     NoRecordsMessageComponent,
+    DialogComponent,
     RoleDirective
   ]
 })
