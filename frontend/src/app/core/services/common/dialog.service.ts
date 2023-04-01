@@ -18,14 +18,20 @@ export class DialogService {
     switch (entityName) {
       case 'spare part':
         return `Are you sure you want to ${action} the ${entityName}: ${model.sparePartDescription}?`;
+
       case 'vehicle':
         return `Are you sure you want to ${action} ${entityName} ${model.make} ${model.model}?`;
+
+      case 'repair': 
+        return `Are you sure you want to ${action} this ${entityName}?`;
+
       case 'shift': {
         if (action === 'cancel') {
           return `Are you sure you want to ${action} ${model.customer.firstName} ${model.customer.lastName}'s shift for ${model.shiftDate}?`;
         }
         return `Are you sure you want to ${action} the ${entityName} for ${model.shiftDate}?`;
       }
+
       default:
         return `Are you sure you want to ${action} ${entityName} ${model.firstName} ${model.lastName}?`;
     }

@@ -23,4 +23,8 @@ export class RepairService {
   getRepairById(repairId: string): Observable<RepairModel> {
     return this.httpService.httpGet(`${this.baseUrl}/${repairId}`);
   }
+
+  deleteRepair(repairId: number): Observable<RepairModel> {
+    return this.httpService.httpDelete(`${this.baseUrl}/${repairId}`);
+  }
 }

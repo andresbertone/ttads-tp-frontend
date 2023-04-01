@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { RepairService } from 'src/app/core/services/repair.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
+import { DialogService } from 'src/app/core/services/common/dialog.service';
+import { AlertService } from 'src/app/core/services/common/alert.service';
 
 import { RepairsModel } from 'src/app/core/models/repair/repairs.model';
 import { RepairModel } from 'src/app/core/models/repair/repair.model';
@@ -32,7 +34,9 @@ export class RepairsComponent implements OnInit {
   constructor(
     private repairService: RepairService, 
     private spinnerService: SpinnerService,
-    private router: Router
+    private router: Router,
+    private dialogService: DialogService,
+    private alertService: AlertService
   ) {
     this.repairs = new MatTableDataSource();
   }
@@ -81,6 +85,25 @@ export class RepairsComponent implements OnInit {
     this.router.navigateByUrl(`home/repairs/detail/${repair.repairId}`);
   }
 
+  deleteRepair(repair: RepairModel) {
+    this.dialogService.showWarning(
+      'Delete repair',
+      [this.dialogService.getDialogWarningMessage(repair, 'repair', 'delete')],
+      'No',
+      'Delete',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        this.repairService.deleteRepair(repair.repairId).subscribe(
+          () => {
+            this.alertService.openSnackBar(`The repair was successfully deleted.`);
+            this.loadRepairs();
+          }
+        );
+      }
+    });
+  }
+
   setCustomFilterPredicate() {
     this.repairs.filterPredicate = (data, filter) => {
       let dataString = data.startDateTime + data.entryDateTime + data.endDateTime + data.deliveryDateTime + data.status + data.vehicle.make + data.vehicle.model;
@@ -92,5 +115,4 @@ export class RepairsComponent implements OnInit {
       return dataString.toLowerCase().indexOf(filter) !== -1;
     }
   }
-
 }

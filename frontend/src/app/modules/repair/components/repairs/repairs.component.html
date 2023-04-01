@@ -98,6 +98,7 @@
                                 color="warn" 
                                 matTooltip="Delete repair"
                                 *ngIf="showDeleteButton(repair.status)"
+                                (click)="deleteRepair(repair)"
                                 aria-label="Icon button with a delete icon">
                             <mat-icon>delete</mat-icon>
                         </button> 
