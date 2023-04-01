@@ -1,74 +1,79 @@
-<mat-accordion>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                Vehicles
-            </mat-panel-title>
-            <mat-panel-description>
-                {{ getAccordionDescription() }}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-
-        <div class="d-flex justify-content-end mb-3">
-            <div>
-                <button mat-raised-button color="primary" (click)="newVehicle()">
-                    <mat-icon>add</mat-icon> New vehicle
-                </button>
+<ng-container *appRole="['admin', 'mechanic']">
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Vehicles
+                </mat-panel-title>
+                <mat-panel-description>
+                    {{ getAccordionDescription() }}
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+    
+            <div class="d-flex justify-content-end mb-3" *appRole="['admin']">
+                <div>
+                    <button mat-raised-button color="primary" (click)="newVehicle()">
+                        <mat-icon>add</mat-icon> New vehicle
+                    </button>
+                </div>
             </div>
-        </div>
-
-        <table mat-table [dataSource]="vehicles" *ngIf="vehicles.data.length > 0">
-            <ng-container matColumnDef="Make">
-                <th mat-header-cell *matHeaderCellDef>Make</th>
-                <td mat-cell *matCellDef="let vehicle">{{vehicle.make}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="Model">
-                <th mat-header-cell *matHeaderCellDef>Model</th>
-                <td mat-cell *matCellDef="let vehicle">{{vehicle.model}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="Year">
-                <th mat-header-cell *matHeaderCellDef>Year</th>
-                <td mat-cell *matCellDef="let vehicle">{{vehicle.year}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="LicensePlate">
-                <th mat-header-cell *matHeaderCellDef>License Plate</th>
-                <td mat-cell *matCellDef="let vehicle">{{vehicle.licensePlate}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let vehicle"> 
-                    <button mat-icon-button 
-                            color="primary" 
-                            matTooltip="See vehicle detail" 
-                            (click)="seeVehicleDetail(vehicle)"
-                            aria-label="Icon button with a eye icon">
-                        <mat-icon>visibility</mat-icon>
-                    </button> 
-                    <button mat-icon-button 
-                            color="accent" 
-                            matTooltip="Edit vehicle" 
-                            (click)="editVehicle(vehicle)"
-                            aria-label="Icon button with a pencil icon">
-                        <mat-icon>edit</mat-icon>
-                    </button> 
-                    <button mat-icon-button 
-                            color="warn" 
-                            matTooltip="Delete vehicle"
-                            (click)="deleteVehicle(vehicle)"
-                            aria-label="Icon button with a delete icon">
-                        <mat-icon>delete</mat-icon>
-                    </button> 
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let vehicle; columns: displayedColumns;"></tr>
-        </table>
-
-        <p *ngIf="vehicles.data.length === 0">There are no vehicles.</p>
-    </mat-expansion-panel>
-</mat-accordion>
+    
+            <table mat-table [dataSource]="vehicles" *ngIf="vehicles.data.length > 0">
+                <ng-container matColumnDef="Make">
+                    <th mat-header-cell *matHeaderCellDef>Make</th>
+                    <td mat-cell *matCellDef="let vehicle">{{vehicle.make}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Model">
+                    <th mat-header-cell *matHeaderCellDef>Model</th>
+                    <td mat-cell *matCellDef="let vehicle">{{vehicle.model}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Year">
+                    <th mat-header-cell *matHeaderCellDef>Year</th>
+                    <td mat-cell *matCellDef="let vehicle">{{vehicle.year}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="LicensePlate">
+                    <th mat-header-cell *matHeaderCellDef>License Plate</th>
+                    <td mat-cell *matCellDef="let vehicle">{{vehicle.licensePlate}}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let vehicle"> 
+                        <button mat-icon-button 
+                                color="primary" 
+                                matTooltip="See vehicle detail" 
+                                (click)="seeVehicleDetail(vehicle)"
+                                aria-label="Icon button with a eye icon"
+                                *appRole="['admin', 'mechanic']">
+                            <mat-icon>visibility</mat-icon>
+                        </button> 
+                        <button mat-icon-button 
+                                color="accent" 
+                                matTooltip="Edit vehicle" 
+                                (click)="editVehicle(vehicle)"
+                                aria-label="Icon button with a pencil icon"
+                                *appRole="['admin']">
+                            <mat-icon>edit</mat-icon>
+                        </button> 
+                        <button mat-icon-button 
+                                color="warn" 
+                                matTooltip="Delete vehicle"
+                                (click)="deleteVehicle(vehicle)"
+                                aria-label="Icon button with a delete icon"
+                                *appRole="['admin']">
+                            <mat-icon>delete</mat-icon>
+                        </button> 
+                    </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let vehicle; columns: displayedColumns;"></tr>
+            </table>
+    
+            <p *ngIf="vehicles.data.length === 0">There are no vehicles.</p>
+        </mat-expansion-panel>
+    </mat-accordion>
+</ng-container>

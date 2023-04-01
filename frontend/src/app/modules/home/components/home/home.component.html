@@ -4,24 +4,28 @@
             <mat-icon>menu</mat-icon>
         </button>
         <span class="toolbar-text" (click)="goToHome()">Mi Taller</span>
+        <span class="spacer"></span>
+        <button mat-button aria-label="Icon-button with logout icon" (click)="logout()">
+            <mat-icon>logout</mat-icon> Logout
+        </button>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container">
         <mat-sidenav class="sidenav" #sidenav mode="side" [(opened)]="opened" role="navigation">
             <mat-nav-list>
-                <a mat-list-item routerLinkActive="active" routerLink="customers">
+                <a mat-list-item routerLinkActive="active" routerLink="customers" *appRole="['admin', 'mechanic']">
                     <mat-icon class="icon-position">person</mat-icon> Customers
                 </a>
-                <a mat-list-item routerLinkActive="active" routerLink="mechanics">
+                <a mat-list-item routerLinkActive="active" routerLink="mechanics" *appRole="['admin', 'mechanic']">
                     <mat-icon class="icon-position">engineering</mat-icon> Mechanics
                 </a>
-                <a mat-list-item routerLinkActive="active" routerLink="repairs">
+                <a mat-list-item routerLinkActive="active" routerLink="repairs" *appRole="['admin', 'mechanic']">
                     <mat-icon class="icon-position">car_crash</mat-icon> Repairs
                 </a>
-                <a mat-list-item routerLinkActive="active" routerLink="shifts">
+                <a mat-list-item routerLinkActive="active" routerLink="shifts" *appRole="['admin']">
                     <mat-icon class="icon-position">event</mat-icon> Shifts
                 </a>
-                <a mat-list-item routerLinkActive="active" routerLink="spare-parts">
+                <a mat-list-item routerLinkActive="active" routerLink="spare-parts" *appRole="['admin', 'mechanic']">
                     <mat-icon class="icon-position">construction</mat-icon> Spare Parts
                 </a>
             </mat-nav-list>

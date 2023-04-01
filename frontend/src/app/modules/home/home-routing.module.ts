@@ -30,6 +30,11 @@ const routes: Routes = [
         loadChildren: () => import('../spare-part/spare-part.module').then((module) => module.SparePartModule)
       },
     ]
+  },
+  { 
+    path: '**', 
+    pathMatch: 'full', 
+    redirectTo: '' 
   }
 ];
 

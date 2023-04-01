@@ -1,126 +1,128 @@
-<h1 class="title">{{ mechanicStrategy.title }}</h1>
-
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-md-9">
-
-            <form [formGroup]="mechanicForm" (ngSubmit)="onSubmit()">
-        
-                <h3 class="subtitle">Personal Information</h3>
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="first-name">First Name</mat-label>
-                            <input id="first-name" type="text" formControlName="firstName" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('firstName')">{{ getFieldErrorMessage('firstName') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="last-name">Last Name</mat-label>
-                            <input id="last-name" type="text" formControlName="lastName" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('lastName')">{{ getFieldErrorMessage('lastName') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="registration-number">Registration Number</mat-label>
-                            <input id="registration-number" type="text" formControlName="registrationNumber" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('registrationNumber')">{{ getFieldErrorMessage('registrationNumber') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-        
-
-                <h3 class="subtitle">Address</h3>
-
-                <div class="row mb-3">
-                    <div class="col-md-3">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="street">Street</mat-label>
-                            <input id="street" type="text" formControlName="street" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('street')">{{ getFieldErrorMessage('street') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+<ng-container *appRole="['admin']">
+    <h1 class="title">{{ mechanicStrategy.title }}</h1>
     
-                    <div class="col-md-3">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="street-number">Street Number</mat-label>
-                            <input id="street-number" type="text" formControlName="streetNumber" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('streetNumber')">{{ getFieldErrorMessage('streetNumber') }}</mat-error>
-                        </mat-form-field>
-                    </div>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-9">
     
-                    <div class="col-md-3">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="floor">Floor</mat-label>
-                            <input id="floor" type="text" formControlName="floor" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('floor')">{{ getFieldErrorMessage('floor') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                    
-                    <div class="col-md-3">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="apartment">Apartment</mat-label>
-                            <input id="apartment" type="text" formControlName="apartment" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('apartment')">{{ getFieldErrorMessage('apartment') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="city">City</mat-label>
-                            <input id="city" type="text" formControlName="city" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('city')">{{ getFieldErrorMessage('city') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-6">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="province">Province</mat-label>
-                            <input id="province" type="text" formControlName="province" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('province')">{{ getFieldErrorMessage('province') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-    
-
-                <h3 class="subtitle">Contact Information</h3>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="email">Email</mat-label>
-                            <input id="email" type="email" formControlName="email" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('email')">{{ getFieldErrorMessage('email') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-6">
-                        <mat-form-field hintLabel="Max. 10 numbers" appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="phone-number">Phone Number</mat-label>
-                            <input id="phone-number" type="text" formControlName="phoneNumber" matInput autocomplete="off" maxLength="10">
-                            <mat-hint align="end">{{ getFieldHint('phoneNumber') }}/10</mat-hint>
-                            <mat-error *ngIf="!isFieldValid('phoneNumber')">{{ getFieldErrorMessage('phoneNumber') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-        
-                <div class="custom-buttons-container">
-                    <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
-                    <button mat-raised-button color="primary">
-                        <mat-icon>save</mat-icon>
-                        Save
-                    </button>
-                </div>
+                <form [formGroup]="mechanicForm" (ngSubmit)="onSubmit()">
             
-            </form>
-
+                    <h3 class="subtitle">Personal Information</h3>
+    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="first-name">First Name</mat-label>
+                                <input id="first-name" type="text" formControlName="firstName" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('firstName')">{{ getFieldErrorMessage('firstName') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="last-name">Last Name</mat-label>
+                                <input id="last-name" type="text" formControlName="lastName" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('lastName')">{{ getFieldErrorMessage('lastName') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="registration-number">Registration Number</mat-label>
+                                <input id="registration-number" type="text" formControlName="registrationNumber" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('registrationNumber')">{{ getFieldErrorMessage('registrationNumber') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            
+    
+                    <h3 class="subtitle">Address</h3>
+    
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="street">Street</mat-label>
+                                <input id="street" type="text" formControlName="street" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('street')">{{ getFieldErrorMessage('street') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="street-number">Street Number</mat-label>
+                                <input id="street-number" type="text" formControlName="streetNumber" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('streetNumber')">{{ getFieldErrorMessage('streetNumber') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+        
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="floor">Floor</mat-label>
+                                <input id="floor" type="text" formControlName="floor" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('floor')">{{ getFieldErrorMessage('floor') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="apartment">Apartment</mat-label>
+                                <input id="apartment" type="text" formControlName="apartment" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('apartment')">{{ getFieldErrorMessage('apartment') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="city">City</mat-label>
+                                <input id="city" type="text" formControlName="city" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('city')">{{ getFieldErrorMessage('city') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="province">Province</mat-label>
+                                <input id="province" type="text" formControlName="province" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('province')">{{ getFieldErrorMessage('province') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+        
+    
+                    <h3 class="subtitle">Contact Information</h3>
+    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="email">Email</mat-label>
+                                <input id="email" type="email" formControlName="email" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('email')">{{ getFieldErrorMessage('email') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <mat-form-field hintLabel="Max. 10 numbers" appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="phone-number">Phone Number</mat-label>
+                                <input id="phone-number" type="text" formControlName="phoneNumber" matInput autocomplete="off" maxLength="10">
+                                <mat-hint align="end">{{ getFieldHint('phoneNumber') }}/10</mat-hint>
+                                <mat-error *ngIf="!isFieldValid('phoneNumber')">{{ getFieldErrorMessage('phoneNumber') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            
+                    <div class="custom-buttons-container">
+                        <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                        <button mat-raised-button color="primary">
+                            <mat-icon>save</mat-icon>
+                            Save
+                        </button>
+                    </div>
+                
+                </form>
+    
+            </div>
         </div>
     </div>
-</div>
+</ng-container>

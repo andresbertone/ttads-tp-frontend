@@ -36,11 +36,12 @@ export class DialogService {
     messages: any[],
     cancelButtonMessage: string,
     confirmButtonMessage: string,
-    showCancelButton: boolean
+    showCancelButton: boolean,
+    icon?: string
   ) {
-    this.dialog.open(DialogComponent, {
+    return this.dialog.open(DialogComponent, {
       data: {
-        icon: 'error',
+        icon: icon || 'error',
         title,
         messages,
         cancelButtonMessage,
@@ -55,11 +56,12 @@ export class DialogService {
     messages: any[],
     cancelButtonMessage: string,
     confirmButtonMessage: string,
-    showCancelButton: boolean
+    showCancelButton: boolean,
+    icon?: string
   ) {
     return this.dialog.open(DialogComponent, {
       data: {
-        icon: 'warning',
+        icon: icon || 'warning',
         title,
         messages,
         cancelButtonMessage,
