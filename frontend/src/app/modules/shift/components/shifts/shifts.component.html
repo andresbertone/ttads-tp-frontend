@@ -1,83 +1,85 @@
-<h1 class="title">Shifts</h1>
-
-<div class="d-flex justify-content-between mb-3" *ngIf="!isLoading()">
+<ng-container *appRole="['admin']">
+    <h1 class="title">Shifts</h1>
+    
+    <div class="d-flex justify-content-between mb-3" *ngIf="!isLoading()">
+        <div>
+            <button (click)="toggleFiltersVisibility()" mat-raised-button color="primary">
+                <mat-icon>filter_list</mat-icon> Filters
+            </button>
+        </div>
+        
+        <div>
+            <button mat-raised-button color="primary" (click)="newShift()">
+                <mat-icon>add</mat-icon> New shift
+            </button>
+        </div>
+    </div>
+    
+    
+    <app-search-shift [ngClass]="{'no-show': !shouldShowFilters()}" 
+                      (searchShiftsEvent)="searchShifts($event)">
+    </app-search-shift>
+    
+    
+    <h2 class="my-3">Max. shifts per day: {{ MAX_SHIFTS_PER_DAY }}</h2>
+    
+    
+    <app-no-records-message *ngIf="!isLoading() && shifts.data.length === 0" 
+                            [entityName]="'shifts'">
+    </app-no-records-message>
+    
+    
     <div>
-        <button (click)="toggleFiltersVisibility()" mat-raised-button color="primary">
-            <mat-icon>filter_list</mat-icon> Filters
-        </button>
+        <div class="mat-elevation-z8" *ngIf="!isLoading() && shifts.data.length > 0">
+            <table mat-table [dataSource]="shifts">
+                <ng-container matColumnDef="ShiftDate">
+                    <th mat-header-cell *matHeaderCellDef>Shift Date (MM-DD-YYYY)</th>
+                    <td mat-cell *matCellDef="let shift">{{shift.shiftDate | date: 'MM-dd-yyyy'}}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell 
+                        *matCellDef="let shift" 
+                        [ngStyle]="{'color': getColor(shift.status)}">
+                        {{shift.status}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="shiftCancellationDate">
+                    <th mat-header-cell *matHeaderCellDef>Cancellation Date</th>
+                    <td mat-cell *matCellDef="let shift">
+                        {{ showCancellationShiftDateColumn(shift) ? 
+                            (shift.shiftCancellationDate | date: 'MM-dd-yyyy') : 
+                            '' 
+                        }}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Customer">
+                    <th mat-header-cell *matHeaderCellDef>Customer</th>
+                    <td mat-cell *matCellDef="let shift">{{shift.customer.firstName}} {{shift.customer.lastName}}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let shift"> 
+                        <button mat-icon-button 
+                                color="warn" 
+                                matTooltip="Cancel shift"
+                                *ngIf="showCancelButton(shift.status)"
+                                (click)="cancelShift(shift)"
+                                aria-label="Icon button with a cancel icon">
+                            <mat-icon>close</mat-icon>
+                        </button> 
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let shift; columns: displayedColumns;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of shifts"></mat-paginator>
+        </div>
     </div>
-    
-    <div>
-        <button mat-raised-button color="primary" (click)="newShift()">
-            <mat-icon>add</mat-icon> New shift
-        </button>
-    </div>
-</div>
-
-
-<app-search-shift [ngClass]="{'no-show': !shouldShowFilters()}" 
-                  (searchShiftsEvent)="searchShifts($event)">
-</app-search-shift>
-
-
-<h2 class="my-3">Max. shifts per day: {{ MAX_SHIFTS_PER_DAY }}</h2>
-
-
-<app-no-records-message *ngIf="!isLoading() && shifts.data.length === 0" 
-                        [entityName]="'shifts'">
-</app-no-records-message>
-
-
-<div>
-    <div class="mat-elevation-z8" *ngIf="!isLoading() && shifts.data.length > 0">
-        <table mat-table [dataSource]="shifts">
-            <ng-container matColumnDef="ShiftDate">
-                <th mat-header-cell *matHeaderCellDef>Shift Date (MM-DD-YYYY)</th>
-                <td mat-cell *matCellDef="let shift">{{shift.shiftDate | date: 'MM-dd-yyyy'}}</td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell 
-                    *matCellDef="let shift" 
-                    [ngStyle]="{'color': getColor(shift.status)}">
-                    {{shift.status}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="shiftCancellationDate">
-                <th mat-header-cell *matHeaderCellDef>Cancellation Date</th>
-                <td mat-cell *matCellDef="let shift">
-                    {{ showCancellationShiftDateColumn(shift) ? 
-                        (shift.shiftCancellationDate | date: 'MM-dd-yyyy') : 
-                        '' 
-                    }}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Customer">
-                <th mat-header-cell *matHeaderCellDef>Customer</th>
-                <td mat-cell *matCellDef="let shift">{{shift.customer.firstName}} {{shift.customer.lastName}}</td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let shift"> 
-                    <button mat-icon-button 
-                            color="warn" 
-                            matTooltip="Cancel shift"
-                            *ngIf="showCancelButton(shift.status)"
-                            (click)="cancelShift(shift)"
-                            aria-label="Icon button with a cancel icon">
-                        <mat-icon>close</mat-icon>
-                    </button> 
-                </td>
-            </ng-container>
-    
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let shift; columns: displayedColumns;"></tr>
-        </table>
-      
-        <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of shifts"></mat-paginator>
-    </div>
-</div>
+</ng-container>

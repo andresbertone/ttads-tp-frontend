@@ -1,66 +1,68 @@
-<h1 class="title">{{ sparePartStrategy.title }}</h1>
-
-<div class="container">
-    <div class="row justify-content-md-center mt-5">
-        <div class="col-md-9">
-
-            <form [formGroup]="sparePartForm" (ngSubmit)="onSubmit()">
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="code">Code</mat-label>
-                            <input id="code" type="text" formControlName="sparePartCode" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('sparePartCode')">{{ getFieldErrorMessage('sparePartCode') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-8">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="name">Name</mat-label>
-                            <input id="name" type="text" formControlName="sparePartDescription" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('sparePartDescription')">{{ getFieldErrorMessage('sparePartDescription') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="supplier">Supplier</mat-label>
-                            <input id="supplier" type="text" formControlName="sparePartSupplier" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('sparePartSupplier')">{{ getFieldErrorMessage('sparePartSupplier') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="price">Price</mat-label>
-                            <input class="number-input" id="price" type="number" formControlName="sparePartPrice" matInput autocomplete="off">
-                            <span matTextPrefix>$&nbsp;</span>
-                            <mat-error *ngIf="!isFieldValid('sparePartPrice')">{{ getFieldErrorMessage('sparePartPrice') }}</mat-error>
-                        </mat-form-field>
+<ng-container *appRole="['admin']">
+    <h1 class="title">{{ sparePartStrategy.title }}</h1>
+    
+    <div class="container">
+        <div class="row justify-content-md-center mt-5">
+            <div class="col-md-9">
+    
+                <form [formGroup]="sparePartForm" (ngSubmit)="onSubmit()">
+    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="code">Code</mat-label>
+                                <input id="code" type="text" formControlName="sparePartCode" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('sparePartCode')">{{ getFieldErrorMessage('sparePartCode') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-8">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="name">Name</mat-label>
+                                <input id="name" type="text" formControlName="sparePartDescription" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('sparePartDescription')">{{ getFieldErrorMessage('sparePartDescription') }}</mat-error>
+                            </mat-form-field>
+                        </div>
                     </div>
     
-                    <div class="col-md-4">
-                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
-                            <mat-label for="stock">Stock</mat-label>
-                            <input class="number-input" id="stock" type="number" formControlName="stock" matInput autocomplete="off">
-                            <mat-error *ngIf="!isFieldValid('stock')">{{ getFieldErrorMessage('stock') }}</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="supplier">Supplier</mat-label>
+                                <input id="supplier" type="text" formControlName="sparePartSupplier" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('sparePartSupplier')">{{ getFieldErrorMessage('sparePartSupplier') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+    
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="price">Price</mat-label>
+                                <input class="number-input" id="price" type="number" formControlName="sparePartPrice" matInput autocomplete="off">
+                                <span matTextPrefix>$&nbsp;</span>
+                                <mat-error *ngIf="!isFieldValid('sparePartPrice')">{{ getFieldErrorMessage('sparePartPrice') }}</mat-error>
+                            </mat-form-field>
+                        </div>
         
-                <div class="custom-buttons-container">
-                    <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
-                    <button mat-raised-button color="primary">
-                        <mat-icon>save</mat-icon>
-                        Save
-                    </button>
-                </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="stock">Stock</mat-label>
+                                <input class="number-input" id="stock" type="number" formControlName="stock" matInput autocomplete="off">
+                                <mat-error *ngIf="!isFieldValid('stock')">{{ getFieldErrorMessage('stock') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
             
-            </form>
-
+                    <div class="custom-buttons-container">
+                        <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                        <button mat-raised-button color="primary">
+                            <mat-icon>save</mat-icon>
+                            Save
+                        </button>
+                    </div>
+                
+                </form>
+    
+            </div>
         </div>
     </div>
-</div>
+</ng-container>

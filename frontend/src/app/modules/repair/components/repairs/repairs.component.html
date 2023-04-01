@@ -1,116 +1,119 @@
-<h1 class="title">Repairs</h1>
-
-
-<div class="d-flex justify-content-end mb-3" *ngIf="!isLoading()">
+<ng-container *appRole="['admin', 'mechanic']">
+    <h1 class="title">Repairs</h1>
+    
+    
+    <div class="d-flex justify-content-end mb-3" *ngIf="!isLoading()">
+        <div *appRole="['admin']">
+            <button mat-raised-button color="primary">
+                <mat-icon>add</mat-icon> New repair
+            </button>
+        </div>
+    </div>
+    
+    
+    <app-no-records-message *ngIf="!isLoading() && repairs.data.length === 0" 
+                            [entityName]="'repairs'">
+    </app-no-records-message>
+    
+    
     <div>
-        <button mat-raised-button color="primary">
-            <mat-icon>add</mat-icon> New repair
-        </button>
+        <mat-form-field *ngIf="repairs.data.length > 1">
+            <mat-label>Search repair</mat-label>
+            <input matInput autocomplete="off" 
+                   (keyup)="searchRepair($event)" 
+                   placeholder="Search by column fields"
+                   #repairs.filter>
+        </mat-form-field>
+          
+        <div class="mat-elevation-z8" *ngIf="repairs.data.length > 0">
+            <table mat-table [dataSource]="repairs">
+                <ng-container matColumnDef="EntryDateTime">
+                    <th mat-header-cell *matHeaderCellDef>Entry Date Time (MM-DD-YYYY)</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{repair.entryDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="StartDateTime">
+                    <th mat-header-cell *matHeaderCellDef>Start Date Time</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{repair.startDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="EndDateTime">
+                    <th mat-header-cell *matHeaderCellDef>End Date Time</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{repair.endDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="DeliveryDateTime">
+                    <th mat-header-cell *matHeaderCellDef>Delivery Date Time</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{repair.deliveryDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Status">
+                    <th mat-header-cell *matHeaderCellDef>Status</th>
+                    <td mat-cell *matCellDef="let repair">{{repair.status}}</td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Vehicle">
+                    <th mat-header-cell *matHeaderCellDef>Vehicle</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{repair.vehicle.make}} {{repair.vehicle.model}}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Mechanic">
+                    <th mat-header-cell *matHeaderCellDef>Mechanic</th>
+                    <td mat-cell *matCellDef="let repair">
+                        {{ showMechanicColumn(repair) ? 
+                            (repair.mechanic.firstName + ' ' + repair.mechanic.lastName) : 
+                            '' 
+                        }}
+                    </td>
+                </ng-container>
+        
+                <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let repair"> 
+                        <button mat-icon-button 
+                                color="primary" 
+                                matTooltip="See repair detail"
+                                (click)="seeRepairDetail(repair)"
+                                aria-label="Icon button with a eye icon">
+                            <mat-icon>visibility</mat-icon>
+                        </button> 
+                        <button mat-icon-button 
+                                color="accent" 
+                                matTooltip="Edit repair"
+                                aria-label="Icon button with a pencil icon"
+                                *appRole="['mechanic']">
+                            <mat-icon>edit</mat-icon>
+                        </button> 
+                        <button mat-icon-button 
+                                color="warn" 
+                                matTooltip="Delete repair"
+                                *ngIf="showDeleteButton(repair.status)"
+                                aria-label="Icon button with a delete icon">
+                            <mat-icon>delete</mat-icon>
+                        </button> 
+                    </td>
+                </ng-container>
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let repair; columns: displayedColumns;"></tr>
+        
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="12">There are no repairs for this filter.</td>
+                </tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of repairs"></mat-paginator>
+        </div>
     </div>
-</div>
-
-
-<app-no-records-message *ngIf="!isLoading() && repairs.data.length === 0" 
-                        [entityName]="'repairs'">
-</app-no-records-message>
-
-
-<div>
-    <mat-form-field *ngIf="repairs.data.length > 1">
-        <mat-label>Search repair</mat-label>
-        <input matInput autocomplete="off" 
-               (keyup)="searchRepair($event)" 
-               placeholder="Search by column fields"
-               #repairs.filter>
-    </mat-form-field>
-      
-    <div class="mat-elevation-z8" *ngIf="repairs.data.length > 0">
-        <table mat-table [dataSource]="repairs">
-            <ng-container matColumnDef="EntryDateTime">
-                <th mat-header-cell *matHeaderCellDef>Entry Date Time (MM-DD-YYYY)</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{repair.entryDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="StartDateTime">
-                <th mat-header-cell *matHeaderCellDef>Start Date Time</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{repair.startDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="EndDateTime">
-                <th mat-header-cell *matHeaderCellDef>End Date Time</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{repair.endDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="DeliveryDateTime">
-                <th mat-header-cell *matHeaderCellDef>Delivery Date Time</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{repair.deliveryDateTime | date: 'MM-dd-yyyy HH:mm:ss'}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Status">
-                <th mat-header-cell *matHeaderCellDef>Status</th>
-                <td mat-cell *matCellDef="let repair">{{repair.status}}</td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Vehicle">
-                <th mat-header-cell *matHeaderCellDef>Vehicle</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{repair.vehicle.make}} {{repair.vehicle.model}}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Mechanic">
-                <th mat-header-cell *matHeaderCellDef>Mechanic</th>
-                <td mat-cell *matCellDef="let repair">
-                    {{ showMechanicColumn(repair) ? 
-                        (repair.mechanic.firstName + ' ' + repair.mechanic.lastName) : 
-                        '' 
-                    }}
-                </td>
-            </ng-container>
-    
-            <ng-container matColumnDef="Action">
-                <th mat-header-cell *matHeaderCellDef></th>
-                <td mat-cell *matCellDef="let repair"> 
-                    <button mat-icon-button 
-                            color="primary" 
-                            matTooltip="See repair detail"
-                            (click)="seeRepairDetail(repair)"
-                            aria-label="Icon button with a eye icon">
-                        <mat-icon>visibility</mat-icon>
-                    </button> 
-                    <button mat-icon-button 
-                            color="accent" 
-                            matTooltip="Edit repair"
-                            aria-label="Icon button with a pencil icon">
-                        <mat-icon>edit</mat-icon>
-                    </button> 
-                    <button mat-icon-button 
-                            color="warn" 
-                            matTooltip="Delete repair"
-                            *ngIf="showDeleteButton(repair.status)"
-                            aria-label="Icon button with a delete icon">
-                        <mat-icon>delete</mat-icon>
-                    </button> 
-                </td>
-            </ng-container>
-    
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let repair; columns: displayedColumns;"></tr>
-    
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="12">There are no repairs for this filter.</td>
-            </tr>
-        </table>
-      
-        <mat-paginator [pageSizeOptions]="[5, 10, 15]" aria-label="Select page of repairs"></mat-paginator>
-    </div>
-</div>
+</ng-container>
