@@ -16,8 +16,8 @@ export class ShiftService {
 
   constructor(private httpService: HttpService) { }
 
-  searchShifts(options = {}): Observable<ShiftsModel> {
-    return this.httpService.httpGetAll(`${this.baseUrl}/searchShifts`, options);
+  searchShifts(queryParams = {}): Observable<ShiftsModel> {
+    return this.httpService.httpGetAll(`${this.baseUrl}/searchShifts`, queryParams);
   }
 
   newShift(data: any): Observable<ShiftModel> {
