@@ -8,19 +8,31 @@ import { SparePartDetailComponent } from './components/spare-part-detail/spare-p
 const routes: Routes = [
   {
     path: '',
-    component: SparePartsComponent
+    component: SparePartsComponent,
+    data: {
+      role: ['all']
+    }
   },
   {
     path: 'new-spare-part',
-    component: NewSparePartComponent
+    component: NewSparePartComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'edit-spare-part/:sparePartId',
-    component: NewSparePartComponent
+    component: NewSparePartComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'detail/:sparePartId',
-    component: SparePartDetailComponent
+    component: SparePartDetailComponent,
+    data: {
+      role: ['all']
+    }
   }
 ];
 

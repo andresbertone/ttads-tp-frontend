@@ -7,11 +7,17 @@ import { NewShiftComponent } from './components/new-shift/new-shift.component';
 const routes: Routes = [
   {
     path: '',
-    component: ShiftsComponent
+    component: ShiftsComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'new-shift',
-    component: NewShiftComponent
+    component: NewShiftComponent,
+    data: {
+      role: ['admin']
+    }
   }
 ];
 

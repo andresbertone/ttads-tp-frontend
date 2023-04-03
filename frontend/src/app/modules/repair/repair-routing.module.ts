@@ -8,11 +8,17 @@ import { RepairDetailComponent } from './components/repair-detail/repair-detail.
 const routes: Routes = [
   {
     path: '',
-    component: RepairsComponent
+    component: RepairsComponent,
+    data: {
+      role: ['all']
+    }
   },
   {
     path: 'detail/:repairId',
-    component: RepairDetailComponent
+    component: RepairDetailComponent,
+    data: {
+      role: ['all']
+    }
   }
 ];
 

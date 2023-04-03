@@ -9,23 +9,38 @@ import { CustomerDetailComponent } from './components/customer-detail/customer-d
 const routes: Routes = [
   {
     path: '',
-    component: CustomersComponent
+    component: CustomersComponent,
+    data: {
+      role: ['all']
+    }
   },
   {
     path: 'new-customer',
-    component: NewCustomerComponent
+    component: NewCustomerComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'edit-customer/:customerId',
-    component: NewCustomerComponent
+    component: NewCustomerComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'detail/:customerId',
-    component: CustomerDetailComponent
+    component: CustomerDetailComponent,
+    data: {
+      role: ['all']
+    }
   },
   {
     path: ':customerId/vehicle',
-    loadChildren: () => import('../vehicle/vehicle.module').then((module) => module.VehicleModule)
+    loadChildren: () => import('../vehicle/vehicle.module').then((module) => module.VehicleModule),
+    data: {
+      role: ['all']
+    }
   }
 ];
 

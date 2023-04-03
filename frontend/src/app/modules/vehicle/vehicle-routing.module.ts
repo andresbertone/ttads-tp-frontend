@@ -7,15 +7,24 @@ import { VehicleDetailComponent } from './components/vehicle-detail/vehicle-deta
 const routes: Routes = [
   {
     path: 'new-vehicle',
-    component: NewVehicleComponent
+    component: NewVehicleComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'edit-vehicle/:vehicleId',
-    component: NewVehicleComponent
+    component: NewVehicleComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'detail/:vehicleId',
-    component: VehicleDetailComponent
+    component: VehicleDetailComponent,
+    data: {
+      role: ['all']
+    }
   },
 ];
 

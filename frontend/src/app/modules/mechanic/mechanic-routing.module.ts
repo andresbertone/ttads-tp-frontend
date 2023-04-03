@@ -8,19 +8,31 @@ import { MechanicDetailComponent } from './components/mechanic-detail/mechanic-d
 const routes: Routes = [
   {
     path: '',
-    component: MechanicsComponent
+    component: MechanicsComponent,
+    data: {
+      role: ['all']
+    }
   },
   {
     path: 'new-mechanic',
-    component: NewMechanicComponent
+    component: NewMechanicComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'edit-mechanic/:mechanicId',
-    component: NewMechanicComponent
+    component: NewMechanicComponent,
+    data: {
+      role: ['admin']
+    }
   },
   {
     path: 'detail/:mechanicId',
-    component: MechanicDetailComponent
+    component: MechanicDetailComponent,
+    data: {
+      role: ['all']
+    }
   }
 ];
 
