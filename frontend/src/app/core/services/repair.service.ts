@@ -16,8 +16,8 @@ export class RepairService {
 
   constructor(private httpService: HttpService) { }
 
-  getRepairs(): Observable<RepairsModel> {
-    return this.httpService.httpGetAll(this.baseUrl);
+  getRepairs(queryParams = {}): Observable<RepairsModel> {
+    return this.httpService.httpGetAll(this.baseUrl, queryParams);
   }
 
   getRepairById(repairId: string): Observable<RepairModel> {

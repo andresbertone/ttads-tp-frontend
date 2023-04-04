@@ -1,16 +1,26 @@
 <ng-container *appRole="['admin', 'mechanic']">
     <h1 class="title">Repairs</h1>
     
-    
-    <div class="d-flex justify-content-end mb-3" *ngIf="!isLoading()">
+    <div class="d-flex justify-content-between mb-3" *ngIf="!isLoading()">
+        <div>
+            <button (click)="toggleFiltersVisibility()" mat-raised-button color="primary">
+                <mat-icon>filter_list</mat-icon> Filters
+            </button>
+        </div>
+
         <div *appRole="['admin']">
             <button mat-raised-button color="primary">
                 <mat-icon>add</mat-icon> New repair
             </button>
         </div>
     </div>
+
+
+    <app-search-repair [ngClass]="{'no-show': !shouldShowFilters()}" 
+                       (searchRepairsEvent)="searchRepairs($event)">
+    </app-search-repair>
     
-    
+
     <app-no-records-message *ngIf="!isLoading() && repairs.data.length === 0" 
                             [entityName]="'repairs'">
     </app-no-records-message>

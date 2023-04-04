@@ -1,0 +1,54 @@
+<mat-divider></mat-divider>
+
+<form class="my-3" (ngSubmit)="searchRepairs()" [formGroup]="searchRepairsForm">
+    <div class="row">
+        <div class="col-md-4">
+            <mat-form-field appearance="outline">
+                <mat-label for="mechanic">Mechanic</mat-label>
+                <input type="text"
+                       id="mechanic" 
+                       matInput 
+                       formControlName="mechanic" 
+                       placeholder="Select a mechanic from the list"
+                       [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" 
+                                      [displayWith]="displayFn">
+                        <mat-option *ngFor="let mechanic of filteredMechanics | async" 
+                                    [value]="mechanic">
+                            {{mechanic.firstName}} {{mechanic.lastName}}
+                        </mat-option>
+                    </mat-autocomplete>
+                <button *ngIf="searchRepairsForm.value.mechanic" 
+                        matSuffix 
+                        mat-icon-button 
+                        type="button"
+                        (click)="clearInput()"
+                        aria-label="Clear">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <mat-error *ngIf="!isFieldValid()">{{ getFieldErrorMessage() }}</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field appearance="outline">
+                <mat-label for="status">Status</mat-label>
+                <mat-select id="status" 
+                            formControlName="status" 
+                            placeholder="Select one or more status"
+                            multiple>
+                    <mat-option *ngFor="let item of statusList" 
+                                [value]="item">
+                                {{ item }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <button mat-raised-button color="primary">
+                <mat-icon>search</mat-icon> Search
+            </button>
+        </div>
+    </div>
+</form>

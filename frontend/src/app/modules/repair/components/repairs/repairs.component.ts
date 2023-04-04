@@ -21,6 +21,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class RepairsComponent implements OnInit {
   repairs!: MatTableDataSource<RepairModel>;
+  showFilters: boolean = false;
 
   displayedColumns: string[] = ['EntryDateTime', 'StartDateTime', 'EndDateTime', 'DeliveryDateTime', 'Status', 'Vehicle', 'Mechanic', 'Action'];
   paginator!: MatPaginator;
@@ -102,6 +103,24 @@ export class RepairsComponent implements OnInit {
         );
       }
     });
+  }
+
+  searchRepairs(eventParams: any) {
+    const { status, mechanicId } = eventParams;
+
+    this.repairService.getRepairs({ status, mechanicId }).subscribe(
+      (response: RepairsModel) => {
+        this.repairs.data = response.records;
+      }
+    )
+  }
+
+  toggleFiltersVisibility() {
+    this.showFilters = !this.showFilters;
+  }
+
+  shouldShowFilters() {
+    return this.showFilters && !this.isLoading();
   }
 
   setCustomFilterPredicate() {
