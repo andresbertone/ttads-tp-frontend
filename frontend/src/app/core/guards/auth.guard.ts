@@ -34,8 +34,7 @@ export class AuthGuard implements CanActivate {
 
     if (this.authService.isLoggedIn()) {
       const allowedRoles = ['admin', 'mechanic'];
-      const currentUserString = this.storageService.get('user')!;
-      const currentUser = JSON.parse(currentUserString);
+      const currentUser = this.storageService.getUser();
 
       if (currentUser && currentUser.role && currentUser.role.roleDescription) {
         if (allowedRoles.includes(currentUser.role.roleDescription)) {
