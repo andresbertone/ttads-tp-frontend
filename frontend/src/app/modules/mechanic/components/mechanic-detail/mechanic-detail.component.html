@@ -8,12 +8,10 @@
         <div class="row justify-content-md-center">
             <div class="col-md-9">
     
-                <div class="row mb-3" *appRole="['admin']">
-                    <div class="edit-button-container">
-                        <button mat-raised-button color="accent" (click)="editMechanic()">
-                            <mat-icon>edit</mat-icon> Edit Mechanic
-                        </button>
-                    </div>
+                <div class="d-flex justify-content-end mb-3" *appRole="['admin']">
+                    <button mat-raised-button color="accent" (click)="editMechanic()">
+                        <mat-icon>edit</mat-icon> Edit Mechanic
+                    </button>
                 </div>
             
                 <h3 class="subtitle">Personal Information</h3>
