@@ -24,6 +24,10 @@ export class RepairService {
     return this.httpService.httpGet(`${this.baseUrl}/${repairId}`);
   }
 
+  takeRepair(repairId: number, mechanicId: number): Observable<RepairModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/assignMechanic/${repairId}/${mechanicId}`);
+  }
+
   deleteRepair(repairId: number): Observable<RepairModel> {
     return this.httpService.httpDelete(`${this.baseUrl}/${repairId}`);
   }

@@ -5,6 +5,7 @@ import { RepairService } from 'src/app/core/services/repair.service';
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
 import { DialogService } from 'src/app/core/services/common/dialog.service';
 import { AlertService } from 'src/app/core/services/common/alert.service';
+import { StorageService } from 'src/app/core/services/common/storage.service';
 
 import { RepairsModel } from 'src/app/core/models/repair/repairs.model';
 import { RepairModel } from 'src/app/core/models/repair/repair.model';
@@ -37,7 +38,8 @@ export class RepairsComponent implements OnInit {
     private spinnerService: SpinnerService,
     private router: Router,
     private dialogService: DialogService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private storageService: StorageService
   ) {
     this.repairs = new MatTableDataSource();
   }
@@ -62,6 +64,10 @@ export class RepairsComponent implements OnInit {
 
   showDeleteButton(status: string) {
     return status === this.repairSettings.DELIVERED_REPAIR;
+  }
+
+  showTakeButton(repair: RepairModel) {
+    return repair.status === this.repairSettings.ENTERED_REPAIR && !repair.mechanicId;
   }
 
   initializePaginator(matPaginator: MatPaginator) {
@@ -98,6 +104,28 @@ export class RepairsComponent implements OnInit {
         this.repairService.deleteRepair(repair.repairId).subscribe(
           () => {
             this.alertService.openSnackBar(`The repair was successfully deleted.`);
+            this.loadRepairs();
+          }
+        );
+      }
+    });
+  }
+
+  takeRepair(repair: RepairModel) {
+    this.dialogService.showWarning(
+      'Take repair',
+      [this.dialogService.getDialogWarningMessage(repair, 'repair', 'take')],
+      'No',
+      'Yes',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        const user = this.storageService.getUser();
+        if (!user || !user.mechanicId) return;
+
+        this.repairService.takeRepair(repair.repairId, user.mechanicId).subscribe(
+          () => {
+            this.alertService.openSnackBar(`The repair has been assigned to you.`);
             this.loadRepairs();
           }
         );

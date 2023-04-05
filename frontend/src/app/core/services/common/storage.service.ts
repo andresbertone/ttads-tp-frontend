@@ -11,6 +11,13 @@ export class StorageService {
     return localStorage.getItem(key);
   }
 
+  getUser() {
+    const user = this.get('user');
+    if (!user) return;
+    
+    return JSON.parse(user);
+  }
+
   save(key: string, value: any) {
     localStorage.setItem(key, value);
   }

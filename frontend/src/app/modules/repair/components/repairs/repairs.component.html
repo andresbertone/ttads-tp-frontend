@@ -112,6 +112,16 @@
                                 aria-label="Icon button with a delete icon">
                             <mat-icon>delete</mat-icon>
                         </button> 
+                        <ng-container *appRole="['mechanic']">
+                            <button mat-icon-button 
+                                    color="primary" 
+                                    matTooltip="Take repair"
+                                    *ngIf="showTakeButton(repair)"
+                                    (click)="takeRepair(repair)"
+                                    aria-label="Icon button with a tick icon">
+                                <mat-icon>person_add</mat-icon>
+                            </button>
+                        </ng-container>
                     </td>
                 </ng-container>
         
