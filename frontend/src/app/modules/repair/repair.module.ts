@@ -9,13 +9,15 @@ import { SharedModule } from '../shared/shared.module';
 import { RepairsComponent } from './components/repairs/repairs.component';
 import { RepairDetailComponent } from './components/repair-detail/repair-detail.component';
 import { SearchRepairComponent } from './components/search-repair/search-repair.component';
+import { NewRepairComponent } from './components/new-repair/new-repair.component';
 
 
 @NgModule({
   declarations: [
     RepairsComponent,
     RepairDetailComponent,
-    SearchRepairComponent
+    SearchRepairComponent,
+    NewRepairComponent
   ],
   imports: [
     CommonModule,

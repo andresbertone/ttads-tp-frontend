@@ -24,6 +24,14 @@ export class RepairService {
     return this.httpService.httpGet(`${this.baseUrl}/${repairId}`);
   }
 
+  newRepair(repairData: any): Observable<RepairModel> {
+    return this.httpService.httpPost(this.baseUrl, repairData);
+  }
+
+  editRepair(repairData: any, repairId: string): Observable<RepairModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/editRepair/${repairId}`, repairData);
+  }
+
   takeRepair(repairId: number, mechanicId: number): Observable<RepairModel> {
     return this.httpService.httpPut(`${this.baseUrl}/assignMechanic/${repairId}/${mechanicId}`);
   }

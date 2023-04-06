@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { RepairsComponent } from './components/repairs/repairs.component';
 import { RepairDetailComponent } from './components/repair-detail/repair-detail.component';
+import { NewRepairComponent } from './components/new-repair/new-repair.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,13 @@ const routes: Routes = [
     component: RepairsComponent,
     data: {
       role: ['all']
+    }
+  },
+  {
+    path: 'new-repair',
+    component: NewRepairComponent,
+    data: {
+      role: ['admin']
     }
   },
   {
