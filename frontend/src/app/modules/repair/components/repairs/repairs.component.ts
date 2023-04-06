@@ -88,6 +88,10 @@ export class RepairsComponent implements OnInit {
     }
   }
 
+  newRepair() {
+    this.router.navigateByUrl('home/repairs/new-repair');
+  }
+
   seeRepairDetail(repair: RepairModel) {
     this.router.navigateByUrl(`home/repairs/detail/${repair.repairId}`);
   }

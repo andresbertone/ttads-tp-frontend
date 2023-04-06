@@ -1,6 +1,6 @@
 import { CustomerModel } from './../customer/customer.model';
 export interface VehicleModel {
-    vehicleId: number,
+    vehicleId: string,
     licensePlate: string,
     make: string,
     model: string,

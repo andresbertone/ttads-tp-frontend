@@ -1,0 +1,88 @@
+<ng-container *appRole="['admin', 'mechanic']">
+    <h1 class="title">{{ repairStrategy.title }}</h1>
+    
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-md-9">
+    
+                <form [formGroup]="repairForm" (ngSubmit)="onSubmit()">
+            
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="customer">Customer</mat-label>
+                                <input type="text"
+                                       id="customer" 
+                                       matInput 
+                                       formControlName="customer" 
+                                       placeholder="Select a customer from the list"
+                                       [matAutocomplete]="auto">
+                                    <mat-autocomplete #auto="matAutocomplete"
+                                                      (optionSelected)="getVehiclesFromCustomer()" 
+                                                      [displayWith]="displayFn">
+                                        <mat-option *ngFor="let customer of filteredCustomers | async" 
+                                                    [value]="customer">
+                                            {{customer.firstName}} {{customer.lastName}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                <mat-error *ngIf="!isFieldValid('customer')">{{ getFieldErrorMessage('customer') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" 
+                                            subscriptSizing="dynamic"
+                                            matTooltip="Select a customer"
+                                            [matTooltipDisabled]="repairForm.controls.vehicle.enabled">
+                                <mat-label for="vehicle">Vehicle</mat-label>
+                                    <mat-select id="vehicle" 
+                                                formControlName="vehicle" 
+                                                placeholder="Select one vehicle">
+                                        <mat-option *ngFor="let vehicle of vehicles" 
+                                                    [value]="vehicle">
+                                            {{ vehicle.make }} {{ vehicle.model }}
+                                        </mat-option>
+                                    </mat-select>
+                                <mat-error *ngIf="!isFieldValid('vehicle')">{{ getFieldErrorMessage('vehicle') }}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="initial-detail">Initial Detail</mat-label>
+                                <textarea id="initial-detail" 
+                                          matInput 
+                                          formControlName="initialDetail" 
+                                          placeholder="Write a description of the repair to be made.">
+                                </textarea>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                <mat-label for="comments">Comments</mat-label>
+                                <textarea id="comments" 
+                                          matInput 
+                                          formControlName="comments" 
+                                          placeholder="Write a comment about the vehicle.">
+                                </textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
+                        <button mat-raised-button color="primary">
+                            <mat-icon>save</mat-icon>
+                            Save
+                        </button>
+                    </div>
+                
+                </form>
+    
+            </div>
+        </div>
+    </div>
+</ng-container>

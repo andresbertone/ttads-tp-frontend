@@ -34,6 +34,10 @@ export class FormValidationService {
       message = 'The value must be less than or equal to ' + form.get(field).errors.max.max;
     } else if (form.controls[field].hasError('isDateBefore')) {
       message = 'Date must be after today';
+    } else if (form.controls[field].hasError('invalidCustomerSelection')) {
+      message = 'You must select a customer from the list';
+    } else if (form.controls[field].hasError('invalidMechanicSelection')) {
+      message = 'You must select a mechanic from the list';
     }
 
     return message;
