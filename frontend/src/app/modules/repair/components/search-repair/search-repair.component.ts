@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, map, startWith } from 'rxjs';
 
 import { MechanicService } from 'src/app/core/services/mechanic.service';
+import { FormValidationService } from 'src/app/core/services/common/form-validation.service';
 
 import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
 import { MechanicsModel } from 'src/app/core/models/mechanic/mechanics.model';
@@ -27,7 +28,10 @@ export class SearchRepairComponent implements OnInit {
   });
 
 
-  constructor( private mechanicService: MechanicService ) { }
+  constructor( 
+    private mechanicService: MechanicService,
+    private formValidationService: FormValidationService
+  ) { }
 
   ngOnInit(): void {
     this.loadMechanics();
@@ -49,7 +53,7 @@ export class SearchRepairComponent implements OnInit {
       if (typeof this.searchRepairsForm.value.mechanic !== 'string') {
         filters.mechanicId = this.searchRepairsForm.value.mechanic?.mechanicId;
       } else {
-        return this.searchRepairsForm.controls.mechanic.setErrors({ 'invalid': 'You must select a mechanic from the list' });
+        return this.searchRepairsForm.controls.mechanic.setErrors({ 'invalidMechanicSelection': true });
       }
     }
 
@@ -79,12 +83,12 @@ export class SearchRepairComponent implements OnInit {
     return mechanic ? `${mechanic.firstName} ${mechanic.lastName}` : '';
   }
 
-  isFieldValid() {
-    return this.searchRepairsForm.controls.mechanic.valid;
+  isFieldValid(field: string) {
+    return this.formValidationService.isFieldValid(this.searchRepairsForm, field);
   }
 
-  getFieldErrorMessage() {
-    return this.searchRepairsForm.controls.mechanic.getError('invalid');
+  getFieldErrorMessage(field: string) {
+    return this.formValidationService.getFieldErrorMessage(this.searchRepairsForm, field);
   }
 
   clearInput() {
