@@ -77,13 +77,7 @@ export class NewShiftComponent {
         });
       })
     } else {
-      this.dialogService.showError(
-        'Error',
-        ['This customer does not exist.'],
-        '',
-        'Close',
-        false
-      );
+      return this.shiftForm.controls.customer.setErrors({ 'invalidCustomerSelection': true });
     }
   }
 
