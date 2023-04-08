@@ -7,5 +7,5 @@ export interface VehicleModel {
     year: string,
     currentNumberOfKilometers: string,
     customerId: string,
-    customer?: CustomerModel
+    customer: CustomerModel
 }

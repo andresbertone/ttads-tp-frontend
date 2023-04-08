@@ -33,16 +33,22 @@
                             <mat-form-field appearance="outline" 
                                             subscriptSizing="dynamic"
                                             matTooltip="Select a customer"
-                                            [matTooltipDisabled]="repairForm.controls.vehicle.enabled">
+                                            [matTooltipDisabled]="disableTooltip()">
                                 <mat-label for="vehicle">Vehicle</mat-label>
                                     <mat-select id="vehicle" 
                                                 formControlName="vehicle" 
+                                                *ngIf="!isEditing()"
                                                 placeholder="Select one vehicle">
                                         <mat-option *ngFor="let vehicle of vehicles" 
                                                     [value]="vehicle">
                                             {{ vehicle.make }} {{ vehicle.model }}
                                         </mat-option>
                                     </mat-select>
+                                    <input type="text"
+                                       id="vehicle" 
+                                       matInput 
+                                       formControlName="vehicle"
+                                       *ngIf="isEditing()">
                                 <mat-error *ngIf="!isFieldValid('vehicle')">{{ getFieldErrorMessage('vehicle') }}</mat-error>
                             </mat-form-field>
                         </div>

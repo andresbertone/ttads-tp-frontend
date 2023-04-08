@@ -22,6 +22,13 @@ const routes: Routes = [
     }
   },
   {
+    path: 'edit-repair/:repairId',
+    component: NewRepairComponent,
+    data: {
+      role: ['all']
+    }
+  },
+  {
     path: 'detail/:repairId',
     component: RepairDetailComponent,
     data: {

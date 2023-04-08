@@ -62,6 +62,11 @@ export class RepairsComponent implements OnInit {
     return repair.mechanic;
   }
 
+  showEditButton(repair: RepairModel) {
+    return repair.status === this.repairSettings.ENTERED_REPAIR ||
+           repair.status === this.repairSettings.IN_PROGRESS_REPAIR;
+  }
+
   showDeleteButton(status: string) {
     return status === this.repairSettings.DELIVERED_REPAIR;
   }
@@ -90,6 +95,10 @@ export class RepairsComponent implements OnInit {
 
   newRepair() {
     this.router.navigateByUrl('home/repairs/new-repair');
+  }
+
+  editRepair(repair: RepairModel) {
+    this.router.navigateByUrl(`home/repairs/edit-repair/${repair.repairId}`);
   }
 
   seeRepairDetail(repair: RepairModel) {

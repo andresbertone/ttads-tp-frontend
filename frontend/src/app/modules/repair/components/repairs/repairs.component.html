@@ -100,8 +100,9 @@
                         <button mat-icon-button 
                                 color="accent" 
                                 matTooltip="Edit repair"
-                                aria-label="Icon button with a pencil icon"
-                                *appRole="['mechanic']">
+                                *ngIf="showEditButton(repair)"
+                                (click)="editRepair(repair)"
+                                aria-label="Icon button with a pencil icon">
                             <mat-icon>edit</mat-icon>
                         </button> 
                         <button mat-icon-button 

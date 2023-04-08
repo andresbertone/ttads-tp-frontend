@@ -18,6 +18,8 @@ import { VehiclesModel } from 'src/app/core/models/vehicle/vehicles.model';
 import { Strategy } from 'src/app/core/strategies/strategy';
 import { NewRepairStrategy } from 'src/app/core/strategies/repair/new-repair-strategy';
 import { EditRepairStrategy } from 'src/app/core/strategies/repair/edit-repair-strategy';
+import { RepairSettings } from 'src/app/core/utils/repairSettings';
+import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
 
 @Component({
   selector: 'app-new-repair',
@@ -28,6 +30,7 @@ export class NewRepairComponent implements OnInit {
   
   repairId! : string;
   repairStrategy! : Strategy;
+  repairSettings = RepairSettings;
   
   customers: CustomerModel[] = [];
   filteredCustomers!: Observable<CustomerModel[]>;
@@ -35,10 +38,20 @@ export class NewRepairComponent implements OnInit {
   vehicles: VehicleModel[] = [];
   
   repairForm = this.formBuilder.group({
-    initialDetail: [null],
-    comments: [null],
+    entryDateTime: new FormControl<string | null>(null),
+    startDateTime: new FormControl<string | null>(null),
+    endDateTime: new FormControl<string | null>(null),
+    deliveryDateTime: new FormControl<string | null>(null),
+    status: new FormControl<string | null>(null),
+    initialDetail: new FormControl<string | null>(null),
+    comments: new FormControl<string | null>(null),
+    finalDescription: new FormControl<string | null>(null),
+    laborPrice: new FormControl<string | null>(null),
     vehicle: new FormControl<string | VehicleModel>('', [Validators.required]),
     vehicleId: [''],
+    mechanic: new FormControl<string | MechanicModel>(''),
+    mechanicId: new FormControl(),
+    spare_parts: [],
     customer: new FormControl<string | CustomerModel>('', [Validators.required]),
     customerId: new FormControl()
   });
@@ -62,9 +75,7 @@ export class NewRepairComponent implements OnInit {
 
     if (this.repairId) {
       this.repairStrategy = new EditRepairStrategy(this.repairService, this.dialogService, this.alertService);
-
-      // TODO: Para cuando haga el edit.
-      // this.getRepair();
+      this.getRepair();
     } else {
       this.repairStrategy = new NewRepairStrategy(this.repairService, this.dialogService, this.alertService);
       this.repairForm.get('vehicle')?.disable();
@@ -72,16 +83,13 @@ export class NewRepairComponent implements OnInit {
     }
   }
 
-  // TODO: Para cuando haga el edit.
-  // getRepair() {
-  //   this.repairService.getRepairById(this.repairId).subscribe(
-  //     (repair: RepairModel) => {
-  //       // console.log('getRepair: ', repair);
-  //       // this.repairForm.patchValue(repair);
-  //       // this.repairForm.get('registrationNumber')?.disable();
-  //     }
-  //   );
-  // }
+  getRepair() {
+    this.repairService.getRepairById(this.repairId).subscribe(
+      (repair: RepairModel) => {
+        this.initializeRepairFormForEdit(repair);
+      }
+    );
+  }
 
   getCustomers() {
     this.customerService.getCustomers().subscribe((response: CustomersModel) => {
@@ -101,6 +109,17 @@ export class NewRepairComponent implements OnInit {
     );
   }
 
+  initializeRepairFormForEdit(repair: RepairModel) {
+    this.repairForm.patchValue(repair);
+
+    const vehicle = `${repair.vehicle.make} ${repair.vehicle.model}`;
+    this.repairForm.controls.vehicle.setValue(vehicle);
+    this.repairForm.controls.customer.setValue(repair.vehicle.customer);
+
+    this.repairForm.get('vehicle')?.disable();
+    this.repairForm.get('customer')?.disable();
+  }
+
   onSubmit() {
     if (!this.repairForm.valid) return;
 
@@ -110,8 +129,10 @@ export class NewRepairComponent implements OnInit {
       dialogRef$.subscribe((result) => {
         if (!result) return;
 
-        this.repairForm.controls.vehicleId.setValue((this.repairForm.value.vehicle as VehicleModel).vehicleId)
-        this.repairForm.controls.customerId.setValue((this.repairForm.value.customer as CustomerModel).customerId);
+        if (!this.isEditing()) {
+          this.repairForm.controls.vehicleId.setValue((this.repairForm.value.vehicle as VehicleModel).vehicleId)
+          this.repairForm.controls.customerId.setValue((this.repairForm.value.customer as CustomerModel).customerId);
+        }
 
         this.repairStrategy.sendRequest(this.repairForm.value, this.repairId)
           .subscribe({
@@ -171,6 +192,10 @@ export class NewRepairComponent implements OnInit {
 
   displayFn(customer: CustomerModel): string {
     return customer ? `${customer.firstName} ${customer.lastName}` : '';
+  }
+
+  disableTooltip() {
+    return this.isEditing() || this.repairForm.controls.vehicle.enabled;
   }
 
   isEditing() {

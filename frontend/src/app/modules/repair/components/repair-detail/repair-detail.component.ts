@@ -49,10 +49,9 @@ export class RepairDetailComponent {
     return this.spinnerService.isLoading();
   }
 
-  // TODO: Descomentar cuando haga el edit repair
-  // editRepair() {
-  //   this.router.navigateByUrl(`home/repairs/edit-repair/${this.repairId}`);
-  // }
+  editRepair() {
+    this.router.navigateByUrl(`home/repairs/edit-repair/${this.repairId}`);
+  }
 
   takeRepair() {
     this.dialogService.showWarning(
@@ -78,6 +77,11 @@ export class RepairDetailComponent {
 
   showTakeButton() {
     return this.repair.status === this.repairSettings.ENTERED_REPAIR && !this.repair.mechanicId;
+  }
+
+  showEditButton() {
+    return this.repair.status === this.repairSettings.ENTERED_REPAIR ||
+           this.repair.status === this.repairSettings.IN_PROGRESS_REPAIR;
   }
 
   goBack() {

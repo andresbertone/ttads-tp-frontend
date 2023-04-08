@@ -8,14 +8,15 @@
         <div class="row justify-content-md-center">
             <div class="col-md-9">
     
-                <div class="d-flex justify-content-end mb-3" *appRole="['mechanic']">
-                    <button class="me-2" *ngIf="showTakeButton()" mat-raised-button color="primary" (click)="takeRepair()">
-                        <mat-icon>person_add</mat-icon> Take Repair
-                    </button>
-                    <!-- TODO: Descomentar cuando haga el edit repair -->
-                    <!-- <button mat-raised-button color="accent" (click)="editRepair()">
+                <div class="d-flex justify-content-end mb-3">
+                    <ng-container *appRole="['mechanic']">
+                        <button class="me-2" *ngIf="showTakeButton()" mat-raised-button color="primary" (click)="takeRepair()">
+                            <mat-icon>person_add</mat-icon> Take Repair
+                        </button>
+                    </ng-container>
+                    <button mat-raised-button color="accent" *ngIf="showEditButton()" (click)="editRepair()">
                         <mat-icon>edit</mat-icon> Edit Repair
-                    </button> -->
+                    </button>
                 </div>
             
                 <div class="mb-3" *ngIf="repair.mechanic">
