@@ -7,6 +7,29 @@
     
                 <form [formGroup]="repairForm" (ngSubmit)="onSubmit()">
             
+                    <div class="row mb-3" *ngIf="isEditing()">
+                        <div class="col-md-3">
+                            <mat-label class="repair-information" for="mechanic">Mechanic:</mat-label>
+                            <p *ngIf="repairForm.controls.mechanic.value">{{ getMechanicName() }}</p>
+                            <p class="no-data" *ngIf="!repairForm.controls.mechanic.value">Not assigned</p>
+                        </div>
+
+                        <div class="col-md-3" *ngIf="repairForm.controls.status.value">
+                            <mat-label class="repair-information" for="status">Status:</mat-label>
+                            <p>{{ repairForm.controls.status.value }}</p>
+                        </div>
+
+                        <div class="col-md-3" *ngIf="repairForm.controls.entryDateTime.value">
+                            <mat-label class="repair-information" for="entry-date-time">Entry date and time:</mat-label>
+                            <p>{{ repairForm.controls.entryDateTime.value | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                        </div>
+                        
+                        <div class="col-md-3" *ngIf="repairForm.controls.startDateTime.value">
+                            <mat-label class="repair-information" for="start-date-time">Start date and time:</mat-label>
+                            <p>{{ repairForm.controls.startDateTime.value | date: 'MM-dd-yyyy HH:mm:ss' }}</p>
+                        </div>
+                    </div>
+
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <mat-form-field appearance="outline" subscriptSizing="dynamic">
@@ -19,13 +42,13 @@
                                        [matAutocomplete]="auto">
                                     <mat-autocomplete #auto="matAutocomplete"
                                                       (optionSelected)="getVehiclesFromCustomer()" 
-                                                      [displayWith]="displayFn">
+                                                      [displayWith]="displayCustomerFn">
                                         <mat-option *ngFor="let customer of filteredCustomers | async" 
                                                     [value]="customer">
                                             {{customer.firstName}} {{customer.lastName}}
                                         </mat-option>
                                     </mat-autocomplete>
-                                <mat-error *ngIf="!isFieldValid('customer')">{{ getFieldErrorMessage('customer') }}</mat-error>
+                                <mat-error *ngIf="!isFieldValid(repairForm, 'customer')">{{ getFieldErrorMessage(repairForm, 'customer') }}</mat-error>
                             </mat-form-field>
                         </div>
                     
@@ -49,7 +72,7 @@
                                        matInput 
                                        formControlName="vehicle"
                                        *ngIf="isEditing()">
-                                <mat-error *ngIf="!isFieldValid('vehicle')">{{ getFieldErrorMessage('vehicle') }}</mat-error>
+                                <mat-error *ngIf="!isFieldValid(repairForm, 'vehicle')">{{ getFieldErrorMessage(repairForm, 'vehicle') }}</mat-error>
                             </mat-form-field>
                         </div>
                     </div>
@@ -76,6 +99,140 @@
                                 </textarea>
                             </mat-form-field>
                         </div>
+                    </div>
+
+                    <div class="row mb-3" *ngIf="isEditing() && isRepairInProgress()">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="final-description">Final description</mat-label>
+                            <textarea id="final-description" 
+                                        matInput 
+                                        formControlName="finalDescription"
+                                        placeholder="Write a final description of the work done.">
+                            </textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row mb-3" *ngIf="isEditing() && isRepairInProgress()">
+                        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                            <mat-label for="labor-price">Labor price</mat-label>
+                            <input class="number-input" 
+                                    id="labor-price" 
+                                    type="number" 
+                                    formControlName="laborPrice" 
+                                    matInput 
+                                    autocomplete="off">
+                            <span matTextPrefix>$&nbsp;</span>
+                            <mat-error *ngIf="!isFieldValid(repairForm, 'laborPrice')">{{ getFieldErrorMessage(repairForm, 'laborPrice') }}</mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row mb-3" *ngIf="isEditing() && isRepairInProgress()">
+                        <mat-accordion>
+                            <mat-expansion-panel (afterExpand)="!isPanelExpanded ? getSpareParts() : null">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Spare Parts
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{ getAccordionDescription() }}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div class="row justify-content-between mb-3">
+                                    <div class="col-md-12">
+                                        <form [formGroup]="addSparePartForm" (ngSubmit)="addOrAttachSparePart()" #formDirective="ngForm">
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                                        <mat-label for="spare-part">Spare part</mat-label>
+                                                        <input type="text"
+                                                               id="spare-part" 
+                                                               matInput 
+                                                               formControlName="sparePart" 
+                                                               placeholder="Select a spare part from the list"
+                                                               [matAutocomplete]="auto">
+                                                            <mat-autocomplete #auto="matAutocomplete"
+                                                                              [displayWith]="displaySparePartFn">
+                                                                <mat-option *ngFor="let sparePart of filteredSpareParts | async" 
+                                                                            [value]="sparePart">
+                                                                    {{sparePart.sparePartDescription}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        <button *ngIf="addSparePartForm.value.sparePart" 
+                                                        matSuffix 
+                                                        mat-icon-button 
+                                                        type="button"
+                                                        (click)="resetAddSparePartForm()"
+                                                        aria-label="Clear">
+                                                            <mat-icon>close</mat-icon>
+                                                        </button>
+                                                        <mat-error *ngIf="!isFieldValid(addSparePartForm, 'sparePart')">{{ getFieldErrorMessage(addSparePartForm, 'sparePart') }}</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+        
+                                                <div class="col-md-3">
+                                                    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+                                                        <mat-label for="quantity">Quantity</mat-label>
+                                                        <input class="number-input" 
+                                                               id="quantity" 
+                                                               type="number" 
+                                                               formControlName="quantity" 
+                                                               matInput 
+                                                               autocomplete="off">
+                                                        <!-- TODO: Dejarlo para ver más adelante -->
+                                                        <!-- <mat-hint align="end">{{ getFieldHint() }}</mat-hint> -->
+                                                        <mat-error *ngIf="!isFieldValid(addSparePartForm, 'quantity')">{{ getFieldErrorMessage(addSparePartForm, 'quantity') }}</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                                
+                                                <div class="col-md-4">
+                                                    <button mat-raised-button color="primary">
+                                                        <mat-icon>add</mat-icon> Add spare part
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <table mat-table 
+                                       [dataSource]="repairForm.controls.spare_parts.value!" 
+                                       *ngIf="repairForm.controls.spare_parts.value?.length">
+                                    <ng-container matColumnDef="Description">
+                                        <th mat-header-cell *matHeaderCellDef>Description</th>
+                                        <td mat-cell *matCellDef="let sparePart">
+                                            {{ sparePart.sparePartDescription }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Quantity">
+                                        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                                        <td mat-cell *matCellDef="let sparePart">
+                                            {{ sparePart.repair_spare?.numberOfSpareParts }}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Action">
+                                        <th mat-header-cell *matHeaderCellDef></th>
+                                        <td mat-cell *matCellDef="let sparePart">
+                                            <button mat-icon-button 
+                                                    color="warn" 
+                                                    type="button"
+                                                    matTooltip="Remove spare part"
+                                                    (click)="removeSparePart(sparePart)"
+                                                    aria-label="Icon button with a delete icon">
+                                                <mat-icon>delete</mat-icon>
+                                            </button> 
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let sparePart; columns: displayedColumns;"></tr>
+                                </table>
+
+                                <p *ngIf="!repairForm.controls.spare_parts.value?.length">There are no used spare parts yet.</p>
+                            </mat-expansion-panel>
+                        </mat-accordion>
                     </div>
 
                     <div class="d-flex justify-content-end">

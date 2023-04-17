@@ -38,7 +38,13 @@ export class FormValidationService {
       message = 'You must select a customer from the list';
     } else if (form.controls[field].hasError('invalidMechanicSelection')) {
       message = 'You must select a mechanic from the list';
+    } else if (form.controls[field].hasError('invalidSparePartSelection')) {
+      message = 'You must select a spare part from the list';
     }
+    /* TODO: Ver si dsp se usa, sino borrarlo
+    else if (form.controls[field].hasError('insufficientStock')) {
+      message = 'Insufficient stock';
+    }*/
 
     return message;
   }
