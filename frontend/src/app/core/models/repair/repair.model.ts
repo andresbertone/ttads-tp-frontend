@@ -1,5 +1,6 @@
 import { VehicleModel } from "../vehicle/vehicle.model";
 import { MechanicModel } from "../mechanic/mechanic.model";
+import { SparePartModel } from "../spare-part/spare-part.model";
 
 export interface RepairModel {
     repairId: number,
@@ -15,5 +16,6 @@ export interface RepairModel {
     vehicleId: string,
     mechanicId: string,
     vehicle: VehicleModel,
-    mechanic?: MechanicModel
+    mechanic?: MechanicModel,
+    spare_parts: SparePartModel[]
 }

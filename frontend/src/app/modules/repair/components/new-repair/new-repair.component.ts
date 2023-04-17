@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map, startWith } from 'rxjs';
 
 import { RepairService } from 'src/app/core/services/repair.service';
 import { CustomerService } from 'src/app/core/services/customer.service';
 import { VehicleService } from 'src/app/core/services/vehicle.service';
+import { SparePartService } from 'src/app/core/services/spare-part.service';
 import { FormValidationService } from 'src/app/core/services/common/form-validation.service';
 import { DialogService } from 'src/app/core/services/common/dialog.service';
 import { AlertService } from 'src/app/core/services/common/alert.service';
@@ -20,6 +21,9 @@ import { NewRepairStrategy } from 'src/app/core/strategies/repair/new-repair-str
 import { EditRepairStrategy } from 'src/app/core/strategies/repair/edit-repair-strategy';
 import { RepairSettings } from 'src/app/core/utils/repairSettings';
 import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
+import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model';
+import { SparePartsModel } from 'src/app/core/models/spare-part/spare-parts.model';
+import { CustomValidations } from 'src/app/core/custom-validations/custom-validations';
 
 @Component({
   selector: 'app-new-repair',
@@ -35,7 +39,16 @@ export class NewRepairComponent implements OnInit {
   customers: CustomerModel[] = [];
   filteredCustomers!: Observable<CustomerModel[]>;
   
+  spareParts: SparePartModel[] = [];
+  filteredSpareParts!: Observable<SparePartModel[]>;
+  
   vehicles: VehicleModel[] = [];
+
+  displayedColumns: string[] = ['Description', 'Quantity', 'Action'];
+  insufficientStock: boolean = false;
+  isPanelExpanded: boolean = false;
+
+  @ViewChild('formDirective') formDirective!: NgForm;
   
   repairForm = this.formBuilder.group({
     entryDateTime: new FormControl<string | null>(null),
@@ -46,14 +59,19 @@ export class NewRepairComponent implements OnInit {
     initialDetail: new FormControl<string | null>(null),
     comments: new FormControl<string | null>(null),
     finalDescription: new FormControl<string | null>(null),
-    laborPrice: new FormControl<string | null>(null),
+    laborPrice: new FormControl<string | null>(null, [Validators.pattern(/^[0-9]+([.][0-9]+)?$/), Validators.min(-1)]),
     vehicle: new FormControl<string | VehicleModel>('', [Validators.required]),
     vehicleId: [''],
     mechanic: new FormControl<string | MechanicModel>(''),
     mechanicId: new FormControl(),
-    spare_parts: [],
+    spare_parts: new FormControl<SparePartModel[]>([]),
     customer: new FormControl<string | CustomerModel>('', [Validators.required]),
     customerId: new FormControl()
+  });
+  
+  addSparePartForm = this.formBuilder.group({
+    sparePart: new FormControl<string | SparePartModel>('', Validators.required),
+    quantity: ['', [Validators.required, CustomValidations.isNumber, Validators.min(1)]]
   });
 
 
@@ -62,6 +80,7 @@ export class NewRepairComponent implements OnInit {
     private repairService: RepairService,
     private customerService: CustomerService,
     private vehicleService: VehicleService,
+    private sparePartService: SparePartService,
     private formValidationService: FormValidationService,
     private dialogService: DialogService,
     private alertService: AlertService,
@@ -98,12 +117,20 @@ export class NewRepairComponent implements OnInit {
     });
   }
 
+  getSpareParts() {
+    this.sparePartService.getSpareParts().subscribe((response: SparePartsModel) => {
+      this.isPanelExpanded = true;
+      this.spareParts = response.records;
+      this.filteredSpareParts = this.getFilteredSpareParts();
+    });
+  }
+
   getVehiclesFromCustomer() {
     const customerId = (this.repairForm.value.customer as CustomerModel).customerId;
     this.vehicleService.getVehiclesFromCustomer(customerId).subscribe(
       (response: VehiclesModel) => {
         this.vehicles = response.records;
-        this.repairForm.controls.vehicle.setValue('');
+        this.repairForm.controls.vehicle.reset();
         this.repairForm.get('vehicle')?.enable();
       }
     );
@@ -115,9 +142,118 @@ export class NewRepairComponent implements OnInit {
     const vehicle = `${repair.vehicle.make} ${repair.vehicle.model}`;
     this.repairForm.controls.vehicle.setValue(vehicle);
     this.repairForm.controls.customer.setValue(repair.vehicle.customer);
+    this.repairForm.controls.spare_parts.setValue(repair.spare_parts);
 
     this.repairForm.get('vehicle')?.disable();
     this.repairForm.get('customer')?.disable();
+  }
+
+  addOrAttachSparePart() {
+    if (!this.addSparePartForm.valid) return;
+
+    if (typeof this.addSparePartForm.value.sparePart !== 'string') {
+      const newSparePart = this.addSparePartForm.controls.sparePart.value as SparePartModel;
+      const actualSpareParts = this.repairForm.controls.spare_parts.value as SparePartModel[];
+
+      const duplicatedSparePart = this.checkForDuplicateSpareParts(newSparePart, actualSpareParts);
+      
+      if (duplicatedSparePart) {
+        this.attachSparePart(duplicatedSparePart);
+      } else {
+        this.addSparePart(newSparePart);
+      }
+
+      if (!this.insufficientStock) this.resetAddSparePartForm();
+    } else {
+      return this.addSparePartForm.controls.sparePart.setErrors({ 'invalidSparePartSelection': true });
+    }
+  }
+
+  // TODO: Todo el código que está comentado está referido a la visualización del stock actual real del repuesto que quiero agregar a la reparación.
+  // TODO: Lo dejo para ver más adelante y sino buscar alguna alternativa para mostrar el stock disponible real.
+  // * Tener en cuenta q en ciertas situaciones el stock real es el que figura en "stock" y otras veces es la suma de "stock" + "repair_spare.numberOfSpareParts".
+
+
+  removeSparePart(sparePartToDelete : SparePartModel) {
+    const usedSpareParts = this.repairForm.controls.spare_parts.value!;
+    const newSpareParts = usedSpareParts.filter(usedSparePart => usedSparePart.sparePartId !== sparePartToDelete.sparePartId);
+    // this.updateStock(sparePartToDelete);
+    this.repairForm.controls.spare_parts.setValue(newSpareParts);
+  }
+
+  // updateStock(sparePartToEdit: SparePartModel) {
+  //   const sparePart = this.spareParts.find(sparePart => sparePart.sparePartId === sparePartToEdit.sparePartId);
+  //   if (sparePart) {
+  //     sparePart.stock = sparePart.stock + sparePartToEdit.repair_spare.numberOfSpareParts;
+  //     console.log(this.spareParts);
+  //   }
+  // }
+
+  checkForDuplicateSpareParts(newSparePart: SparePartModel, actualSpareParts: SparePartModel[]) {
+    const newSparePartId = newSparePart.sparePartId;
+    const duplicatedSparePart = actualSpareParts.find(sparePart => sparePart.sparePartId === newSparePartId);
+    return duplicatedSparePart;
+  }
+
+  attachSparePart(duplicatedSparePart: SparePartModel) {
+    const quantity = this.addSparePartForm.controls.quantity.value!;
+    // const isStockAvailable = this.checkStock(duplicatedSparePart);
+    this.editSparePart(quantity, duplicatedSparePart);
+    // if (isStockAvailable) {
+    //   this.editSparePart(quantity, duplicatedSparePart);
+    //   this.insufficientStock = false;
+    // } else {
+    //   this.insufficientStock = true;
+    //   this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
+    // }
+  }
+
+  editSparePart(quantity: string, duplicatedSparePart: SparePartModel) {
+    duplicatedSparePart.repair_spare.numberOfSpareParts += quantity;
+  }
+
+  addSparePart(newSparePart: SparePartModel) {
+    this.setRepairSpareToNewSparePart(newSparePart);
+    const usedSpareParts = this.repairForm.controls.spare_parts.value!;
+    this.repairForm.controls.spare_parts.setValue([...usedSpareParts, newSparePart]);
+    
+    // const isStockAvailable = this.checkStock(newSparePart);
+    // if (isStockAvailable) {
+    //   this.setRepairSpareToNewSparePart(newSparePart);
+    //   const usedSpareParts = this.repairForm.controls.spare_parts.value!;
+    //   this.repairForm.controls.spare_parts.setValue([...usedSpareParts, newSparePart]);
+    //   this.insufficientStock = false;
+    // } else {
+    //   this.insufficientStock = true;
+    //   this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
+    // }
+  }
+
+  setRepairSpareToNewSparePart(newSparePart: SparePartModel) {
+    const quantity = this.addSparePartForm.controls.quantity.value!;
+
+    const repair_spare = {
+      repairId: this.repairId,
+      sparePartId: newSparePart.sparePartId,
+      numberOfSpareParts: quantity
+    };
+
+    newSparePart.repair_spare = repair_spare;
+  }
+
+  // checkStock(sparePart: SparePartModel): boolean {
+  //   const quantity = this.addSparePartForm.controls.quantity.value!;
+  //   let numberOfSparePartsAfterEdit
+  //   if (sparePart.repair_spare) {
+  //     numberOfSparePartsAfterEdit = sparePart.repair_spare.numberOfSpareParts + quantity;
+  //   } else {
+  //     numberOfSparePartsAfterEdit = quantity;
+  //   }
+  //   return sparePart.stock >= numberOfSparePartsAfterEdit;
+  // }
+
+  resetAddSparePartForm() {
+    this.formDirective.resetForm();
   }
 
   onSubmit() {
@@ -135,17 +271,11 @@ export class NewRepairComponent implements OnInit {
         }
 
         this.repairStrategy.sendRequest(this.repairForm.value, this.repairId)
-          .subscribe({
-            next: (repair: RepairModel) => {
+          .subscribe((repair: RepairModel) => {
               this.repairStrategy.showSnackBarMessage(repair);
               this.router.navigate([this.repairStrategy.route]);
-            },
-            error: () => {
-              // if (this.isEditing()) {
-              //   this.repairForm.get('registrationNumber')?.disable();
-              // }
             }
-          })
+          )
       })
     } else {
       return this.repairForm.controls.customer.setErrors({ 'invalidCustomerSelection': true });
@@ -177,7 +307,7 @@ export class NewRepairComponent implements OnInit {
         const name = typeof value === 'string' ? value : `${value?.firstName} ${value?.lastName}`;
         
         return name ? this.filterCustomers(name as string) : this.customers.slice();
-      }),
+      })
     );
   }
   
@@ -190,8 +320,46 @@ export class NewRepairComponent implements OnInit {
     );
   }
 
-  displayFn(customer: CustomerModel): string {
+  displayCustomerFn(customer: CustomerModel): string {
     return customer ? `${customer.firstName} ${customer.lastName}` : '';
+  }
+
+  getFilteredSpareParts(): Observable<SparePartModel[]> {
+    return this.addSparePartForm.get('sparePart')!.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const description = typeof value === 'string' ? value : value?.sparePartDescription;
+        
+        return description ? this.filterSpareParts(description as string) : this.spareParts.slice();
+      })
+    );
+  }
+  
+  filterSpareParts(description: string): SparePartModel[] {
+    const filterValue = description.toLowerCase();
+
+    return this.spareParts.filter(
+      sparePart => sparePart.sparePartDescription.toLowerCase().includes(filterValue)
+    );
+  }
+
+  displaySparePartFn(sparePart: SparePartModel): string {
+    return sparePart ? `${sparePart.sparePartDescription}` : '';
+  }
+
+  getMechanicName() {
+    const mechanic = this.repairForm.controls.mechanic.value as MechanicModel;
+    return `${mechanic.firstName} ${mechanic.lastName}`;
+  }
+
+  getAccordionDescription() {
+    if (this.repairForm.controls.spare_parts.value?.length === 0) {
+      return 'There are no used spare parts yet.';
+    } else if (this.repairForm.controls.spare_parts.value?.length === 1) {
+      return `There is ${this.repairForm.controls.spare_parts.value.length} spare part.`;
+    } else {
+      return `There are ${this.repairForm.controls.spare_parts.value?.length} spare parts.`;
+    }
   }
 
   disableTooltip() {
@@ -202,11 +370,35 @@ export class NewRepairComponent implements OnInit {
     return this.repairStrategy instanceof EditRepairStrategy;
   }
 
-  isFieldValid(field: string) {
-    return this.formValidationService.isFieldValid(this.repairForm, field);
+  isRepairInProgress() {
+    return this.repairForm.controls.status.value === this.repairSettings.IN_PROGRESS_REPAIR;
   }
 
-  getFieldErrorMessage(field: string) {
-    return this.formValidationService.getFieldErrorMessage(this.repairForm, field);
+  isFieldValid(form: any, field: string) {
+    return this.formValidationService.isFieldValid(form, field);
+  }
+
+  // getFieldHint() {
+  //   if (!this.addSparePartForm.controls.sparePart.value || 
+  //       typeof this.addSparePartForm.controls.sparePart.value === 'string') return;
+  //   return `Available stock: ${this.getAvailableStock()}`;
+  // }
+
+  // getAvailableStock() {
+  //   const selectedSparePart = this.addSparePartForm.controls.sparePart.value as SparePartModel;
+  //   const actualSpareParts = this.repairForm.controls.spare_parts.value as SparePartModel[];
+
+  //   const duplicatedSparePart = this.checkForDuplicateSpareParts(selectedSparePart, actualSpareParts);
+  //   if (duplicatedSparePart) {
+  //     const realAvailableStock = parseInt(selectedSparePart.stock) - parseInt(duplicatedSparePart.repair_spare.numberOfSpareParts);
+  //     // return realAvailableStock > 0 ? realAvailableStock : 0;
+  //     return realAvailableStock;
+  //   }
+
+  //   return selectedSparePart.stock;
+  // }
+
+  getFieldErrorMessage(form: any, field: string) {
+    return this.formValidationService.getFieldErrorMessage(form, field);
   }
 }
