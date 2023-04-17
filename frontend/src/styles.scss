@@ -27,3 +27,8 @@ body {
   margin: 0; 
   font-family: Roboto, "Helvetica Neue", sans-serif; 
 }
+
+input.number-input::-webkit-outer-spin-button,
+input.number-input::-webkit-inner-spin-button {
+  display: none;
+}
