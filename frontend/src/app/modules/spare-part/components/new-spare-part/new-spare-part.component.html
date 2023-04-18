@@ -52,13 +52,7 @@
                         </div>
                     </div>
             
-                    <div class="d-flex justify-content-end">
-                        <button mat-button color="warn" type="button" (click)="cancel()">Cancel</button>
-                        <button mat-raised-button color="primary">
-                            <mat-icon>save</mat-icon>
-                            Save
-                        </button>
-                    </div>
+                    <app-action-buttons (cancelFunction)="cancel()"></app-action-buttons>
                 
                 </form>
     

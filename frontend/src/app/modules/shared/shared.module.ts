@@ -4,6 +4,7 @@ import { MaterialModule } from 'src/app/material.module';
 
 import { NoRecordsMessageComponent } from './components/no-records-message/no-records-message.component';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { ActionButtonsComponent } from './components/action-buttons/action-buttons.component';
 import { RoleDirective } from './directives/role.directive';
 
 
@@ -11,6 +12,7 @@ import { RoleDirective } from './directives/role.directive';
   declarations: [
     NoRecordsMessageComponent,
     DialogComponent,
+    ActionButtonsComponent,
     RoleDirective
   ],
   imports: [
@@ -20,6 +22,7 @@ import { RoleDirective } from './directives/role.directive';
   exports: [
     NoRecordsMessageComponent,
     DialogComponent,
+    ActionButtonsComponent,
     RoleDirective
   ]
 })
