@@ -139,6 +139,58 @@
                         <p class="no-data" *ngIf="!repair.laborPrice">Not defined</p>
                     </div>
                 </div>
+
+                <h3 class="subtitle">Total price of repair: {{ getTotalPriceOfRepair() | currency }}</h3>
+
+                <div class="row mb-3">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Spare parts
+                                </mat-panel-title>
+                                <mat-panel-description>
+                                    {{ getAccordionDescription() }}
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+                    
+                            <table mat-table [dataSource]="repair.spare_parts" *ngIf="repair.spare_parts.length > 0">
+                                <ng-container matColumnDef="Description">
+                                    <th mat-header-cell *matHeaderCellDef>Description</th>
+                                    <td mat-cell *matCellDef="let sparePart">
+                                        {{ sparePart.sparePartDescription }}
+                                    </td>
+                                </ng-container>
+                    
+                                <ng-container matColumnDef="Quantity">
+                                    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                                    <td mat-cell *matCellDef="let sparePart">
+                                        {{ sparePart.repair_spare?.numberOfSpareParts }}
+                                    </td>
+                                </ng-container>
+                    
+                                <ng-container matColumnDef="UnitPrice">
+                                    <th mat-header-cell *matHeaderCellDef>Unit Price</th>
+                                    <td mat-cell *matCellDef="let sparePart">
+                                        {{ sparePart.sparePartPrice | currency }}
+                                    </td>
+                                </ng-container>
+                    
+                                <ng-container matColumnDef="TotalPrice">
+                                    <th mat-header-cell *matHeaderCellDef>Total Price</th>
+                                    <td mat-cell *matCellDef="let sparePart">
+                                        {{ getTotalPriceBySparePart(sparePart) | currency }}
+                                    </td>
+                                </ng-container>
+                    
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let sparePart; columns: displayedColumns;"></tr>
+                            </table>
+                    
+                            <p *ngIf="repair.spare_parts.length === 0">There are no used spare parts.</p>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
         
                 <button mat-button color="primary" type="button" (click)="goBack()">
                     <mat-icon>arrow_back</mat-icon>

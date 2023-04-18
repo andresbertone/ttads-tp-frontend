@@ -8,6 +8,7 @@ import { AlertService } from 'src/app/core/services/common/alert.service';
 import { StorageService } from 'src/app/core/services/common/storage.service';
 
 import { RepairModel } from 'src/app/core/models/repair/repair.model';
+import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model';
 import { RepairSettings } from 'src/app/core/utils/repairSettings';
 
 @Component({
@@ -18,6 +19,8 @@ import { RepairSettings } from 'src/app/core/utils/repairSettings';
 export class RepairDetailComponent {
   repairId!: string;
   repair!: RepairModel
+
+  displayedColumns: string[] = ['Description', 'Quantity', 'UnitPrice', 'TotalPrice'];
 
   repairSettings = RepairSettings;
 
@@ -73,6 +76,32 @@ export class RepairDetailComponent {
         );
       }
     });
+  }
+
+  getTotalPriceOfRepair() {
+    const laborPrice = parseFloat(this.repair.laborPrice) || 0;
+    return laborPrice + this.getTotalPriceOfUsedSpareParts();
+  }
+
+  getTotalPriceOfUsedSpareParts() {
+    const initialValue = 0;
+    return this.repair.spare_parts.reduce((total, currentSparePart) => {
+      return total + this.getTotalPriceBySparePart(currentSparePart)
+    }, initialValue);
+  }
+
+  getTotalPriceBySparePart(sparePart : SparePartModel) {
+    return parseFloat(sparePart.sparePartPrice) * parseInt(sparePart.repair_spare.numberOfSpareParts);
+  }
+
+  getAccordionDescription() {
+    if (this.repair.spare_parts.length === 0) {
+      return 'There are no used spare parts.';
+    } else if (this.repair.spare_parts.length === 1) {
+      return `There is ${this.repair.spare_parts.length} spare part.`;
+    } else {
+      return `There are ${this.repair.spare_parts.length} spare parts.`;
+    }
   }
 
   showTakeButton() {
