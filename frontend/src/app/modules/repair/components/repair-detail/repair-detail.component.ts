@@ -78,6 +78,28 @@ export class RepairDetailComponent {
     });
   }
 
+  markRepairAsCompleted() {
+    this.dialogService.showWarning(
+      'Mark repair as completed',
+      ['Are you sure you want to mark this repair as completed?'],
+      'No',
+      'Yes',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (result) {
+        const user = this.storageService.getUser();
+        if (!user || !user.mechanicId) return;
+
+        this.repairService.markRepairAsCompleted(this.repair.repairId, user.mechanicId).subscribe(
+          () => {
+            this.alertService.openSnackBar(`The repair has been marked as completed.`);
+            this.loadRepair();
+          }
+        );
+      }
+    });
+  }
+
   getTotalPriceOfRepair() {
     const laborPrice = parseFloat(this.repair.laborPrice) || 0;
     return laborPrice + this.getTotalPriceOfUsedSpareParts();
@@ -106,6 +128,17 @@ export class RepairDetailComponent {
 
   showTakeButton() {
     return this.repair.status === this.repairSettings.ENTERED_REPAIR && !this.repair.mechanicId;
+  }
+
+  showMarkAsCompletedButton() {
+    return this.repair.status === this.repairSettings.IN_PROGRESS_REPAIR && 
+           this.isTakenByTheSameMechanic();
+  }
+
+  isTakenByTheSameMechanic() {
+    const user = this.storageService.getUser();
+    if (!user || !user.mechanicId) return false;
+    return this.repair.mechanicId === user.mechanicId;
   }
 
   showEditButton() {
