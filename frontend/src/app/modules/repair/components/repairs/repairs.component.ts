@@ -132,17 +132,17 @@ export class RepairsComponent implements OnInit {
       'Yes',
       true
     ).afterClosed().subscribe((result) => {
-      if (result) {
-        const user = this.storageService.getUser();
-        if (!user || !user.mechanicId) return;
+      if (!result) return;
 
-        this.repairService.takeRepair(repair.repairId, user.mechanicId).subscribe(
-          () => {
-            this.alertService.openSnackBar(`The repair has been assigned to you.`);
-            this.loadRepairs();
-          }
-        );
-      }
+      const user = this.storageService.getUser();
+      if (!user || !user.mechanicId) return this.router.navigateByUrl('login');
+
+      return this.repairService.takeRepair(repair.repairId, user.mechanicId).subscribe(
+        () => {
+          this.alertService.openSnackBar(`The repair has been assigned to you.`);
+          this.loadRepairs();
+        }
+      );
     });
   }
 

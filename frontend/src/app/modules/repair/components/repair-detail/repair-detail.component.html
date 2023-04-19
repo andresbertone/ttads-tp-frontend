@@ -19,6 +19,11 @@
                             <mat-icon>task_alt</mat-icon> Mark repair as completed
                         </button>
                     </ng-container>
+                    <ng-container *appRole="['admin']">
+                        <button *ngIf="showMarkAsDeliveredButton()" mat-raised-button color="primary" (click)="markRepairAsDelivered()">
+                            <mat-icon>task_alt</mat-icon> Mark repair as delivered
+                        </button>
+                    </ng-container>
                     <button mat-raised-button color="accent" *ngIf="showEditButton()" (click)="editRepair()">
                         <mat-icon>edit</mat-icon> Edit Repair
                     </button>

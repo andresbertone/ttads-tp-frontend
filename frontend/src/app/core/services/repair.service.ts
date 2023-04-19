@@ -40,6 +40,10 @@ export class RepairService {
     return this.httpService.httpPut(`${this.baseUrl}/markAsCompleted/${repairId}/${mechanicId}`);
   }
 
+  markRepairAsDelivered(repairId: number): Observable<RepairModel> {
+    return this.httpService.httpPut(`${this.baseUrl}/markAsDelivered/${repairId}`);
+  }
+
   deleteRepair(repairId: number): Observable<RepairModel> {
     return this.httpService.httpDelete(`${this.baseUrl}/${repairId}`);
   }

@@ -64,17 +64,17 @@ export class RepairDetailComponent {
       'Yes',
       true
     ).afterClosed().subscribe((result) => {
-      if (result) {
-        const user = this.storageService.getUser();
-        if (!user || !user.mechanicId) return;
+      if (!result) return;
 
-        this.repairService.takeRepair(this.repair.repairId, user.mechanicId).subscribe(
-          () => {
-            this.alertService.openSnackBar(`The repair has been assigned to you.`);
-            this.loadRepair();
-          }
-        );
-      }
+      const user = this.storageService.getUser();
+      if (!user || !user.mechanicId) return this.router.navigateByUrl('login');
+
+      return this.repairService.takeRepair(this.repair.repairId, user.mechanicId).subscribe(
+        () => {
+          this.alertService.openSnackBar(`The repair has been assigned to you.`);
+          this.loadRepair();
+        }
+      );
     });
   }
 
@@ -86,17 +86,36 @@ export class RepairDetailComponent {
       'Yes',
       true
     ).afterClosed().subscribe((result) => {
-      if (result) {
-        const user = this.storageService.getUser();
-        if (!user || !user.mechanicId) return;
+      if (!result) return;
 
-        this.repairService.markRepairAsCompleted(this.repair.repairId, user.mechanicId).subscribe(
-          () => {
-            this.alertService.openSnackBar(`The repair has been marked as completed.`);
-            this.loadRepair();
-          }
-        );
-      }
+      const user = this.storageService.getUser();
+      if (!user || !user.mechanicId) return this.router.navigateByUrl('login');
+
+      return this.repairService.markRepairAsCompleted(this.repair.repairId, user.mechanicId).subscribe(
+        () => {
+          this.alertService.openSnackBar(`The repair has been marked as completed.`);
+          this.loadRepair();
+        }
+      );
+    });
+  }
+
+  markRepairAsDelivered() {
+    this.dialogService.showWarning(
+      'Mark repair as completed',
+      ['Are you sure you want to mark this repair as delivered?'],
+      'No',
+      'Yes',
+      true
+    ).afterClosed().subscribe((result) => {
+      if (!result) return;
+
+      return this.repairService.markRepairAsDelivered(this.repair.repairId).subscribe(
+        () => {
+          this.alertService.openSnackBar(`The repair has been marked as delivered.`);
+          this.loadRepair();
+        }
+      );
     });
   }
 
@@ -133,6 +152,10 @@ export class RepairDetailComponent {
   showMarkAsCompletedButton() {
     return this.repair.status === this.repairSettings.IN_PROGRESS_REPAIR && 
            this.isTakenByTheSameMechanic();
+  }
+
+  showMarkAsDeliveredButton() {
+    return this.repair.status === this.repairSettings.COMPLETED_REPAIR;
   }
 
   isTakenByTheSameMechanic() {
