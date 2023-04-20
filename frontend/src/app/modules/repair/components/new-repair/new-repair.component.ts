@@ -71,7 +71,7 @@ export class NewRepairComponent implements OnInit {
   
   addSparePartForm = this.formBuilder.group({
     sparePart: new FormControl<string | SparePartModel>('', Validators.required),
-    quantity: ['', [Validators.required, CustomValidations.isNumber, Validators.min(1)]]
+    quantity: new FormControl<number | null>(null, [Validators.required, CustomValidations.isNumber, Validators.min(1)])
   });
 
 
@@ -148,6 +148,14 @@ export class NewRepairComponent implements OnInit {
     this.repairForm.get('customer')?.disable();
   }
 
+  removeSparePart(sparePartToDelete : SparePartModel) {
+    const usedSpareParts = this.repairForm.controls.spare_parts.value!;
+    const newSpareParts = usedSpareParts.filter(usedSparePart => usedSparePart.sparePartId !== sparePartToDelete.sparePartId);
+    const quantityToRemove = sparePartToDelete.repair_spare.numberOfSpareParts;
+    this.updateStock(sparePartToDelete, quantityToRemove, false);
+    this.repairForm.controls.spare_parts.setValue(newSpareParts);
+  }
+
   addOrAttachSparePart() {
     if (!this.addSparePartForm.valid) return;
 
@@ -169,25 +177,47 @@ export class NewRepairComponent implements OnInit {
     }
   }
 
-  // TODO: Todo el código que está comentado está referido a la visualización del stock actual real del repuesto que quiero agregar a la reparación.
-  // TODO: Lo dejo para ver más adelante y sino buscar alguna alternativa para mostrar el stock disponible real.
-  // * Tener en cuenta q en ciertas situaciones el stock real es el que figura en "stock" y otras veces es la suma de "stock" + "repair_spare.numberOfSpareParts".
-
-
-  removeSparePart(sparePartToDelete : SparePartModel) {
-    const usedSpareParts = this.repairForm.controls.spare_parts.value!;
-    const newSpareParts = usedSpareParts.filter(usedSparePart => usedSparePart.sparePartId !== sparePartToDelete.sparePartId);
-    // this.updateStock(sparePartToDelete);
-    this.repairForm.controls.spare_parts.setValue(newSpareParts);
+  attachSparePart(duplicatedSparePart: SparePartModel) {
+    const quantity = this.addSparePartForm.controls.quantity.value!;
+    const isStockAvailable = this.checkStock(duplicatedSparePart, quantity);
+    if (isStockAvailable) {
+      this.editSparePart(duplicatedSparePart, quantity);
+      this.insufficientStock = false;
+    } else {
+      this.insufficientStock = true;
+      this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
+    }
   }
 
-  // updateStock(sparePartToEdit: SparePartModel) {
-  //   const sparePart = this.spareParts.find(sparePart => sparePart.sparePartId === sparePartToEdit.sparePartId);
-  //   if (sparePart) {
-  //     sparePart.stock = sparePart.stock + sparePartToEdit.repair_spare.numberOfSpareParts;
-  //     console.log(this.spareParts);
-  //   }
-  // }
+  editSparePart(duplicatedSparePart: SparePartModel, quantity: number) {
+    duplicatedSparePart.repair_spare.numberOfSpareParts += quantity;
+    this.updateStock(duplicatedSparePart, quantity, true);
+  }
+
+  addSparePart(newSparePart: SparePartModel) {
+    const quantity = this.addSparePartForm.controls.quantity.value!;
+    const isStockAvailable = this.checkStock(newSparePart, quantity);
+    if (isStockAvailable) {
+      this.setRepairSpareToNewSparePart(newSparePart);
+      this.updateStock(newSparePart, quantity, true);
+      const usedSpareParts = this.repairForm.controls.spare_parts.value!;
+      this.repairForm.controls.spare_parts.setValue([...usedSpareParts, newSparePart]);
+      this.insufficientStock = false;
+    } else {
+      this.insufficientStock = true;
+      this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
+    }
+  }
+
+  setRepairSpareToNewSparePart(newSparePart: SparePartModel) {
+    const quantity = this.addSparePartForm.controls.quantity.value!;
+    const repair_spare = {
+      repairId: this.repairId,
+      sparePartId: newSparePart.sparePartId,
+      numberOfSpareParts: quantity
+    };
+    newSparePart.repair_spare = repair_spare;
+  }
 
   checkForDuplicateSpareParts(newSparePart: SparePartModel, actualSpareParts: SparePartModel[]) {
     const newSparePartId = newSparePart.sparePartId;
@@ -195,65 +225,18 @@ export class NewRepairComponent implements OnInit {
     return duplicatedSparePart;
   }
 
-  attachSparePart(duplicatedSparePart: SparePartModel) {
-    const quantity = this.addSparePartForm.controls.quantity.value!;
-    // const isStockAvailable = this.checkStock(duplicatedSparePart);
-    this.editSparePart(quantity, duplicatedSparePart);
-    // if (isStockAvailable) {
-    //   this.editSparePart(quantity, duplicatedSparePart);
-    //   this.insufficientStock = false;
-    // } else {
-    //   this.insufficientStock = true;
-    //   this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
-    // }
+  checkStock(sparePart: SparePartModel, quantity: number): boolean {
+    return sparePart.stock >= quantity;
   }
 
-  editSparePart(quantity: string, duplicatedSparePart: SparePartModel) {
-    duplicatedSparePart.repair_spare.numberOfSpareParts += quantity;
-  }
-
-  addSparePart(newSparePart: SparePartModel) {
-    this.setRepairSpareToNewSparePart(newSparePart);
-    const usedSpareParts = this.repairForm.controls.spare_parts.value!;
-    this.repairForm.controls.spare_parts.setValue([...usedSpareParts, newSparePart]);
-    
-    // const isStockAvailable = this.checkStock(newSparePart);
-    // if (isStockAvailable) {
-    //   this.setRepairSpareToNewSparePart(newSparePart);
-    //   const usedSpareParts = this.repairForm.controls.spare_parts.value!;
-    //   this.repairForm.controls.spare_parts.setValue([...usedSpareParts, newSparePart]);
-    //   this.insufficientStock = false;
-    // } else {
-    //   this.insufficientStock = true;
-    //   this.addSparePartForm.controls.quantity.setErrors({ 'insufficientStock': true });
-    // }
-  }
-
-  setRepairSpareToNewSparePart(newSparePart: SparePartModel) {
-    const quantity = this.addSparePartForm.controls.quantity.value!;
-
-    const repair_spare = {
-      repairId: this.repairId,
-      sparePartId: newSparePart.sparePartId,
-      numberOfSpareParts: quantity
-    };
-
-    newSparePart.repair_spare = repair_spare;
-  }
-
-  // checkStock(sparePart: SparePartModel): boolean {
-  //   const quantity = this.addSparePartForm.controls.quantity.value!;
-  //   let numberOfSparePartsAfterEdit
-  //   if (sparePart.repair_spare) {
-  //     numberOfSparePartsAfterEdit = sparePart.repair_spare.numberOfSpareParts + quantity;
-  //   } else {
-  //     numberOfSparePartsAfterEdit = quantity;
-  //   }
-  //   return sparePart.stock >= numberOfSparePartsAfterEdit;
-  // }
-
-  resetAddSparePartForm() {
-    this.formDirective.resetForm();
+  updateStock(sparePartToEdit: SparePartModel, quantity: number, isAddingSparePart: boolean) {
+    const sparePart = this.spareParts.find(sparePart => sparePart.sparePartId === sparePartToEdit.sparePartId);
+    if (!sparePart) return;
+    if (isAddingSparePart) {
+      sparePart.stock = sparePart.stock - quantity;
+    } else {
+      sparePart.stock += quantity;
+    }
   }
 
   onSubmit() {
@@ -362,6 +345,10 @@ export class NewRepairComponent implements OnInit {
     }
   }
 
+  resetAddSparePartForm() {
+    this.formDirective.resetForm();
+  }
+
   disableTooltip() {
     return this.isEditing() || this.repairForm.controls.vehicle.enabled;
   }
@@ -378,25 +365,16 @@ export class NewRepairComponent implements OnInit {
     return this.formValidationService.isFieldValid(form, field);
   }
 
-  // getFieldHint() {
-  //   if (!this.addSparePartForm.controls.sparePart.value || 
-  //       typeof this.addSparePartForm.controls.sparePart.value === 'string') return;
-  //   return `Available stock: ${this.getAvailableStock()}`;
-  // }
+  getFieldHint() {
+    if (!this.addSparePartForm.controls.sparePart.value || 
+        typeof this.addSparePartForm.controls.sparePart.value === 'string') return;
+    return `Available stock: ${this.getAvailableStock()}`;
+  }
 
-  // getAvailableStock() {
-  //   const selectedSparePart = this.addSparePartForm.controls.sparePart.value as SparePartModel;
-  //   const actualSpareParts = this.repairForm.controls.spare_parts.value as SparePartModel[];
-
-  //   const duplicatedSparePart = this.checkForDuplicateSpareParts(selectedSparePart, actualSpareParts);
-  //   if (duplicatedSparePart) {
-  //     const realAvailableStock = parseInt(selectedSparePart.stock) - parseInt(duplicatedSparePart.repair_spare.numberOfSpareParts);
-  //     // return realAvailableStock > 0 ? realAvailableStock : 0;
-  //     return realAvailableStock;
-  //   }
-
-  //   return selectedSparePart.stock;
-  // }
+  getAvailableStock() {
+    const selectedSparePart = this.addSparePartForm.controls.sparePart.value as SparePartModel;
+    return selectedSparePart.stock;
+  }
 
   getFieldErrorMessage(form: any, field: string) {
     return this.formValidationService.getFieldErrorMessage(form, field);

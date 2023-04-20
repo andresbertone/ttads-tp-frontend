@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SparePartService } from 'src/app/core/services/spare-part.service';
@@ -27,7 +27,7 @@ export class NewSparePartComponent implements OnInit {
     sparePartCode: ['', Validators.required],
     sparePartDescription: ['', Validators.required],
     sparePartPrice: ['', [Validators.required, Validators.pattern(/^[0-9]+([.][0-9]+)?$/), Validators.min(-1)]],
-    stock: ['', [Validators.required, CustomValidations.isNumber, Validators.min(1)]],
+    stock: new FormControl<number | null>(null, [Validators.required, CustomValidations.isNumber, Validators.min(1)]),
     sparePartSupplier: ['', Validators.required]
   });
 

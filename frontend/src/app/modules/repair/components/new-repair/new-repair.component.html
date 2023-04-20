@@ -179,8 +179,7 @@
                                                                formControlName="quantity" 
                                                                matInput 
                                                                autocomplete="off">
-                                                        <!-- TODO: Dejarlo para ver más adelante -->
-                                                        <!-- <mat-hint align="end">{{ getFieldHint() }}</mat-hint> -->
+                                                        <mat-hint align="end">{{ getFieldHint() }}</mat-hint>
                                                         <mat-error *ngIf="!isFieldValid(addSparePartForm, 'quantity')">{{ getFieldErrorMessage(addSparePartForm, 'quantity') }}</mat-error>
                                                     </mat-form-field>
                                                 </div>

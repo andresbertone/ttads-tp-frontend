@@ -5,7 +5,7 @@ export interface SparePartModel {
     sparePartCode: string,
     sparePartDescription: string,
     sparePartPrice: string,
-    stock: string,
+    stock: number,
     sparePartSupplier: string,
     repair_spare: RepairSpare
 }

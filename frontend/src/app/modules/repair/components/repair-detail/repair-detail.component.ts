@@ -132,7 +132,7 @@ export class RepairDetailComponent {
   }
 
   getTotalPriceBySparePart(sparePart : SparePartModel) {
-    return parseFloat(sparePart.sparePartPrice) * parseInt(sparePart.repair_spare.numberOfSpareParts);
+    return parseFloat(sparePart.sparePartPrice) * sparePart.repair_spare.numberOfSpareParts;
   }
 
   getAccordionDescription() {
