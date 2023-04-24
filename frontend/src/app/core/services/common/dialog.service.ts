@@ -20,7 +20,7 @@ export class DialogService {
         return `Are you sure you want to ${action} the ${entityName}: ${model.sparePartDescription}?`;
 
       case 'vehicle':
-        return `Are you sure you want to ${action} ${entityName} ${model.make} ${model.model}?`;
+        return `Are you sure you want to ${action} the ${entityName} ${model.make} ${model.model}?`;
 
       case 'repair': 
         return `Are you sure you want to ${action} this ${entityName}?`;
@@ -33,7 +33,7 @@ export class DialogService {
       }
 
       default:
-        return `Are you sure you want to ${action} ${entityName} ${model.firstName} ${model.lastName}?`;
+        return `Are you sure you want to ${action} the ${entityName} ${model.firstName} ${model.lastName}?`;
     }
   }
 

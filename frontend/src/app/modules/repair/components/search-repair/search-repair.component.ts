@@ -18,7 +18,7 @@ export class SearchRepairComponent implements OnInit {
   
   @Output() searchRepairsEvent = new EventEmitter<any>();
 
-  statusList: string[] = ['In progress', 'Entered', 'Completed', 'Delivered'];
+  statusList: string[] = ['Entered', 'In progress', 'Completed', 'Delivered'];
   mechanics: MechanicModel[] = [];
   filteredMechanics!: Observable<MechanicModel[]>;
 
