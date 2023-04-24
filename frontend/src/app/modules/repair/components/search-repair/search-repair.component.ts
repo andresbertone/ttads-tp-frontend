@@ -92,6 +92,6 @@ export class SearchRepairComponent implements OnInit {
   }
 
   clearInput() {
-    this.searchRepairsForm.controls.mechanic.reset();
+    this.searchRepairsForm.controls.mechanic.reset('');
   }
 }
