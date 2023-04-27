@@ -10,7 +10,7 @@ import { StorageService } from 'src/app/core/services/common/storage.service';
 })
 export class HomeComponent {
   
-  opened: boolean = true;
+  opened: boolean = false;
 
   constructor(
     private router: Router,

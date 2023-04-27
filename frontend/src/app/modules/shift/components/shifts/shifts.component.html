@@ -21,7 +21,7 @@
     </app-search-shift>
     
     
-    <h2 class="my-3">Max. shifts per day: {{ MAX_SHIFTS_PER_DAY }}</h2>
+    <h2 class="my-3" *ngIf="!isLoading()">Max. shifts per day: {{ MAX_SHIFTS_PER_DAY }}</h2>
     
     
     <app-no-records-message *ngIf="!isLoading() && shifts.data.length === 0" 

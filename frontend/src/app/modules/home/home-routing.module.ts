@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
+import { ShortcutsComponent } from './components/shortcuts/shortcuts.component';
 
+import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,6 +12,13 @@ const routes: Routes = [
     component: HomeComponent,
     canActivateChild: [AuthGuard],
     children: [
+      { 
+        path: '',
+        component: ShortcutsComponent,
+        data: {
+          role: ['all']
+        }
+      },
       { 
         path: 'customers',
         loadChildren: () => import('../customer/customer.module').then((module) => module.CustomerModule),

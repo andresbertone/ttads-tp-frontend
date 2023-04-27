@@ -1,0 +1,23 @@
+<div class="custom-container" *appRole="['admin','mechanic']">
+    <div class="col">
+        <img class="images" 
+             [src]="shortcuts.customers.image" 
+             (click)="goToCustomersPage()"
+             alt="Image of a customers">
+        <h1 class="mt-3">{{ shortcuts.customers.title }}</h1>
+    </div>
+    <div class="col">
+        <img class="images" 
+             [src]="shortcuts.repairs.image" 
+             (click)="goToRepairsPage()"
+             alt="Image of a car">
+        <h1 class="mt-3">{{ shortcuts.repairs.title }}</h1>
+    </div>
+    <div class="col" *appRole="['admin']">
+        <img class="images" 
+             [src]="shortcuts.shifts.image" 
+             (click)="goToShiftsPage()"
+             alt="Image of a calendar">
+        <h1 class="mt-3">{{ shortcuts.shifts.title }}</h1>
+    </div>
+</div>
