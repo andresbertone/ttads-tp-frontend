@@ -14,7 +14,7 @@ export class AlertService {
 
   constructor(private snackBar: MatSnackBar) { }
 
-  openSnackBar(msg: string, action: string = 'Close') {
+  openSnackBar(msg: string, action = 'Close') {
     this.snackBar.open(msg, action, this.snackBarConfig);
   }
 }

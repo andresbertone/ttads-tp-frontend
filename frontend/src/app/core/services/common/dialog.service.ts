@@ -10,7 +10,7 @@ export class DialogService {
 
   constructor(private dialog: MatDialog) { }
 
-  getDialogWarningMessage(model: any = {}, entityName: string = '', action: string = 'cancel') {
+  getDialogWarningMessage(model: any = {}, entityName = '', action = 'cancel') {
     if (action === 'cancel' && (!model || !entityName)) {
       return `Are you sure you want to cancel the operation?`
     }

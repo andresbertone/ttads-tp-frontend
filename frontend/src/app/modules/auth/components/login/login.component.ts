@@ -16,9 +16,9 @@ import { AuthModel } from 'src/app/core/models/auth/auth.model';
 export class LoginComponent {
 
   userLoginImage = './assets/imgs/user-login.png';
-  showPassword: boolean = false;
-  errorHasOccurred: boolean = false;
-  errorMessage: string = '';
+  showPassword = false;
+  errorHasOccurred = false;
+  errorMessage = '';
 
   loginForm = this.formBuilder.group({
     username: ['', Validators.required],
@@ -46,7 +46,7 @@ export class LoginComponent {
         this.storageService.save('user', JSON.stringify(response.user));
         this.router.navigateByUrl('/home');
       },
-      error: (error: any) => {
+      error: (error) => {
         if (error.status === 401) {
           this.errorHasOccurred = true;
           this.errorMessage = error.error;

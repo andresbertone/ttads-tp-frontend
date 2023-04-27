@@ -20,7 +20,7 @@ export class CustomerService {
     return this.httpService.httpGetAll(this.baseUrl);
   }
 
-  getCustomerById(customerId: string, options: any = {}): Observable<CustomerModel> {
+  getCustomerById(customerId: string, options = {}): Observable<CustomerModel> {
     return this.httpService.httpGet(`${this.baseUrl}/${customerId}`, options);
   }
 

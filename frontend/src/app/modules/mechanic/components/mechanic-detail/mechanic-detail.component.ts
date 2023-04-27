@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -11,7 +11,7 @@ import { MechanicModel } from 'src/app/core/models/mechanic/mechanic.model';
   templateUrl: './mechanic-detail.component.html',
   styleUrls: ['./mechanic-detail.component.scss']
 })
-export class MechanicDetailComponent {
+export class MechanicDetailComponent implements OnInit {
 
   mechanicId!: string;
   mechanic!: MechanicModel

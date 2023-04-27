@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, count, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +7,7 @@ import { BehaviorSubject, count, Observable } from 'rxjs';
 export class SpinnerService {
   
   private spinner$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  private countLoading: number = 0;
+  private countLoading = 0;
 
   getSpinnerObserver(): Observable<string> {
     return this.spinner$.asObservable();

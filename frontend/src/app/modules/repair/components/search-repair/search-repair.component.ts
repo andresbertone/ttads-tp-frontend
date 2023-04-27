@@ -16,7 +16,7 @@ import { MechanicsModel } from 'src/app/core/models/mechanic/mechanics.model';
 })
 export class SearchRepairComponent implements OnInit {
   
-  @Output() searchRepairsEvent = new EventEmitter<any>();
+  @Output() searchRepairsEvent = new EventEmitter();
 
   statusList: string[] = ['Entered', 'In progress', 'Completed', 'Delivered'];
   mechanics: MechanicModel[] = [];

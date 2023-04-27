@@ -24,7 +24,7 @@ export class SparePartsComponent implements OnInit {
   displayedColumns: string[] = ['SparePartCode', 'SparePartDescription', 'SparePartPrice', 'Stock', 'SparePartSupplier', 'Action'];
   paginator!: MatPaginator;
 
-  LOW_STOCK: number = 5;
+  LOW_STOCK = 5;
 
   @ViewChild(MatPaginator) set matPaginator(matPaginator: MatPaginator) {
     this.initializePaginator(matPaginator);

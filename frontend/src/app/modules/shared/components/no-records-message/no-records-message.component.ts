@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class NoRecordsMessageComponent {
 
-  @Input('entityName') entityName: string = '';
+  @Input() entityName = '';
 
 }

@@ -17,14 +17,14 @@ export class HttpService {
 
   httpGetAll(
     url: string,
-    options: any = {}
+    options = {}
   ): Observable<any> {
     return this.get(url, options);
   }
 
   httpGet(
     url: string,
-    options: any = {}
+    options = {}
   ): Observable<any> {
     return this.get(url, options);
   }
@@ -33,7 +33,7 @@ export class HttpService {
     return this.post(url, body);
   }
 
-  httpPut(url: string, body: any = {}): Observable<any> {
+  httpPut(url: string, body = {}): Observable<any> {
     return this.put(url, body);
   }
 

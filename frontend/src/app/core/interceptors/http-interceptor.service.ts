@@ -44,7 +44,7 @@ export class HttpInterceptorService implements HttpInterceptor {
     }
 
     return null;
-  };
+  }
 
   getClonedReq(req: HttpRequest<any>, extraArgs: any) {
     return req.clone(extraArgs);
@@ -142,7 +142,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   getFormattedErrorMessageForDialog(errors: any[]) {
     let message = '';
-    let arrayOfMessages: any[] = [];
+    const arrayOfMessages: any[] = [];
 
     errors.forEach(error => {
       if (error.field) {

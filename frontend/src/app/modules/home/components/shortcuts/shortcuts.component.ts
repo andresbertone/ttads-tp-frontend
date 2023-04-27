@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class ShortcutsComponent {
 
-  shortcuts: any = {
+  shortcuts = {
     customers: {
       image: './assets/imgs/customers-shortcut.png',
       title: 'Customers'

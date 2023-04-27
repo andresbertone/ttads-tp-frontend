@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
@@ -20,7 +20,7 @@ import { ShiftModel } from 'src/app/core/models/shift/shift.model';
   templateUrl: './new-shift.component.html',
   styleUrls: ['./new-shift.component.scss']
 })
-export class NewShiftComponent {
+export class NewShiftComponent implements OnInit {
 
   customers: CustomerModel[] = [];
   filteredCustomers!: Observable<CustomerModel[]>;

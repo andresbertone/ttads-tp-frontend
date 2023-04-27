@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -18,7 +18,7 @@ import { CustomValidations } from 'src/app/core/custom-validations/custom-valida
   templateUrl: './new-vehicle.component.html',
   styleUrls: ['./new-vehicle.component.scss']
 })
-export class NewVehicleComponent {
+export class NewVehicleComponent implements OnInit {
 
   customerId! : string;
   vehicleId! : string;

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SpinnerService } from 'src/app/core/services/common/spinner.service';
@@ -11,7 +11,7 @@ import { SparePartModel } from 'src/app/core/models/spare-part/spare-part.model'
   templateUrl: './spare-part-detail.component.html',
   styleUrls: ['./spare-part-detail.component.scss']
 })
-export class SparePartDetailComponent {
+export class SparePartDetailComponent implements OnInit {
 
   sparePartId!: string;
   sparePart!: SparePartModel

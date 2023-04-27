@@ -22,7 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class RepairsComponent implements OnInit {
   repairs!: MatTableDataSource<RepairModel>;
-  showFilters: boolean = false;
+  showFilters = false;
 
   displayedColumns: string[] = ['EntryDateTime', 'StartDateTime', 'EndDateTime', 'DeliveryDateTime', 'Status', 'Vehicle', 'Mechanic', 'Action'];
   paginator!: MatPaginator;

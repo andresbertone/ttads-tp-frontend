@@ -45,8 +45,8 @@ export class NewRepairComponent implements OnInit {
   vehicles: VehicleModel[] = [];
 
   displayedColumns: string[] = ['Description', 'Quantity', 'Action'];
-  insufficientStock: boolean = false;
-  isPanelExpanded: boolean = false;
+  insufficientStock = false;
+  isPanelExpanded = false;
 
   @ViewChild('formDirective') formDirective!: NgForm;
   
@@ -263,7 +263,7 @@ export class NewRepairComponent implements OnInit {
     } else {
       return this.repairForm.controls.customer.setErrors({ 'invalidCustomerSelection': true });
     }
-  };
+  }
 
   cancel() {
     if (!this.repairForm.pristine) {

@@ -16,7 +16,7 @@ export class VehicleService {
 
   constructor(private httpService: HttpService) { }
 
-  getVehicleById(vehicleId: string, options: any = {}): Observable<VehicleModel> {
+  getVehicleById(vehicleId: string, options = {}): Observable<VehicleModel> {
     return this.httpService.httpGet(`${this.baseUrl}/${vehicleId}`, options);
   }
 

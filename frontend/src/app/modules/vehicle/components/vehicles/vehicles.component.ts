@@ -11,7 +11,7 @@ import { VehicleModel } from 'src/app/core/models/vehicle/vehicle.model';
 })
 export class VehiclesComponent {
 
-  @Input('vehicles') vehicles!: MatTableDataSource<VehicleModel>;
+  @Input() vehicles!: MatTableDataSource<VehicleModel>;
   @Output() deleteVehicleEvent = new EventEmitter<VehicleModel>(); 
 
   displayedColumns: string[] = ['Make', 'Model', 'Year', 'LicensePlate', 'Action'];

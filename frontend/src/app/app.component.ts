@@ -10,7 +10,7 @@ import { StorageService } from './core/services/common/storage.service';
 })
 export class AppComponent implements OnInit {
 
-  showSpinner: boolean = false;
+  showSpinner = false;
 
   constructor(
     private spinnerService: SpinnerService, 

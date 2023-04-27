@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { RepairService } from 'src/app/core/services/repair.service';
@@ -16,7 +16,7 @@ import { RepairSettings } from 'src/app/core/utils/repairSettings';
   templateUrl: './repair-detail.component.html',
   styleUrls: ['./repair-detail.component.scss']
 })
-export class RepairDetailComponent {
+export class RepairDetailComponent implements OnInit {
   repairId!: string;
   repair!: RepairModel
 

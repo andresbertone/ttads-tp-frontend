@@ -7,10 +7,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class SearchShiftComponent {
 
-  @Output() searchShiftsEvent = new EventEmitter<any>(); 
+  @Output() searchShiftsEvent = new EventEmitter(); 
 
   date: Date = new Date();
-  customer: string = '';
+  customer = '';
 
 
   searchShifts() {

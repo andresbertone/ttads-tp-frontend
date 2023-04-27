@@ -22,7 +22,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class ShiftsComponent implements OnInit {
 
   shifts: MatTableDataSource<ShiftModel>;
-  showFilters: boolean = false;
+  showFilters = false;
 
   displayedColumns: string[] = ['ShiftDate', 'Status', 'shiftCancellationDate', 'Customer', 'Action'];
   paginator!: MatPaginator;
