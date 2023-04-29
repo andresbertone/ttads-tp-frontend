@@ -89,19 +89,7 @@ export class HttpInterceptorService implements HttpInterceptor {
 
   handleUnauthorizedError(error: any) {
     const errorMessages = this.getBackendErrorMessages(error);
-
-    if (errorMessages[0].includes('Invalid token') || errorMessages[0].includes('logged in')) {
-      this.dialogService.showError(
-        'Error',
-        errorMessages,
-        '',
-        'Ok',
-        false
-      ).afterClosed().subscribe(() => {
-        this.router.navigateByUrl('/login');
-      })
-    }
-
+    this.router.navigateByUrl('/login');
     return Promise.reject({ error: errorMessages[0], status: error.status });
   }
 
